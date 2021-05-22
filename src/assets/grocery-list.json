@@ -1,0 +1,94 @@
+{
+  "basmatiRice": {
+    "name": {
+      "eng": "Basmati Rice",
+      "ka": "ಬಾಸ್ಮತಿ ಅಕ್ಕಿ"
+    },
+    "catogory": "Cereal Grain",
+    "subCatogory": "Rice",
+    "measurement": "Kg",
+    "value": ""
+  },
+  "basaveshwaraRice": {
+    "name": {
+      "eng": "Basaveshwara Rice",
+      "ka": "ಬಸವೇಶ್ವರ ಅಕ್ಕಿ"
+    },
+    "catogory": "Cereal Grain",
+    "subCatogory": "Rice",
+    "measurement": "Kg",
+    "value": ""
+  },
+  "rajamudiRice": {
+    "name": {
+      "eng": "Rajamudi Rice",
+      "ka": "ರಾಜಮುಡಿ ಅಕ್ಕಿ"
+    },
+    "catogory": "Cereal Grain",
+    "subCatogory": "Rice",
+    "measurement": "Kg",
+    "value": ""
+  },
+  "bengalGramDhal": {
+    "name": {
+      "eng": "Bengal Gram Dhal",
+      "ka": "ಕಡಲೆ ಬೇಳೆ"
+    },
+    "catogory": "Cereal Grain",
+    "subCatogory": "Dhal",
+    "measurement": "Kg",
+    "value": ""
+  },
+  "blackGramDhal": {
+    "name": {
+      "eng": "Black Gram Dhal",
+      "ka": "ಉದ್ದಿನ ಬೇಳೆ"
+    },
+    "catogory": "Cereal Grain",
+    "subCatogory": "Dhal",
+    "measurement": "Kg",
+    "value": ""
+  },
+  "greenGramDhal": {
+    "name": {
+      "eng": "Green Gram Dhal",
+      "ka": "ಹೆಸರು ಬೇಳೆ"
+    },
+    "catogory": "Cereal Grain",
+    "subCatogory": "Dhal",
+    "measurement": "Kg",
+    "value": ""
+  },
+  "redGramDhal": {
+    "name": {
+      "eng": "Red Gram Dhal",
+      "ka": "ತೊಗರಿ ಬೇಳೆ"
+    },
+    "catogory": "Cereal Grain",
+    "subCatogory": "Dhal",
+    "measurement": "Kg",
+    "value": ""
+  },
+  "freedomSunflowerOil": {
+    "name": {
+      "eng": "Freedom Sunflower Oil",
+      "ka": "ಫ್ರಿಡಂ ಸೂರ್ಯಕಾಂತಿ ಎಣ್ಣೆ"
+    },
+    "catogory": "Oil",
+    "subCatogory": "Sunflower Oil",
+    "measurement": "l",
+    "value": ""
+  },
+  "oreoBiscuit": {
+    "name": {
+      "eng": "Oreo Biscuit",
+      "ka": "ಓರಿಯೊ ಬಿಸ್ಕತ್ತು"
+    },
+    "catogory": "Snacks",
+    "subCatogory": "Biscuit",
+    "measurement": "Qty",
+    "size": ["Small", "Medium", "Large", "Extra Large"],
+    "value": "",
+    "sizeValue": "Medium"
+  }
+}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import clsx from "clsx";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
@@ -21,10 +21,18 @@ import AddIcon from "@material-ui/icons/Add";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ZoomOutIcon from "@material-ui/icons/ZoomOut";
 import ZoomInIcon from "@material-ui/icons/ZoomIn";
-import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
+import GetAppIcon from "@material-ui/icons/GetApp";
 import SaveFlieDialog from "./SaveFlieDialog";
-import * as GroceryList from "../assets/grocery-list.json";
+import { connect } from "react-redux";
 import store from "../redux/store";
+import {
+  addToMyListAction,
+  removeFromMyListAction,
+  updateValueInMyListAction,
+  updateSizeValueInMyListAction,
+  resetMyListAction,
+} from "../redux/action";
+import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
   },
   expandedShoppingListContainer: {
     height: "calc(100vh - 280px)",
+    overflow: "auto",
   },
   expandedMyListContainer: {
     height: "calc(100vh - 280px)",
@@ -129,8 +138,8 @@ function union(a, b) {
 }
 
 const listText = {
-  eng: "Available List",
-  ka: "ಲಭ್ಯವಿರುವ ಪಟ್ಟಿ",
+  eng: "Available Grocery List",
+  ka: "ಲಭ್ಯವಿರುವ ದಿನಸಿ ಪಟ್ಟಿ",
 };
 
 const myListText = {
@@ -138,40 +147,55 @@ const myListText = {
   ka: "ನನ್ನ ಪಟ್ಟಿ",
 };
 
-export default function TransferList(props) {
+const engKaLookup = engKaLookupJson.default;
+
+const mapLanguage = (state) => {
+  return {
+    lang: state.lang,
+    groceryList: state.groceryList,
+    myList: state.myList,
+  };
+};
+
+const TransferList = (props) => {
   const classes = useStyles();
-  const [checked, setChecked] = React.useState([]);
-  const [myList, setMyList] = React.useState({ ...props.initialState });
-  const [myListName, setMyListName] = React.useState(props.initialName);
-  const [lang, setLang] = React.useState("eng");
-  const [isDialogOpened, setIsDialogOpened] = React.useState(false);
-  const [right, setRight] = React.useState({ ...GroceryList.default });
-  const [isShoppingListExpand, setIsShoppingList] = React.useState(false);
-  const [isMyListExpand, setIsMyList] = React.useState(false);
-  const [isFormInvalid, setIsFormInvalid] = React.useState(true);
-  const [shoppingListFilterValue, setShoppingListFilterValue] = React.useState(
-    "None"
-  );
-  const [myListFilterValue, setMyListFilterValue] = React.useState("None");
-  const [shoppingListSearchValue, setShoppingListSearchValue] = React.useState(
-    ""
-  );
-  const [myListSearchValue, setMyListSearchValue] = React.useState("");
+  const [checked, setChecked] = useState([]);
+  const [myListName, setMyListName] = useState(props.initialName);
+  const [isDialogOpened, setIsDialogOpened] = useState(false);
+  const [isShoppingListExpand, setIsShoppingList] = useState(false);
+  const [isMyListExpand, setIsMyList] = useState(false);
+  const [isFormInvalid, setIsFormInvalid] = useState(true);
+  const [shoppingListFilterValue, setShoppingListFilterValue] = useState("");
+  const [shoppingListSearchValue, setShoppingListSearchValue] = useState("");
+  const [myListSearchValue, setMyListSearchValue] = useState("");
 
-  store.subscribe(() => {
-    setLang(store.getState().lang);
-  });
+  const leftCheckedKeys = intersection(checked, props.myList);
+  const rightCheckedKeys = intersection(checked, props.groceryList);
 
-  const leftCheckedKeys = intersection(checked, myList);
-  const rightCheckedKeys = intersection(checked, right);
+  useEffect(() => {
+    const valueArray = Object.values(props.myList);
+    let returnValue = false;
+    if (valueArray.length) {
+      valueArray.forEach((value) => {
+        if (value.measurement === "quantity" && !value.value) {
+          returnValue = true;
+        } else if (!+value.value) {
+          returnValue = true;
+        }
+      });
+    } else {
+      returnValue = true;
+    }
+    setIsFormInvalid(returnValue);
+  }, [props.myList]);
 
   const handleToggle = (value) => () => {
     const currentIndex = Object.keys(checked).indexOf(value);
     let newChecked = { ...checked };
     if (currentIndex === -1) {
-      newChecked = myList.hasOwnProperty(value)
-        ? { ...newChecked, [value]: { ...myList[value] } }
-        : { ...newChecked, [value]: { ...right[value] } };
+      newChecked = props.myList.hasOwnProperty(value)
+        ? { ...newChecked, [value]: { ...props.myList[value] } }
+        : { ...newChecked, [value]: { ...props.groceryList[value] } };
     } else {
       delete newChecked[value];
     }
@@ -193,10 +217,9 @@ export default function TransferList(props) {
     leftCheckedKeys.forEach((value) => {
       leftChecked = { ...leftChecked, [value]: checked[value] };
     });
-    setRight({ ...right, ...leftChecked });
-    setMyList(not(myList, leftChecked));
+    store.dispatch(removeFromMyListAction(Object.keys(leftChecked)));
     setChecked(not(checked, leftChecked));
-    setIsFormInvalid(checkFormValidity(not(myList, leftChecked)));
+    handleMyListZoom(false);
   };
 
   const handleCheckedLeft = () => {
@@ -204,35 +227,20 @@ export default function TransferList(props) {
     rightCheckedKeys.forEach((value) => {
       rightChecked = { ...rightChecked, [value]: checked[value] };
     });
-    setMyList({ ...myList, ...rightChecked });
-    setRight(not(right, rightChecked));
+    store.dispatch(addToMyListAction(Object.keys(rightChecked)));
     setChecked(not(checked, rightChecked));
-    setIsFormInvalid(checkFormValidity({ ...myList, ...rightChecked }));
+    handleShoppingListZoom(false);
   };
 
-  const handleInputValueAdd = (event, value) => {
-    setMyList({
-      ...myList,
-      [value]: { ...myList[value], value: event.target.value },
-    });
-    setIsFormInvalid(
-      checkFormValidity({
-        ...myList,
-        [value]: { ...myList[value], value: event.target.value },
-      })
+  const handleInputValueAdd = (event, item) => {
+    store.dispatch(
+      updateValueInMyListAction({ item: item, value: event.target.value })
     );
   };
 
-  const handleSelectValueChange = (event, value) => {
-    setMyList({
-      ...myList,
-      [value]: { ...myList[value], sizeValue: event.target.value },
-    });
-    setIsFormInvalid(
-      checkFormValidity({
-        ...myList,
-        [value]: { ...myList[value], sizeValue: event.target.value },
-      })
+  const handleSelectValueChange = (event, item) => {
+    store.dispatch(
+      updateSizeValueInMyListAction({ item: item, value: event.target.value })
     );
   };
 
@@ -244,69 +252,74 @@ export default function TransferList(props) {
 
   const handleMyListZoom = (isExpanded) => {
     setIsShoppingList(false);
-    setMyListFilterValue("");
+    setMyListSearchValue("");
     setIsMyList(isExpanded);
   };
 
   const handleAddToCart = () => {
-    console.log(myList);
+    console.log(props.myList);
     setIsDialogOpened(true);
   };
 
   const resetMyList = () => {
+    store.dispatch(resetMyListAction());
     setChecked([]);
-    setMyList({ ...props.initialState });
     setMyListName(props.initialName);
     setIsDialogOpened(false);
-    setRight({ ...GroceryList.default });
     setIsShoppingList(false);
     setIsMyList(false);
-    setIsFormInvalid(true);
   };
 
-  const handleDialogClose = (value, fileName) => {
-    console.log(value, fileName);
-    if (fileName !== null) {
-      setMyListName(fileName);
-      let fileContent = "";
-      Object.values(myList).forEach((item) => {
-        fileContent += item.name;
-        for (let i = item.name.length; i < 25; i++) {
-          fileContent += " ";
-        }
-        fileContent += "-";
-        for (let i = item.value.length; i < 5; i++) {
-          fileContent += " ";
-        }
-        fileContent += item.value + " " + item.measurement;
-        fileContent +=
-          item.measurement === "Qty" ? " " + item.sizeValue + "\n" : "\n";
-      });
-      const elemenet = document.createElement("a");
-      const blob = new Blob([fileContent], { type: "text/plain" });
-      elemenet.href = URL.createObjectURL(blob);
-      elemenet.download = fileName + ".txt";
-      elemenet.click();
-      resetMyList();
+  const searchAndFilter = (itemObject, searchValue, filterValue) => {
+    {
+      if (
+        searchValue &&
+        !filterValue &&
+        (itemObject.name.eng.toLowerCase().includes(searchValue) ||
+          itemObject.name.ka.toLowerCase().includes(searchValue) ||
+          engKaLookup.catogory[itemObject.catogory].eng
+            .toLowerCase()
+            .includes(searchValue) ||
+          engKaLookup.catogory[itemObject.catogory].ka
+            .toLowerCase()
+            .includes(searchValue) ||
+          engKaLookup.subCatogory[itemObject.subCatogory].eng
+            .toLowerCase()
+            .includes(searchValue) ||
+          engKaLookup.subCatogory[itemObject.subCatogory].ka
+            .toLowerCase()
+            .includes(searchValue) ||
+          engKaLookup.measurement[itemObject.measurement].eng
+            .toLowerCase()
+            .includes(searchValue) ||
+          engKaLookup.measurement[itemObject.measurement].ka
+            .toLowerCase()
+            .includes(searchValue))
+      ) {
+        return true;
+      } else if (
+        searchValue &&
+        filterValue &&
+        filterValue !== "name" &&
+        (engKaLookup[filterValue][itemObject[filterValue]].eng
+          .toLowerCase()
+          .includes(searchValue) ||
+          engKaLookup[filterValue][itemObject[filterValue]].ka
+            .toLowerCase()
+            .includes(searchValue))
+      ) {
+        return true;
+      } else if (
+        searchValue &&
+        filterValue &&
+        filterValue === "name" &&
+        (itemObject.name.eng.toLowerCase().includes(searchValue) ||
+          itemObject.name.ka.toLowerCase().includes(searchValue))
+      ) {
+        return true;
+      }
+      return true;
     }
-    setIsDialogOpened(false);
-  };
-
-  const checkFormValidity = (list) => {
-    const valueArray = Object.values(list);
-    let returnValue = false;
-    if (valueArray.length) {
-      valueArray.forEach((value) => {
-        if (value.measurement === "Qty" && !value.value) {
-          returnValue = true;
-        } else if (!+value.value) {
-          returnValue = true;
-        }
-      });
-    } else {
-      returnValue = true;
-    }
-    return returnValue;
   };
 
   const customList = (title, items) => (
@@ -331,16 +344,16 @@ export default function TransferList(props) {
           }
           title={title}
           subheader={`${numberOfChecked(items)}/${Object.keys(items).length} ${
-            lang === "eng" ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
+            props.lang === "eng" ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
           }`}
         />
         {isShoppingListExpand ? (
           <>
             <div>
-              <label>Filter</label>
               <TextField
                 key="shopping-fliter-input"
                 id="outlined-required"
+                label="Filter"
                 value={shoppingListSearchValue}
                 onChange={(e) => setShoppingListSearchValue(e.target.value)}
                 variant="outlined"
@@ -348,18 +361,27 @@ export default function TransferList(props) {
               />
               <FormControl variant="outlined" className={classes.formControl}>
                 <Select
-                  native
                   value={shoppingListFilterValue}
                   onChange={(e) => setShoppingListFilterValue(e.target.value)}
-                  variant="outlined"
+                  displayEmpty
+                  className={classes.selectEmpty}
+                  inputProps={{ "aria-label": "Without label" }}
                 >
-                  <option aria-label="None" value="None">
+                  <MenuItem key={"none"} value="">
                     None
-                  </option>
-                  <option value={"Name"}>Name</option>
-                  <option value={"Catogory"}>Catogory</option>
-                  <option value={"Sub-Catogory"}>Sub-Catogory</option>
-                  <option value={"Measurement"}>Measurement</option>
+                  </MenuItem>
+                  <MenuItem key={"name"} value="name">
+                    Name
+                  </MenuItem>
+                  <MenuItem key={"catogory"} value="catogory">
+                    Catogory
+                  </MenuItem>
+                  <MenuItem key={"subCatogory"} value="subCatogory">
+                    Sub-Catogory
+                  </MenuItem>
+                  <MenuItem key={"measurement"} value="measurement">
+                    Measurement
+                  </MenuItem>
                 </Select>
               </FormControl>
             </div>
@@ -398,32 +420,46 @@ export default function TransferList(props) {
         component="div"
         role="list"
       >
-        {Object.entries(items).map((value) => {
-          const labelId = `transfer-list-all-item-${value[0]}-label`;
+        {Object.entries(items)
+          .filter(
+            (value) =>
+              !isShoppingListExpand ||
+              searchAndFilter(
+                value[1],
+                shoppingListSearchValue.toLowerCase(),
+                shoppingListFilterValue
+              )
+          )
+          .map((value) => {
+            const labelId = `transfer-list-all-item-${value[0]}-label`;
 
-          return (
-            <ListItem
-              key={value}
-              role="listitem"
-              button
-              onClick={handleToggle(value[0])}
-            >
-              <ListItemIcon>
-                <Checkbox
-                  checked={checked.hasOwnProperty(value[0])}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ "aria-labelledby": labelId }}
+            return (
+              <ListItem
+                key={value}
+                role="listitem"
+                button
+                onClick={handleToggle(value[0])}
+              >
+                <ListItemIcon>
+                  <Checkbox
+                    checked={checked.hasOwnProperty(value[0])}
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{ "aria-labelledby": labelId }}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  id={labelId}
+                  primary={value[1].name[props.lang]}
+                  secondary={`${
+                    engKaLookup.catogory[value[1].catogory][props.lang]
+                  } > ${
+                    engKaLookup.subCatogory[value[1].subCatogory][props.lang]
+                  }`}
                 />
-              </ListItemIcon>
-              <ListItemText
-                id={labelId}
-                primary={value[1].name[lang]}
-                secondary={`${value[1].catogory} > ${value[1].subCatogory}`}
-              />
-            </ListItem>
-          );
-        })}
+              </ListItem>
+            );
+          })}
         <ListItem />
       </List>
     </Card>
@@ -449,9 +485,9 @@ export default function TransferList(props) {
               inputProps={{ "aria-label": "all items selected" }}
             />
           }
-          title={myListText[lang]}
+          title={myListText[props.lang]}
           subheader={`${numberOfChecked(items)}/${Object.keys(items).length} ${
-            lang === "eng" ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
+            props.lang === "eng" ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
           }`}
         />
         {isMyListExpand ? (
@@ -460,8 +496,8 @@ export default function TransferList(props) {
               key="Mylist-fliter-input"
               id="outlined-required"
               label="Filter"
-              value={myListFilterValue}
-              onChange={(e) => setMyListFilterValue(e.target.value)}
+              value={myListSearchValue}
+              onChange={(e) => setMyListSearchValue(e.target.value)}
               variant="outlined"
               autoFocus
             />
@@ -498,75 +534,88 @@ export default function TransferList(props) {
         component="div"
         role="list"
       >
-        {Object.entries(items).map((value) => {
-          const labelId = `transfer-list-all-item-${value[0]}-label`;
+        {Object.entries(items)
+          .filter(
+            (value) =>
+              !isMyListExpand ||
+              searchAndFilter(value[1], myListSearchValue.toLowerCase(), "")
+          )
+          .map((value) => {
+            const labelId = `transfer-list-all-item-${value[0]}-label`;
 
-          return (
-            <ListItem key={value[0]} role="listitem">
-              <ListItemIcon>
-                <Checkbox
-                  checked={checked.hasOwnProperty(value[0])}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ "aria-labelledby": labelId }}
-                  onClick={handleToggle(value[0])}
+            return (
+              <ListItem key={value[0]} role="listitem">
+                <ListItemIcon>
+                  <Checkbox
+                    checked={checked.hasOwnProperty(value[0])}
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{ "aria-labelledby": labelId }}
+                    onClick={handleToggle(value[0])}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  id={labelId}
+                  primary={value[1].name[props.lang]}
                 />
-              </ListItemIcon>
-              <ListItemText id={labelId} primary={value[1].name} />
-              <ListItemText className={classes.inputField}>
-                {value[1].measurement === "Qty" ? (
+                <ListItemText className={classes.inputField}>
+                  {value[1].measurement === "quantity" ? (
+                    <FormControl
+                      className={clsx(
+                        classes.margin,
+                        classes.withoutLabel,
+                        classes.selectField
+                      )}
+                    >
+                      <Select
+                        value={value[1].sizeValue}
+                        onChange={(e) => handleSelectValueChange(e, value[0])}
+                        displayEmpty
+                        className={classes.selectEmpty}
+                        inputProps={{ "aria-label": "Without label" }}
+                      >
+                        {value[1].size.map((text) => (
+                          <MenuItem key={text} value={text}>
+                            {engKaLookup.quantity[text][props.lang]}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  ) : (
+                    <></>
+                  )}
                   <FormControl
                     className={clsx(
                       classes.margin,
                       classes.withoutLabel,
-                      classes.selectField
+                      classes.textField
                     )}
                   >
-                    <Select
-                      value={value[1].sizeValue}
-                      onChange={(e) => handleSelectValueChange(e, value[0])}
-                      displayEmpty
-                      className={classes.selectEmpty}
-                      inputProps={{ "aria-label": "Without label" }}
-                    >
-                      {value[1].size.map((text) => (
-                        <MenuItem key={text} value={text}>
-                          {text}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                    <Input
+                      error={!+value[1].value}
+                      key={`${value[0]}-input`}
+                      id="standard-adornment-weight"
+                      value={value[1].value}
+                      onChange={(e) => handleInputValueAdd(e, value[0])}
+                      endAdornment={
+                        <InputAdornment position="end">
+                          {
+                            engKaLookup.measurement[value[1].measurement][
+                              props.lang
+                            ]
+                          }
+                        </InputAdornment>
+                      }
+                      aria-describedby="standard-weight-helper-text"
+                      inputProps={{
+                        "aria-label": "weight",
+                      }}
+                    />
                   </FormControl>
-                ) : (
-                  <></>
-                )}
-                <FormControl
-                  className={clsx(
-                    classes.margin,
-                    classes.withoutLabel,
-                    classes.textField
-                  )}
-                >
-                  <Input
-                    error={!+value[1].value}
-                    key={`${value[0]}-input`}
-                    id="standard-adornment-weight"
-                    value={value[1].value}
-                    onChange={(e) => handleInputValueAdd(e, value[0])}
-                    endAdornment={
-                      <InputAdornment position="end">
-                        {value[1].measurement}
-                      </InputAdornment>
-                    }
-                    aria-describedby="standard-weight-helper-text"
-                    inputProps={{
-                      "aria-label": "weight",
-                    }}
-                  />
-                </FormControl>
-              </ListItemText>
-            </ListItem>
-          );
-        })}
+                </ListItemText>
+              </ListItem>
+            );
+          })}
       </List>
     </Card>
   );
@@ -587,7 +636,7 @@ export default function TransferList(props) {
             isMyListExpand ? classes.hideGrid : ""
           )}
         >
-          {customList(listText[lang], right)}
+          {customList(listText[props.lang], props.groceryList)}
         </Grid>
         <Grid
           item
@@ -639,7 +688,7 @@ export default function TransferList(props) {
               disabled={isFormInvalid}
               aria-label="move selected to cart"
             >
-              <AddShoppingCartIcon />
+              <GetAppIcon />
             </Button>
           </Grid>
         </Grid>
@@ -650,14 +699,17 @@ export default function TransferList(props) {
           )}
           item
         >
-          {myListGrid(myList)}
+          {myListGrid(props.myList)}
         </Grid>
       </Grid>
       <SaveFlieDialog
         opened={isDialogOpened}
-        handleDialogClose={handleDialogClose}
+        setIsDialogOpened={(value) => setIsDialogOpened(value)}
+        resetMyList={() => resetMyList()}
         fileName={myListName}
       />
     </>
   );
-}
+};
+
+export default connect(mapLanguage)(TransferList);

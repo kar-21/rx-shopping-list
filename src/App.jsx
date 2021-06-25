@@ -18,7 +18,6 @@ import DrawerContent from "./core/DrawerContent";
 import store from "./redux/store";
 
 const drawerWidth = 200;
-const drawerHeight = 20;
 
 const useStyles = makeStyles((theme) => ({
   root: {

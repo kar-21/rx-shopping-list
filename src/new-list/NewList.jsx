@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import TransferList from "../shared/TransferList";
 import { makeStyles } from "@material-ui/core/styles";
-import store from "../redux/store";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   Heading: {
@@ -15,18 +15,20 @@ const newListText = {
   ka: "ಹೊಸ ಪಟ್ಟಿ",
 };
 
+const mapLanguage = (state) => {
+  return {
+    lang: state.lang,
+  };
+};
+
 const NewList = (props) => {
   const classes = useStyles();
-  const [heading, setHeading] = useState(newListText.eng);
 
-  store.subscribe(() => {
-    setHeading(newListText[store.getState().lang]);
-  });
   return (
     <>
-      <h1 className={classes.Heading}>{heading}</h1>
-      <TransferList initialState={{}} initialName={""} lang={props.lang} />
+      <h1 className={classes.Heading}>{newListText[props.lang]}</h1>
+      <TransferList initialState={{}} initialName={""} />
     </>
   );
 };
-export default NewList;
+export default connect(mapLanguage)(NewList);

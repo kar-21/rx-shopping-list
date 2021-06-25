@@ -1,23 +1,23 @@
-import React, { useState } from "react";
-import store from "../redux/store";
+import React from "react";
+import { connect } from "react-redux";
 
 const headerText = {
   eng: "Shopping List",
   ka: "ಖರೀದಿ ಪಟ್ಟಿ",
 };
 
-const Header = () => {
-  const [header, setHeader] = useState(headerText.eng);
+const mapLanguage = (state) => {
+  return {
+    lang: state.lang,
+  };
+};
 
-  store.subscribe(() => {
-    setHeader(headerText[store.getState().lang]);
-  });
-
+const Header = (props) => {
   return (
     <>
-      <div>{header}</div>
+      <div>{headerText[props.lang]}</div>
     </>
   );
 };
 
-export default Header;
+export default connect(mapLanguage)(Header);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, createRef } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -9,12 +9,24 @@ import {
 } from "@material-ui/core";
 import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import { connect } from "react-redux";
+import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
+
+const engKaLookup = engKaLookupJson.default;
+
+const mapLanguage = (state) => {
+  return {
+    lang: state.lang,
+    myList: state.myList,
+  };
+};
 
 const SaveFlieDialog = (props) => {
-  const [fileName, setFileName] = React.useState(props.fileName);
-  const [suffix, setSuffix] = React.useState("");
+  const refrence = createRef();
+  const [fileName, setFileName] = useState(props.fileName);
+  const [suffix, setSuffix] = useState("");
 
-  React.useEffect(() => {
+  useEffect(() => {
     const date = new Date(Date.now());
     let suffix = "";
     suffix += date.getDate() + "-";
@@ -33,14 +45,46 @@ const SaveFlieDialog = (props) => {
     setSuffix(suffix);
   }, [props.opened]);
 
-  const handleInputValueChnage = (event) => {
+  const handleInputValueChange = (event) => {
     setFileName(event.target.value);
   };
+
+  const handleDialogClose = (value, fileName) => {
+    console.log(value, fileName);
+    if (fileName !== null) {
+      let fileContent = "";
+      Object.values(props.myList).forEach((item) => {
+        fileContent += item.name.eng;
+        for (let i = item.name.length; i < 25; i++) {
+          fileContent += " ";
+        }
+        fileContent += "-";
+        for (let i = item.value.length; i < 5; i++) {
+          fileContent += " ";
+        }
+        fileContent +=
+          item.value + " " + engKaLookup.measurement[item.measurement].eng;
+        fileContent +=
+          item.measurement === "quantity"
+            ? " " + engKaLookup.quantity[item.sizeValue].eng + "\n"
+            : "\n";
+      });
+      const elemenet = document.createElement("a");
+      const blob = new Blob([fileContent], { type: "text/plain" });
+      elemenet.href = URL.createObjectURL(blob);
+      elemenet.download = fileName + "_eng.txt";
+      elemenet.click();
+      props.resetMyList();
+    }
+    props.setIsDialogOpened(false);
+  };
+
   return (
     <>
       <Dialog
+        ref={refrence}
         open={props.opened}
-        onClose={() => props.handleDialogClose(false, null)}
+        onClose={() => handleDialogClose(false, null)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -56,7 +100,7 @@ const SaveFlieDialog = (props) => {
             key={fileName}
             id="standard-adornment-weight"
             value={fileName}
-            onChange={(e) => handleInputValueChnage(e)}
+            onChange={(e) => handleInputValueChange(e)}
             endAdornment={
               <InputAdornment position="end">{suffix}</InputAdornment>
             }
@@ -67,7 +111,7 @@ const SaveFlieDialog = (props) => {
           <Button
             variant="contained"
             size="small"
-            onClick={() => props.handleDialogClose(false, null)}
+            onClick={() => handleDialogClose(false, null)}
           >
             cancel
           </Button>
@@ -76,9 +120,7 @@ const SaveFlieDialog = (props) => {
             color="secondary"
             size="small"
             disabled={fileName === ""}
-            onClick={() =>
-              props.handleDialogClose(true, fileName + "_" + suffix)
-            }
+            onClick={() => handleDialogClose(true, fileName + "_" + suffix)}
           >
             Save
           </Button>
@@ -87,4 +129,4 @@ const SaveFlieDialog = (props) => {
     </>
   );
 };
-export default SaveFlieDialog;
+export default connect(mapLanguage)(SaveFlieDialog);

@@ -4,9 +4,9 @@
       "eng": "Basmati Rice",
       "ka": "ಬಾಸ್ಮತಿ ಅಕ್ಕಿ"
     },
-    "catogory": "Cereal Grain",
-    "subCatogory": "Rice",
-    "measurement": "Kg",
+    "catogory": "cerealGrain",
+    "subCatogory": "rice",
+    "measurement": "kg",
     "value": ""
   },
   "basaveshwaraRice": {
@@ -14,9 +14,29 @@
       "eng": "Basaveshwara Rice",
       "ka": "ಬಸವೇಶ್ವರ ಅಕ್ಕಿ"
     },
-    "catogory": "Cereal Grain",
-    "subCatogory": "Rice",
-    "measurement": "Kg",
+    "catogory": "cerealGrain",
+    "subCatogory": "rice",
+    "measurement": "kg",
+    "value": ""
+  },
+  "wheat": {
+    "name": {
+      "eng": "Wheat",
+      "ka": "ಗೋಧಿ"
+    },
+    "catogory": "cerealGrain",
+    "subCatogory": "wheat",
+    "measurement": "kg",
+    "value": ""
+  },
+  "brokenWheat": {
+    "name": {
+      "eng": "Broken Wheat",
+      "ka": "ಗೋಧಿ nucchu"
+    },
+    "catogory": "cerealGrain",
+    "subCatogory": "wheat",
+    "measurement": "kg",
     "value": ""
   },
   "rajamudiRice": {
@@ -24,9 +44,9 @@
       "eng": "Rajamudi Rice",
       "ka": "ರಾಜಮುಡಿ ಅಕ್ಕಿ"
     },
-    "catogory": "Cereal Grain",
-    "subCatogory": "Rice",
-    "measurement": "Kg",
+    "catogory": "cerealGrain",
+    "subCatogory": "rice",
+    "measurement": "kg",
     "value": ""
   },
   "bengalGramDhal": {
@@ -34,9 +54,9 @@
       "eng": "Bengal Gram Dhal",
       "ka": "ಕಡಲೆ ಬೇಳೆ"
     },
-    "catogory": "Cereal Grain",
-    "subCatogory": "Dhal",
-    "measurement": "Kg",
+    "catogory": "pulses",
+    "subCatogory": "dhal",
+    "measurement": "kg",
     "value": ""
   },
   "blackGramDhal": {
@@ -44,9 +64,9 @@
       "eng": "Black Gram Dhal",
       "ka": "ಉದ್ದಿನ ಬೇಳೆ"
     },
-    "catogory": "Cereal Grain",
-    "subCatogory": "Dhal",
-    "measurement": "Kg",
+    "catogory": "pulses",
+    "subCatogory": "dhal",
+    "measurement": "kg",
     "value": ""
   },
   "greenGramDhal": {
@@ -54,9 +74,9 @@
       "eng": "Green Gram Dhal",
       "ka": "ಹೆಸರು ಬೇಳೆ"
     },
-    "catogory": "Cereal Grain",
-    "subCatogory": "Dhal",
-    "measurement": "Kg",
+    "catogory": "pulses",
+    "subCatogory": "dhal",
+    "measurement": "kg",
     "value": ""
   },
   "redGramDhal": {
@@ -64,9 +84,9 @@
       "eng": "Red Gram Dhal",
       "ka": "ತೊಗರಿ ಬೇಳೆ"
     },
-    "catogory": "Cereal Grain",
-    "subCatogory": "Dhal",
-    "measurement": "Kg",
+    "catogory": "pulses",
+    "subCatogory": "dhal",
+    "measurement": "kg",
     "value": ""
   },
   "freedomSunflowerOil": {
@@ -74,9 +94,9 @@
       "eng": "Freedom Sunflower Oil",
       "ka": "ಫ್ರಿಡಂ ಸೂರ್ಯಕಾಂತಿ ಎಣ್ಣೆ"
     },
-    "catogory": "Oil",
-    "subCatogory": "Sunflower Oil",
-    "measurement": "l",
+    "catogory": "oil",
+    "subCatogory": "sunflowerOil",
+    "measurement": "liter",
     "value": ""
   },
   "oreoBiscuit": {
@@ -84,11 +104,11 @@
       "eng": "Oreo Biscuit",
       "ka": "ಓರಿಯೊ ಬಿಸ್ಕತ್ತು"
     },
-    "catogory": "Snacks",
-    "subCatogory": "Biscuit",
-    "measurement": "Qty",
-    "size": ["Small", "Medium", "Large", "Extra Large"],
+    "catogory": "snacks",
+    "subCatogory": "biscuit",
+    "measurement": "quantity",
+    "size": ["small", "medium", "large", "extraLarge"],
     "value": "",
-    "sizeValue": "Medium"
+    "sizeValue": "medium"
   }
 }

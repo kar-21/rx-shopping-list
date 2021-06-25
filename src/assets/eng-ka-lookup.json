@@ -1,0 +1,74 @@
+{
+  "measurement": {
+    "kg": {
+      "eng": "Kg",
+      "ka": "ಕೇಜಿ"
+    },
+    "liter": {
+      "eng": "L",
+      "ka": "ಲೀಟರ್"
+    },
+    "quantity": {
+      "eng": "Qty",
+      "ka": "ಪ್ರಮಾಣ"
+    }
+  },
+  "quantity": {
+    "small": {
+      "eng": "Small",
+      "ka": "ಸಣ್ಣ"
+    },
+    "medium": {
+      "eng": "Medium",
+      "ka": "ಮಧ್ಯಮ"
+    },
+    "large": {
+      "eng": "Large",
+      "ka": "ದೊಡ್ಡದು"
+    },
+    "extraLarge": {
+      "eng": "Extra Large",
+      "ka": "ಹೆಚ್ಚುವರಿ ದೊಡ್ಡದು"
+    }
+  },
+  "catogory": {
+    "cerealGrain": {
+      "eng": "Cereal Grain",
+      "ka": "ಏಕದಳ ಧಾನ್ಯ"
+    },
+    "pulses": {
+      "eng": "Pulses",
+      "ka": "ದ್ವಿದಳ ಧಾನ್ಯ"
+    },
+    "oil": {
+      "eng": "Oil",
+      "ka": "ಎಣ್ಣೆ"
+    },
+    "snacks": {
+      "eng": "Snacks",
+      "ka": "ತಿಂಡಿಗಳು"
+    }
+  },
+  "subCatogory": {
+    "rice": {
+      "eng": "Rice",
+      "ka": "ಅಕ್ಕಿ"
+    },
+    "wheat": {
+      "eng": "Wheat",
+      "ka": "ಗೋಧಿ"
+    },
+    "sunflowerOil": {
+      "eng": "Sunflower Oil",
+      "ka": "ಸೂರ್ಯಕಾಂತಿ ಎಣ್ಣೆ"
+    },
+    "biscuit": {
+      "eng": "Biscuit",
+      "ka": "ಬಿಸ್ಕತ್ತು"
+    },
+    "dhal": {
+      "eng": "Dhal",
+      "ka": "ಬೇಳೆ"
+    }
+  }
+}

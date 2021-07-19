@@ -50,7 +50,6 @@ const SaveFlieDialog = (props) => {
   };
 
   const handleDialogClose = (value, fileName) => {
-    console.log(value, fileName);
     if (fileName !== null) {
       let fileContent = "";
       Object.values(props.myList).forEach((item) => {

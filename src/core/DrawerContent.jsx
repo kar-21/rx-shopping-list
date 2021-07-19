@@ -11,7 +11,6 @@ import Switch from "@material-ui/core/Switch";
 import Divider from "@material-ui/core/Divider";
 import Radio from "@material-ui/core/Radio";
 import { connect } from "react-redux";
-import store from "../redux/store";
 import { setLanguageAction, setIsDarkColorModeAction } from "../redux/action";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -58,11 +57,11 @@ const DrawerContent = (props) => {
   }, [props.isDarkColorMode, props.lang]);
 
   const toggleColorMode = () => {
-    store.dispatch(setIsDarkColorModeAction(!props.isDarkColorMode));
+    props.dispatch(setIsDarkColorModeAction(!props.isDarkColorMode));
   };
 
   const handleLangChange = (event) => {
-    store.dispatch(setLanguageAction(event.target.value));
+    props.dispatch(setLanguageAction(event.target.value));
   };
 
   const handleRoute = (path) => {
@@ -113,12 +112,12 @@ const DrawerContent = (props) => {
           {
             text: props.lang === "eng" ? "New List" : "ಹೊಸ ಪಟ್ಟಿ",
             icon: <LibraryAdd />,
-            path: "/",
+            path: "/feature",
           },
           {
             text: props.lang === "eng" ? "Saved Lists" : "ಉಳಿಸಿದ ಪಟ್ಟಿಗಳು",
             icon: <LibraryBooks />,
-            path: "/savedLists",
+            path: "/feature/savedLists",
           },
         ].map((list) => (
           <ListItem
@@ -139,7 +138,7 @@ const DrawerContent = (props) => {
           {
             text: props.lang === "eng" ? "About Us" : "ನಮ್ಮ ಬಗ್ಗೆ",
             icon: <InfoIcon />,
-            path: "/about",
+            path: "/feature/about",
           },
         ].map((list) => (
           <ListItem

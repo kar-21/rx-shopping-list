@@ -92,6 +92,9 @@ const useStyles = makeStyles((theme) => ({
   leftSideList: {
     minWidth: "55%",
   },
+  rightSideList: {
+    width: "35%",
+  },
   buttonContainer: {
     [theme.breakpoints.down("xs")]: {
       display: "flex",
@@ -257,7 +260,6 @@ const TransferList = (props) => {
   };
 
   const handleAddToCart = () => {
-    console.log(props.myList);
     setIsDialogOpened(true);
   };
 
@@ -271,55 +273,55 @@ const TransferList = (props) => {
   };
 
   const searchAndFilter = (itemObject, searchValue, filterValue) => {
-    {
-      if (
-        searchValue &&
-        !filterValue &&
-        (itemObject.name.eng.toLowerCase().includes(searchValue) ||
-          itemObject.name.ka.toLowerCase().includes(searchValue) ||
-          engKaLookup.catogory[itemObject.catogory].eng
-            .toLowerCase()
-            .includes(searchValue) ||
-          engKaLookup.catogory[itemObject.catogory].ka
-            .toLowerCase()
-            .includes(searchValue) ||
-          engKaLookup.subCatogory[itemObject.subCatogory].eng
-            .toLowerCase()
-            .includes(searchValue) ||
-          engKaLookup.subCatogory[itemObject.subCatogory].ka
-            .toLowerCase()
-            .includes(searchValue) ||
-          engKaLookup.measurement[itemObject.measurement].eng
-            .toLowerCase()
-            .includes(searchValue) ||
-          engKaLookup.measurement[itemObject.measurement].ka
-            .toLowerCase()
-            .includes(searchValue))
-      ) {
-        return true;
-      } else if (
-        searchValue &&
-        filterValue &&
-        filterValue !== "name" &&
-        (engKaLookup[filterValue][itemObject[filterValue]].eng
+    if (searchValue.length < 2) {
+      return true;
+    } else if (
+      searchValue &&
+      !filterValue &&
+      (itemObject.name.eng.toLowerCase().includes(searchValue) ||
+        itemObject.name.ka.toLowerCase().includes(searchValue) ||
+        engKaLookup.catogory[itemObject.catogory].eng
           .toLowerCase()
           .includes(searchValue) ||
-          engKaLookup[filterValue][itemObject[filterValue]].ka
-            .toLowerCase()
-            .includes(searchValue))
-      ) {
-        return true;
-      } else if (
-        searchValue &&
-        filterValue &&
-        filterValue === "name" &&
-        (itemObject.name.eng.toLowerCase().includes(searchValue) ||
-          itemObject.name.ka.toLowerCase().includes(searchValue))
-      ) {
-        return true;
-      }
+        engKaLookup.catogory[itemObject.catogory].ka
+          .toLowerCase()
+          .includes(searchValue) ||
+        engKaLookup.subCatogory[itemObject.subCatogory].eng
+          .toLowerCase()
+          .includes(searchValue) ||
+        engKaLookup.subCatogory[itemObject.subCatogory].ka
+          .toLowerCase()
+          .includes(searchValue) ||
+        engKaLookup.measurement[itemObject.measurement].eng
+          .toLowerCase()
+          .includes(searchValue) ||
+        engKaLookup.measurement[itemObject.measurement].ka
+          .toLowerCase()
+          .includes(searchValue))
+    ) {
+      return true;
+    } else if (
+      searchValue &&
+      filterValue &&
+      filterValue !== "name" &&
+      (engKaLookup[filterValue][itemObject[filterValue]].eng
+        .toLowerCase()
+        .includes(searchValue) ||
+        engKaLookup[filterValue][itemObject[filterValue]].ka
+          .toLowerCase()
+          .includes(searchValue))
+    ) {
+      return true;
+    } else if (
+      searchValue &&
+      filterValue &&
+      filterValue === "name" &&
+      (itemObject.name.eng.toLowerCase().includes(searchValue) ||
+        itemObject.name.ka.toLowerCase().includes(searchValue))
+    ) {
       return true;
     }
+    return false;
   };
 
   const customList = (title, items) => (
@@ -632,7 +634,9 @@ const TransferList = (props) => {
         <Grid
           item
           className={clsx(
-            isShoppingListExpand ? classes.expandedShoppingListGrid : "",
+            isShoppingListExpand
+              ? classes.expandedShoppingListGrid
+              : classes.rightSideList,
             isMyListExpand ? classes.hideGrid : ""
           )}
         >

@@ -9,6 +9,8 @@ import {
 } from "@material-ui/core";
 import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
+import ListItem from "@material-ui/core/ListItem";
+import Radio from "@material-ui/core/Radio";
 import { connect } from "react-redux";
 import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
 
@@ -21,8 +23,9 @@ const mapLanguage = (state) => {
   };
 };
 
-const SaveFlieDialog = (props) => {
-  const refrence = createRef();
+const SaveFileDialog = (props) => {
+  const reference = createRef();
+  const [fileLanguage, setFileLanguage] = useState("eng");
   const [fileName, setFileName] = useState(props.fileName);
   const [suffix, setSuffix] = useState("");
 
@@ -49,30 +52,31 @@ const SaveFlieDialog = (props) => {
     setFileName(event.target.value);
   };
 
+  const handleLangChange = (event) => {
+    setFileLanguage(event.target.value);
+  };
+
   const handleDialogClose = (value, fileName) => {
     if (fileName !== null) {
-      let fileContent = "";
+      let fileContent = '';
       Object.values(props.myList).forEach((item) => {
-        fileContent += item.name.eng;
-        for (let i = item.name.length; i < 25; i++) {
-          fileContent += " ";
+        let row = `${item.name[fileLanguage]}`;
+        for (let i = row.length; i < 30; i++) {
+          row += ' ';
         }
-        fileContent += "-";
-        for (let i = item.value.length; i < 5; i++) {
-          fileContent += " ";
+        row += `${item.value} ${
+          engKaLookup.measurement[item.measurement][fileLanguage]
+        }`;
+        if (item.measurement === "quantity") {
+          row += ` ${engKaLookup.quantity[item.sizeValue][fileLanguage]}`;
         }
-        fileContent +=
-          item.value + " " + engKaLookup.measurement[item.measurement].eng;
-        fileContent +=
-          item.measurement === "quantity"
-            ? " " + engKaLookup.quantity[item.sizeValue].eng + "\n"
-            : "\n";
+        fileContent += row + "\r\n";
       });
-      const elemenet = document.createElement("a");
+      const element = document.createElement("a");
       const blob = new Blob([fileContent], { type: "text/plain" });
-      elemenet.href = URL.createObjectURL(blob);
-      elemenet.download = fileName + "_eng.txt";
-      elemenet.click();
+      element.href = URL.createObjectURL(blob);
+      element.download = `${fileName}_${[fileLanguage]}.txt`;
+      element.click();
       props.resetMyList();
     }
     props.setIsDialogOpened(false);
@@ -81,7 +85,7 @@ const SaveFlieDialog = (props) => {
   return (
     <>
       <Dialog
-        ref={refrence}
+        ref={reference}
         open={props.opened}
         onClose={() => handleDialogClose(false, null)}
         aria-labelledby="alert-dialog-title"
@@ -105,6 +109,31 @@ const SaveFlieDialog = (props) => {
             }
             autoFocus
           />
+          <div>
+            <label>File Language</label>
+            <ListItem>
+              <span>
+                <Radio
+                  checked={fileLanguage === "eng"}
+                  onChange={handleLangChange}
+                  value="eng"
+                  name="radio-button-demo"
+                  inputProps={{ "aria-label": "English" }}
+                />
+                English
+              </span>
+              <span>
+                <Radio
+                  checked={fileLanguage === "ka"}
+                  onChange={handleLangChange}
+                  value="ka"
+                  name="radio-button-demo"
+                  inputProps={{ "aria-label": "ಕನ್ನಡ" }}
+                />
+                ಕನ್ನಡ
+              </span>
+            </ListItem>
+          </div>
         </DialogContent>
         <DialogActions>
           <Button
@@ -128,4 +157,4 @@ const SaveFlieDialog = (props) => {
     </>
   );
 };
-export default connect(mapLanguage)(SaveFlieDialog);
+export default connect(mapLanguage)(SaveFileDialog);

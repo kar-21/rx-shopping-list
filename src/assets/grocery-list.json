@@ -32,7 +32,7 @@
   "brokenWheat": {
     "name": {
       "eng": "Broken Wheat",
-      "ka": "ಗೋಧಿ nucchu"
+      "ka": "ಗೋಧಿ ನುಚ್ಚು"
     },
     "catogory": "cerealGrain",
     "subCatogory": "wheat",
@@ -86,6 +86,76 @@
     },
     "catogory": "pulses",
     "subCatogory": "dhal",
+    "measurement": "kg",
+    "value": ""
+  },
+  "flattenedRice": {
+    "name": {
+      "eng": "Flattened Rice",
+      "ka": "ಅವಲಕ್ಕಿ"
+    },
+    "catogory": "cerealGrain",
+    "subCatogory": "rice",
+    "measurement": "kg",
+    "value": ""
+  },
+  "bengalGram": {
+    "name": {
+      "eng": "Bengal Gram",
+      "ka": "ಹುರಿಗಡಲೆ"
+    },
+    "catogory": "pulses",
+    "subCatogory": "gram",
+    "measurement": "kg",
+    "value": ""
+  },
+  "peanut": {
+    "name": {
+      "eng": "Peanut",
+      "ka": "ಕಡಲೆಕಾಯಿ ಬೀಜ"
+    },
+    "catogory": "pulses",
+    "subCatogory": "gram",
+    "measurement": "kg",
+    "value": ""
+  },
+  "sugar": {
+    "name": {
+      "eng": "Sugar",
+      "ka": "ಸಕ್ಕರೆ"
+    },
+    "catogory": "sweet",
+    "subCatogory": "sweet",
+    "measurement": "kg",
+    "value": ""
+  },
+  "semolinaSpaghetti": {
+    "name": {
+      "eng": "Semolina Spaghetti",
+      "ka": "ಶಾವಿಗೆ"
+    },
+    "catogory": "noodles",
+    "subCatogory": "noodles",
+    "measurement": "kg",
+    "value": ""
+  },
+  "salt": {
+    "name": {
+      "eng": "Salt",
+      "ka": "ಉಪ್ಪು"
+    },
+    "catogory": "salt",
+    "subCatogory": "salt",
+    "measurement": "kg",
+    "value": ""
+  },
+  "semolina": {
+    "name": {
+      "eng": "Semolina",
+      "ka": "ರವೆ"
+    },
+    "catogory": "cerealGrain",
+    "subCatogory": "rice",
     "measurement": "kg",
     "value": ""
   },

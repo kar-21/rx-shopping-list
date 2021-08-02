@@ -47,6 +47,18 @@
     "snacks": {
       "eng": "Snacks",
       "ka": "ತಿಂಡಿಗಳು"
+    },
+    "sweet": {
+      "eng": "Sweet",
+      "ka": "ಸಿಹಿ"
+    },
+    "noodles": {
+      "eng": "Noodles",
+      "ka": "ನೂಡಲ್ಸ್"
+    },
+    "salt": {
+      "eng": "Salt",
+      "ka": "ಉಪ್ಪು"
     }
   },
   "subCatogory": {
@@ -69,6 +81,22 @@
     "dhal": {
       "eng": "Dhal",
       "ka": "ಬೇಳೆ"
+    },
+    "gram": {
+      "eng": "Gram",
+      "ka": "ಬೀಜ"
+    },
+    "sweet": {
+      "eng": "Sweet",
+      "ka": "ಸಿಹಿ"
+    },
+    "noodles": {
+      "eng": "Noodles",
+      "ka": "ನೂಡಲ್ಸ್"
+    },
+    "salt": {
+      "eng": "Salt",
+      "ka": "ಉಪ್ಪು"
     }
   }
 }

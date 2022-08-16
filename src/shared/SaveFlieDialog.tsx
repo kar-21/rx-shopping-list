@@ -13,8 +13,9 @@ import ListItem from "@material-ui/core/ListItem";
 import Radio from "@material-ui/core/Radio";
 import { connect } from "react-redux";
 import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
+import { Grocery, GroceryList } from "../redux/model.interace";
 
-const engKaLookup = engKaLookupJson.default;
+const engKaLookup = engKaLookupJson;
 
 const mapLanguage = (state) => {
   return {
@@ -23,7 +24,15 @@ const mapLanguage = (state) => {
   };
 };
 
-const SaveFileDialog = (props) => {
+interface SaveFileDialogType {
+  fileName: string;
+  opened: boolean;
+  myList: GroceryList;
+  resetMyList: () => void;
+  setIsDialogOpened: (value: boolean) => void;
+}
+
+const SaveFileDialog = (props: SaveFileDialogType) => {
   const reference = createRef();
   const [fileLanguage, setFileLanguage] = useState("eng");
   const [fileName, setFileName] = useState(props.fileName);
@@ -58,16 +67,16 @@ const SaveFileDialog = (props) => {
 
   const handleDialogClose = (value, fileName) => {
     if (fileName !== null) {
-      let fileContent = '';
+      let fileContent = "";
       Object.values(props.myList).forEach((item) => {
         let row = `${item.name[fileLanguage]}`;
         for (let i = row.length; i < 30; i++) {
-          row += ' ';
+          row += " ";
         }
         row += `${item.value} ${
           engKaLookup.measurement[item.measurement][fileLanguage]
         }`;
-        if (item.measurement === "quantity") {
+        if (item.measurement === "quantity" && item.sizeValue) {
           row += ` ${engKaLookup.quantity[item.sizeValue][fileLanguage]}`;
         }
         fileContent += row + "\r\n";

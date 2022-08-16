@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ChangeEvent } from "react";
 import clsx from "clsx";
 import FormControl from "@material-ui/core/FormControl";
 import Input from "@material-ui/core/Input";
@@ -33,6 +33,7 @@ import {
   resetMyListAction,
 } from "../redux/action";
 import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
+import { Grocery, GroceryList } from "../redux/model.interace";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -119,6 +120,8 @@ const useStyles = makeStyles((theme) => ({
   buttonGridContainer: {
     minWidth: "30%",
   },
+  formControl: {},
+  selectEmpty: {},
 }));
 
 function not(a, b) {
@@ -150,7 +153,7 @@ const myListText = {
   ka: "ನನ್ನ ಪಟ್ಟಿ",
 };
 
-const engKaLookup = engKaLookupJson.default;
+const engKaLookup = engKaLookupJson;
 
 const mapLanguage = (state) => {
   return {
@@ -162,13 +165,14 @@ const mapLanguage = (state) => {
 
 const TransferList = (props) => {
   const classes = useStyles();
-  const [checked, setChecked] = useState([]);
+  const [checked, setChecked] = useState<GroceryList>({});
   const [myListName, setMyListName] = useState(props.initialName);
   const [isDialogOpened, setIsDialogOpened] = useState(false);
   const [isShoppingListExpand, setIsShoppingList] = useState(false);
   const [isMyListExpand, setIsMyList] = useState(false);
   const [isFormInvalid, setIsFormInvalid] = useState(true);
-  const [shoppingListFilterValue, setShoppingListFilterValue] = useState("");
+  const [shoppingListFilterValue, setShoppingListFilterValue] =
+    useState<string>("");
   const [shoppingListSearchValue, setShoppingListSearchValue] = useState("");
   const [myListSearchValue, setMyListSearchValue] = useState("");
 
@@ -176,7 +180,7 @@ const TransferList = (props) => {
   const rightCheckedKeys = intersection(checked, props.groceryList);
 
   useEffect(() => {
-    const valueArray = Object.values(props.myList);
+    const valueArray: Grocery[] = Object.values(props.myList);
     let returnValue = false;
     if (valueArray.length) {
       valueArray.forEach((value) => {
@@ -194,7 +198,7 @@ const TransferList = (props) => {
 
   const handleToggle = (value) => () => {
     const currentIndex = Object.keys(checked).indexOf(value);
-    let newChecked = { ...checked };
+    let newChecked: GroceryList = { ...checked };
     if (currentIndex === -1) {
       newChecked = props.myList.hasOwnProperty(value)
         ? { ...newChecked, [value]: { ...props.myList[value] } }
@@ -265,7 +269,7 @@ const TransferList = (props) => {
 
   const resetMyList = () => {
     store.dispatch(resetMyListAction());
-    setChecked([]);
+    setChecked({});
     setMyListName(props.initialName);
     setIsDialogOpened(false);
     setIsShoppingList(false);
@@ -324,7 +328,7 @@ const TransferList = (props) => {
     return false;
   };
 
-  const customList = (title, items) => (
+  const customList = (title, items: GroceryList) => (
     <Card>
       <div className={classes.cardHeader}>
         <CardHeader
@@ -364,7 +368,12 @@ const TransferList = (props) => {
               <FormControl variant="outlined" className={classes.formControl}>
                 <Select
                   value={shoppingListFilterValue}
-                  onChange={(e) => setShoppingListFilterValue(e.target.value)}
+                  onChange={(
+                    e: ChangeEvent<{
+                      name?: string | undefined;
+                      value: unknown;
+                    }>
+                  ) => setShoppingListFilterValue(e.target.value as string)}
                   displayEmpty
                   className={classes.selectEmpty}
                   inputProps={{ "aria-label": "Without label" }}
@@ -432,19 +441,19 @@ const TransferList = (props) => {
                 shoppingListFilterValue
               )
           )
-          .map((value) => {
-            const labelId = `transfer-list-all-item-${value[0]}-label`;
+          .map(([key, value]) => {
+            const labelId = `transfer-list-all-item-${key}-label`;
 
             return (
               <ListItem
-                key={value}
+                key={key}
                 role="listitem"
                 button
-                onClick={handleToggle(value[0])}
+                onClick={handleToggle(key)}
               >
                 <ListItemIcon>
                   <Checkbox
-                    checked={checked.hasOwnProperty(value[0])}
+                    checked={checked.hasOwnProperty(key)}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ "aria-labelledby": labelId }}
@@ -452,11 +461,11 @@ const TransferList = (props) => {
                 </ListItemIcon>
                 <ListItemText
                   id={labelId}
-                  primary={value[1].name[props.lang]}
+                  primary={value.name[props.lang]}
                   secondary={`${
-                    engKaLookup.catogory[value[1].catogory][props.lang]
+                    engKaLookup.catogory[value.catogory][props.lang]
                   } > ${
-                    engKaLookup.subCatogory[value[1].subCatogory][props.lang]
+                    engKaLookup.subCatogory[value.subCatogory][props.lang]
                   }`}
                 />
               </ListItem>
@@ -467,7 +476,7 @@ const TransferList = (props) => {
     </Card>
   );
 
-  const myListGrid = (items) => (
+  const myListGrid = (items: GroceryList) => (
     <Card>
       <div className={classes.cardHeader}>
         <CardHeader
@@ -538,30 +547,30 @@ const TransferList = (props) => {
       >
         {Object.entries(items)
           .filter(
-            (value) =>
+            ([key, value]) =>
               !isMyListExpand ||
-              searchAndFilter(value[1], myListSearchValue.toLowerCase(), "")
+              searchAndFilter(value, myListSearchValue.toLowerCase(), "")
           )
-          .map((value) => {
-            const labelId = `transfer-list-all-item-${value[0]}-label`;
+          .map(([key, value]) => {
+            const labelId = `transfer-list-all-item-${key}-label`;
 
             return (
-              <ListItem key={value[0]} role="listitem">
+              <ListItem key={key} role="listitem">
                 <ListItemIcon>
                   <Checkbox
-                    checked={checked.hasOwnProperty(value[0])}
+                    checked={checked.hasOwnProperty(key)}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ "aria-labelledby": labelId }}
-                    onClick={handleToggle(value[0])}
+                    onClick={handleToggle(key)}
                   />
                 </ListItemIcon>
                 <ListItemText
                   id={labelId}
-                  primary={value[1].name[props.lang]}
+                  primary={value.name[props.lang]}
                 />
                 <ListItemText className={classes.inputField}>
-                  {value[1].measurement === "quantity" ? (
+                  {value.measurement === "quantity" ? (
                     <FormControl
                       className={clsx(
                         classes.margin,
@@ -570,13 +579,13 @@ const TransferList = (props) => {
                       )}
                     >
                       <Select
-                        value={value[1].sizeValue}
-                        onChange={(e) => handleSelectValueChange(e, value[0])}
+                        value={value.sizeValue}
+                        onChange={(e) => handleSelectValueChange(e, key)}
                         displayEmpty
                         className={classes.selectEmpty}
                         inputProps={{ "aria-label": "Without label" }}
                       >
-                        {value[1].size.map((text) => (
+                        {value.size?.map((text) => (
                           <MenuItem key={text} value={text}>
                             {engKaLookup.quantity[text][props.lang]}
                           </MenuItem>

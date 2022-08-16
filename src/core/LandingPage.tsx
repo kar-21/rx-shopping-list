@@ -68,6 +68,7 @@ const useStyles = makeStyles((theme) => ({
     height: "25px",
     marginLeft: "4px",
   },
+  button: {},
 }));
 
 const mapProps = (state) => {

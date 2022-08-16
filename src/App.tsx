@@ -14,6 +14,7 @@ import {
   setJwtTokenAction,
   setUserIDAction,
 } from "./redux/action";
+import { DecodedTokenType } from "./redux/model.interace";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +33,8 @@ const App = (props) => {
     const cookie = new Cookies();
     const token = cookie.get("token");
     if (token) {
-      props.dispatch(setUserIDAction(jwt_decode(token).userId));
+      const decodedToken: DecodedTokenType = jwt_decode(token);
+      props.dispatch(setUserIDAction(decodedToken?.userId));
       props.dispatch(setIsLoggedInAction(true));
       props.dispatch(setJwtTokenAction(token));
     }

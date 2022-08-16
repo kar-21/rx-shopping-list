@@ -1,38 +1,50 @@
-import { EAction } from "./action";
 import * as GroceryList from "../assets/grocery-list.json";
+import {
+  SET_IS_LOGGED_IN,
+  SET_JWT,
+  SET_USER_ID,
+  SET_LANG,
+  SET_IS_DARK_MODE,
+  SET_MOBILE_OPEN,
+  ADD_TO_MY_LIST,
+  REMOVE_FROM_MY_LIST,
+  RESET_ALL_LISTS,
+  UPDATE_SIZE_VALUE_OF_MY_LIST,
+  UPDATE_VALUE_OF_MY_LIST,
+} from "./actionCreator";
 
 const initialState = {
   isLoggedIn: false,
   lang: "eng",
   isDarkColorMode: false,
   mobileOpen: false,
-  groceryList: { ...GroceryList.default },
+  groceryList: { ...GroceryList },
   myList: {},
   jwt: null,
-  userId: null
+  userId: null,
 };
 
 const Reducer = (state = initialState, action) => {
   switch (action.type) {
-    case EAction.SET_IS_LOGGED_IN:
+    case SET_IS_LOGGED_IN:
       return { ...state, isLoggedIn: action.payload };
 
-    case EAction.SET_JWT:
+    case SET_JWT:
       return { ...state, jwt: action.payload };
-    
-    case EAction.SET_USER_ID:
+
+    case SET_USER_ID:
       return { ...state, userId: action.payload };
 
-    case EAction.SET_LANG:
+    case SET_LANG:
       return { ...state, lang: action.payload };
 
-    case EAction.SET_IS_DARK_MODE:
+    case SET_IS_DARK_MODE:
       return { ...state, isDarkColorMode: action.payload };
 
-    case EAction.SET_MOBILE_OPEN:
+    case SET_MOBILE_OPEN:
       return { ...state, mobileOpen: action.payload };
 
-    case EAction.ADD_TO_MY_LIST:
+    case ADD_TO_MY_LIST:
       action.payload.forEach((item) => {
         if (state.groceryList.hasOwnProperty(item)) {
           state = {
@@ -44,7 +56,7 @@ const Reducer = (state = initialState, action) => {
       });
       return state;
 
-    case EAction.REMOVE_FROM_MY_LIST:
+    case REMOVE_FROM_MY_LIST:
       action.payload.forEach((item) => {
         if (state.myList.hasOwnProperty(item)) {
           state = {
@@ -56,7 +68,7 @@ const Reducer = (state = initialState, action) => {
       });
       return state;
 
-    case EAction.UPPDATE_VALUE_OF_MY_LIST:
+    case UPDATE_VALUE_OF_MY_LIST:
       return {
         ...state,
         myList: {
@@ -68,7 +80,7 @@ const Reducer = (state = initialState, action) => {
         },
       };
 
-    case EAction.UPPDATE_SIZE_VALUE_OF_MY_LIST:
+    case UPDATE_SIZE_VALUE_OF_MY_LIST:
       return {
         ...state,
         myList: {
@@ -80,11 +92,11 @@ const Reducer = (state = initialState, action) => {
         },
       };
 
-    case EAction.RESET_ALL_LISTS:
+    case RESET_ALL_LISTS:
       return {
         ...state,
         myList: {},
-        groceryList: { ...GroceryList.default },
+        groceryList: { ...GroceryList },
       };
 
     default:

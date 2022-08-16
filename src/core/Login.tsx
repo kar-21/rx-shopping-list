@@ -9,6 +9,7 @@ import {
   setJwtTokenAction,
   setUserIDAction,
 } from "../redux/action";
+import { DecodedTokenType } from "../redux/model.interace";
 
 const mapProps = (state) => ({
   isLoggedIn: state.isLoggedIn,
@@ -19,18 +20,19 @@ const Login = (props) => {
   useEffect(() => {
     const cookie = new Cookies();
     if (props.match.params.token) {
+      const decodedToken: DecodedTokenType = jwt_decode(props.match.params.token);
       props.dispatch(
-        setUserIDAction(jwt_decode(props.match.params.token).userId)
+        setUserIDAction(decodedToken.userId)
       );
       cookie.set("token", props.match.params.token, {
         path: "/",
         expires: new Date(new Date().getTime() + 24 * 60 * 60 * 1000),
       });
       props.dispatch(
-        setUserIDAction(jwt_decode(props.match.params.token).userId)
+        setUserIDAction(decodedToken.userId)
       );
       props.dispatch(setIsLoggedInAction(true));
-      props.dispatch(setJwtTokenAction(true));
+      props.dispatch(setJwtTokenAction(props.match.params.token));
       setTimeout(() => {
         props.history.push("/feature");
       });
@@ -38,7 +40,8 @@ const Login = (props) => {
       const token = cookie.get("token");
       console.log(token);
       if (token) {
-        props.dispatch(setUserIDAction(jwt_decode(token).userId));
+        const decodedToken: DecodedTokenType = jwt_decode(token)
+        props.dispatch(setUserIDAction(decodedToken.userId));
         props.dispatch(setIsLoggedInAction(true));
         props.dispatch(setJwtTokenAction(token));
         props.history.push("/feature");

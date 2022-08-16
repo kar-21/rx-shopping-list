@@ -4,8 +4,8 @@
       "eng": "Basmati Rice",
       "ka": "ಬಾಸ್ಮತಿ ಅಕ್ಕಿ"
     },
-    "catogory": "cerealGrain",
-    "subCatogory": "rice",
+    "category": "cerealGrain",
+    "subCategory": "rice",
     "measurement": "kg",
     "value": ""
   },
@@ -14,8 +14,8 @@
       "eng": "Basaveshwara Rice",
       "ka": "ಬಸವೇಶ್ವರ ಅಕ್ಕಿ"
     },
-    "catogory": "cerealGrain",
-    "subCatogory": "rice",
+    "category": "cerealGrain",
+    "subCategory": "rice",
     "measurement": "kg",
     "value": ""
   },
@@ -24,8 +24,8 @@
       "eng": "Wheat",
       "ka": "ಗೋಧಿ"
     },
-    "catogory": "cerealGrain",
-    "subCatogory": "wheat",
+    "category": "cerealGrain",
+    "subCategory": "wheat",
     "measurement": "kg",
     "value": ""
   },
@@ -34,8 +34,8 @@
       "eng": "Broken Wheat",
       "ka": "ಗೋಧಿ ನುಚ್ಚು"
     },
-    "catogory": "cerealGrain",
-    "subCatogory": "wheat",
+    "category": "cerealGrain",
+    "subCategory": "wheat",
     "measurement": "kg",
     "value": ""
   },
@@ -44,8 +44,8 @@
       "eng": "Rajamudi Rice",
       "ka": "ರಾಜಮುಡಿ ಅಕ್ಕಿ"
     },
-    "catogory": "cerealGrain",
-    "subCatogory": "rice",
+    "category": "cerealGrain",
+    "subCategory": "rice",
     "measurement": "kg",
     "value": ""
   },
@@ -54,8 +54,8 @@
       "eng": "Bengal Gram Dhal",
       "ka": "ಕಡಲೆ ಬೇಳೆ"
     },
-    "catogory": "pulses",
-    "subCatogory": "dhal",
+    "category": "pulses",
+    "subCategory": "dhal",
     "measurement": "kg",
     "value": ""
   },
@@ -64,8 +64,8 @@
       "eng": "Black Gram Dhal",
       "ka": "ಉದ್ದಿನ ಬೇಳೆ"
     },
-    "catogory": "pulses",
-    "subCatogory": "dhal",
+    "category": "pulses",
+    "subCategory": "dhal",
     "measurement": "kg",
     "value": ""
   },
@@ -74,8 +74,8 @@
       "eng": "Green Gram Dhal",
       "ka": "ಹೆಸರು ಬೇಳೆ"
     },
-    "catogory": "pulses",
-    "subCatogory": "dhal",
+    "category": "pulses",
+    "subCategory": "dhal",
     "measurement": "kg",
     "value": ""
   },
@@ -84,8 +84,8 @@
       "eng": "Red Gram Dhal",
       "ka": "ತೊಗರಿ ಬೇಳೆ"
     },
-    "catogory": "pulses",
-    "subCatogory": "dhal",
+    "category": "pulses",
+    "subCategory": "dhal",
     "measurement": "kg",
     "value": ""
   },
@@ -94,8 +94,8 @@
       "eng": "Flattened Rice",
       "ka": "ಅವಲಕ್ಕಿ"
     },
-    "catogory": "cerealGrain",
-    "subCatogory": "rice",
+    "category": "cerealGrain",
+    "subCategory": "rice",
     "measurement": "kg",
     "value": ""
   },
@@ -104,8 +104,8 @@
       "eng": "Bengal Gram",
       "ka": "ಹುರಿಗಡಲೆ"
     },
-    "catogory": "pulses",
-    "subCatogory": "gram",
+    "category": "pulses",
+    "subCategory": "gram",
     "measurement": "kg",
     "value": ""
   },
@@ -114,8 +114,8 @@
       "eng": "Peanut",
       "ka": "ಕಡಲೆಕಾಯಿ ಬೀಜ"
     },
-    "catogory": "pulses",
-    "subCatogory": "gram",
+    "category": "pulses",
+    "subCategory": "gram",
     "measurement": "kg",
     "value": ""
   },
@@ -124,8 +124,8 @@
       "eng": "Sugar",
       "ka": "ಸಕ್ಕರೆ"
     },
-    "catogory": "sweet",
-    "subCatogory": "sweet",
+    "category": "sweet",
+    "subCategory": "sweet",
     "measurement": "kg",
     "value": ""
   },
@@ -134,8 +134,8 @@
       "eng": "Semolina Spaghetti",
       "ka": "ಶಾವಿಗೆ"
     },
-    "catogory": "noodles",
-    "subCatogory": "noodles",
+    "category": "noodles",
+    "subCategory": "noodles",
     "measurement": "kg",
     "value": ""
   },
@@ -144,8 +144,8 @@
       "eng": "Salt",
       "ka": "ಉಪ್ಪು"
     },
-    "catogory": "salt",
-    "subCatogory": "salt",
+    "category": "salt",
+    "subCategory": "salt",
     "measurement": "kg",
     "value": ""
   },
@@ -154,8 +154,8 @@
       "eng": "Semolina",
       "ka": "ರವೆ"
     },
-    "catogory": "cerealGrain",
-    "subCatogory": "rice",
+    "category": "cerealGrain",
+    "subCategory": "rice",
     "measurement": "kg",
     "value": ""
   },
@@ -164,8 +164,8 @@
       "eng": "Freedom Sunflower Oil",
       "ka": "ಫ್ರಿಡಂ ಸೂರ್ಯಕಾಂತಿ ಎಣ್ಣೆ"
     },
-    "catogory": "oil",
-    "subCatogory": "sunflowerOil",
+    "category": "oil",
+    "subCategory": "sunflowerOil",
     "measurement": "liter",
     "value": ""
   },
@@ -174,8 +174,8 @@
       "eng": "Oreo Biscuit",
       "ka": "ಓರಿಯೊ ಬಿಸ್ಕತ್ತು"
     },
-    "catogory": "snacks",
-    "subCatogory": "biscuit",
+    "category": "snacks",
+    "subCategory": "biscuit",
     "measurement": "quantity",
     "size": ["small", "medium", "large", "extraLarge"],
     "value": "",

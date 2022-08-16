@@ -33,7 +33,7 @@ import {
   resetMyListAction,
 } from "../redux/action";
 import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
-import { Grocery, GroceryList } from "../redux/model.interace";
+import { Grocery, GroceryList } from "../redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -284,16 +284,16 @@ const TransferList = (props) => {
       !filterValue &&
       (itemObject.name.eng.toLowerCase().includes(searchValue) ||
         itemObject.name.ka.toLowerCase().includes(searchValue) ||
-        engKaLookup.catogory[itemObject.catogory].eng
+        engKaLookup.category[itemObject.category].eng
           .toLowerCase()
           .includes(searchValue) ||
-        engKaLookup.catogory[itemObject.catogory].ka
+        engKaLookup.category[itemObject.category].ka
           .toLowerCase()
           .includes(searchValue) ||
-        engKaLookup.subCatogory[itemObject.subCatogory].eng
+        engKaLookup.subCategory[itemObject.subCategory].eng
           .toLowerCase()
           .includes(searchValue) ||
-        engKaLookup.subCatogory[itemObject.subCatogory].ka
+        engKaLookup.subCategory[itemObject.subCategory].ka
           .toLowerCase()
           .includes(searchValue) ||
         engKaLookup.measurement[itemObject.measurement].eng
@@ -384,10 +384,10 @@ const TransferList = (props) => {
                   <MenuItem key={"name"} value="name">
                     Name
                   </MenuItem>
-                  <MenuItem key={"catogory"} value="catogory">
+                  <MenuItem key={"category"} value="category">
                     Catogory
                   </MenuItem>
-                  <MenuItem key={"subCatogory"} value="subCatogory">
+                  <MenuItem key={"subCategory"} value="subCategory">
                     Sub-Catogory
                   </MenuItem>
                   <MenuItem key={"measurement"} value="measurement">
@@ -463,9 +463,9 @@ const TransferList = (props) => {
                   id={labelId}
                   primary={value.name[props.lang]}
                   secondary={`${
-                    engKaLookup.catogory[value.catogory][props.lang]
+                    engKaLookup.category[value.category][props.lang]
                   } > ${
-                    engKaLookup.subCatogory[value.subCatogory][props.lang]
+                    engKaLookup.subCategory[value.subCategory][props.lang]
                   }`}
                 />
               </ListItem>

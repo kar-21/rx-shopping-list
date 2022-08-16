@@ -12,7 +12,7 @@ import {
   UPDATE_SIZE_VALUE_OF_MY_LIST,
   UPDATE_VALUE_OF_MY_LIST,
 } from "./actionCreator";
-import { UpdateGroceryListPayload } from "./model.interace";
+import { UpdateGroceryListPayload } from "./model.interface";
 
 export const setIsLoggedInAction = createAction(SET_IS_LOGGED_IN)<boolean>();
 

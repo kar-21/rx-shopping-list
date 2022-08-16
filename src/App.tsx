@@ -14,7 +14,7 @@ import {
   setJwtTokenAction,
   setUserIDAction,
 } from "./redux/action";
-import { DecodedTokenType } from "./redux/model.interace";
+import { DecodedTokenType } from "./redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({
   root: {

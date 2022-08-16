@@ -13,7 +13,7 @@ import ListItem from "@material-ui/core/ListItem";
 import Radio from "@material-ui/core/Radio";
 import { connect } from "react-redux";
 import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
-import { Grocery, GroceryList } from "../redux/model.interace";
+import { Grocery, GroceryList } from "../redux/model.interface";
 
 const engKaLookup = engKaLookupJson;
 

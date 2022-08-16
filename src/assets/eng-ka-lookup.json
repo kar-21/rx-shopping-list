@@ -31,7 +31,7 @@
       "ka": "ಹೆಚ್ಚುವರಿ ದೊಡ್ಡದು"
     }
   },
-  "catogory": {
+  "category": {
     "cerealGrain": {
       "eng": "Cereal Grain",
       "ka": "ಏಕದಳ ಧಾನ್ಯ"
@@ -61,7 +61,7 @@
       "ka": "ಉಪ್ಪು"
     }
   },
-  "subCatogory": {
+  "subCategory": {
     "rice": {
       "eng": "Rice",
       "ka": "ಅಕ್ಕಿ"

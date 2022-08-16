@@ -7,8 +7,8 @@ export interface Grocery {
     eng: string;
     ka: string;
   };
-  catogory: string;
-  subCatogory: string;
+  category: string;
+  subCategory: string;
   measurement: string;
   value: string;
   sizeValue?: string;

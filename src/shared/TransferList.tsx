@@ -23,7 +23,7 @@ import ZoomOutIcon from "@material-ui/icons/ZoomOut";
 import ZoomInIcon from "@material-ui/icons/ZoomIn";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import SaveFlieDialog from "./SaveFlieDialog";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import store from "../redux/store";
 import {
   addToMyListAction,
@@ -31,9 +31,9 @@ import {
   updateValueInMyListAction,
   updateSizeValueInMyListAction,
   resetMyListAction,
-} from "../redux/action";
+} from "../redux/actionCreator";
 import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
-import { Grocery, GroceryList } from "../redux/model.interface";
+import { Grocery, GroceryList, RootState } from "../redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -124,7 +124,7 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {},
 }));
 
-function not(a, b) {
+function not(a: GroceryList, b: GroceryList) {
   const keys = Object.keys(a).filter(
     (value) => Object.keys(b).indexOf(value) === -1
   );
@@ -135,11 +135,11 @@ function not(a, b) {
   return object;
 }
 
-function intersection(a, b) {
+function intersection(a: GroceryList, b: GroceryList) {
   return Object.keys(a).filter({}.hasOwnProperty.bind(b));
 }
 
-function union(a, b) {
+function union(a: GroceryList, b: GroceryList) {
   return { ...a, ...not(b, a) };
 }
 
@@ -155,15 +155,13 @@ const myListText = {
 
 const engKaLookup = engKaLookupJson;
 
-const mapLanguage = (state) => {
-  return {
-    lang: state.lang,
-    groceryList: state.groceryList,
-    myList: state.myList,
-  };
-};
+interface TransferListType {
+  initialName: string;
+  myList: GroceryList;
+  groceryList: GroceryList;
+}
 
-const TransferList = (props) => {
+const TransferList = (props: TransferListType) => {
   const classes = useStyles();
   const [checked, setChecked] = useState<GroceryList>({});
   const [myListName, setMyListName] = useState(props.initialName);
@@ -178,6 +176,8 @@ const TransferList = (props) => {
 
   const leftCheckedKeys = intersection(checked, props.myList);
   const rightCheckedKeys = intersection(checked, props.groceryList);
+
+  const { lang } = useSelector((state: RootState) => state);
 
   useEffect(() => {
     const valueArray: Grocery[] = Object.values(props.myList);
@@ -196,7 +196,7 @@ const TransferList = (props) => {
     setIsFormInvalid(returnValue);
   }, [props.myList]);
 
-  const handleToggle = (value) => () => {
+  const handleToggle = (value: string) => () => {
     const currentIndex = Object.keys(checked).indexOf(value);
     let newChecked: GroceryList = { ...checked };
     if (currentIndex === -1) {
@@ -209,9 +209,10 @@ const TransferList = (props) => {
     setChecked(newChecked);
   };
 
-  const numberOfChecked = (items) => intersection(checked, items).length;
+  const numberOfChecked = (items: GroceryList) =>
+    intersection(checked, items).length;
 
-  const handleToggleAll = (items) => () => {
+  const handleToggleAll = (items: GroceryList) => () => {
     if (numberOfChecked(items) === Object.keys(items).length) {
       setChecked(not(checked, items));
     } else {
@@ -239,25 +240,31 @@ const TransferList = (props) => {
     handleShoppingListZoom(false);
   };
 
-  const handleInputValueAdd = (event, item) => {
+  const handleInputValueAdd = (
+    event: ChangeEvent<HTMLInputElement>,
+    item: string
+  ) => {
     store.dispatch(
       updateValueInMyListAction({ item: item, value: event.target.value })
     );
   };
 
-  const handleSelectValueChange = (event, item) => {
+  const handleSelectValueChange = (
+    event: ChangeEvent<HTMLInputElement>,
+    item: string
+  ) => {
     store.dispatch(
       updateSizeValueInMyListAction({ item: item, value: event.target.value })
     );
   };
 
-  const handleShoppingListZoom = (isExpanded) => {
+  const handleShoppingListZoom = (isExpanded: boolean) => {
     setIsShoppingList(isExpanded);
     setShoppingListFilterValue("");
     setIsMyList(false);
   };
 
-  const handleMyListZoom = (isExpanded) => {
+  const handleMyListZoom = (isExpanded: boolean) => {
     setIsShoppingList(false);
     setMyListSearchValue("");
     setIsMyList(isExpanded);
@@ -276,7 +283,11 @@ const TransferList = (props) => {
     setIsMyList(false);
   };
 
-  const searchAndFilter = (itemObject, searchValue, filterValue) => {
+  const searchAndFilter = (
+    itemObject: Grocery,
+    searchValue: string,
+    filterValue: string
+  ) => {
     if (searchValue.length < 2) {
       return true;
     } else if (
@@ -328,7 +339,7 @@ const TransferList = (props) => {
     return false;
   };
 
-  const customList = (title, items: GroceryList) => (
+  const customList = (title: string, items: GroceryList) => (
     <Card>
       <div className={classes.cardHeader}>
         <CardHeader
@@ -350,7 +361,7 @@ const TransferList = (props) => {
           }
           title={title}
           subheader={`${numberOfChecked(items)}/${Object.keys(items).length} ${
-            props.lang === "eng" ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
+            lang === "eng" ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
           }`}
         />
         {isShoppingListExpand ? (
@@ -461,11 +472,9 @@ const TransferList = (props) => {
                 </ListItemIcon>
                 <ListItemText
                   id={labelId}
-                  primary={value.name[props.lang]}
-                  secondary={`${
-                    engKaLookup.category[value.category][props.lang]
-                  } > ${
-                    engKaLookup.subCategory[value.subCategory][props.lang]
+                  primary={value.name[lang]}
+                  secondary={`${engKaLookup.category[value.category][lang]} > ${
+                    engKaLookup.subCategory[value.subCategory][lang]
                   }`}
                 />
               </ListItem>
@@ -496,9 +505,9 @@ const TransferList = (props) => {
               inputProps={{ "aria-label": "all items selected" }}
             />
           }
-          title={myListText[props.lang]}
+          title={myListText[lang]}
           subheader={`${numberOfChecked(items)}/${Object.keys(items).length} ${
-            props.lang === "eng" ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
+            lang === "eng" ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
           }`}
         />
         {isMyListExpand ? (
@@ -565,10 +574,7 @@ const TransferList = (props) => {
                     onClick={handleToggle(key)}
                   />
                 </ListItemIcon>
-                <ListItemText
-                  id={labelId}
-                  primary={value.name[props.lang]}
-                />
+                <ListItemText id={labelId} primary={value.name[lang]} />
                 <ListItemText className={classes.inputField}>
                   {value.measurement === "quantity" ? (
                     <FormControl
@@ -587,7 +593,7 @@ const TransferList = (props) => {
                       >
                         {value.size?.map((text) => (
                           <MenuItem key={text} value={text}>
-                            {engKaLookup.quantity[text][props.lang]}
+                            {engKaLookup.quantity[text][lang]}
                           </MenuItem>
                         ))}
                       </Select>
@@ -603,18 +609,14 @@ const TransferList = (props) => {
                     )}
                   >
                     <Input
-                      error={!+value[1].value}
-                      key={`${value[0]}-input`}
+                      error={!+value.value}
+                      key={`${key}-input`}
                       id="standard-adornment-weight"
-                      value={value[1].value}
-                      onChange={(e) => handleInputValueAdd(e, value[0])}
+                      value={value.value}
+                      onChange={(e) => handleInputValueAdd(e, key)}
                       endAdornment={
                         <InputAdornment position="end">
-                          {
-                            engKaLookup.measurement[value[1].measurement][
-                              props.lang
-                            ]
-                          }
+                          {engKaLookup.measurement[value.measurement][lang]}
                         </InputAdornment>
                       }
                       aria-describedby="standard-weight-helper-text"
@@ -649,7 +651,7 @@ const TransferList = (props) => {
             isMyListExpand ? classes.hideGrid : ""
           )}
         >
-          {customList(listText[props.lang], props.groceryList)}
+          {customList(listText[lang], props.groceryList)}
         </Grid>
         <Grid
           item
@@ -725,4 +727,4 @@ const TransferList = (props) => {
   );
 };
 
-export default connect(mapLanguage)(TransferList);
+export default TransferList;

@@ -13,7 +13,7 @@ import {
   setIsLoggedInAction,
   setJwtTokenAction,
   setUserIDAction,
-} from "./redux/action";
+} from "./redux/actionCreator";
 import { DecodedTokenType } from "./redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({

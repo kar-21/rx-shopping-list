@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import React, { useState, useEffect, ChangeEvent } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -10,9 +10,14 @@ import InfoIcon from "@material-ui/icons/Info";
 import Switch from "@material-ui/core/Switch";
 import Divider from "@material-ui/core/Divider";
 import Radio from "@material-ui/core/Radio";
-import { connect } from "react-redux";
-import { setLanguageAction, setIsDarkColorModeAction } from "../redux/action";
+import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
+
+import {
+  setLanguageAction,
+  setIsDarkColorModeAction,
+} from "../redux/actionCreator";
+import { RootState } from "../redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
@@ -28,44 +33,43 @@ const lightModeTextKA = "ಬೆಳಕಿನ ಹಿನ್ನೆಲೆ";
 const DarkModeText = "Dark Mode";
 const DarkModeTextKA = "ಕತ್ತಲೆ ಹಿನ್ನೆಲೆ";
 
-const mapLanguageAndIsDarkMode = (state) => {
-  return {
-    lang: state.lang,
-    isDarkColorMode: state.isDarkColorMode,
-  };
-};
-
-const DrawerContent = (props) => {
+const DrawerContent = () => {
   const classes = useStyles();
   const [colorModeText, setColorModeText] = useState(lightModeText);
   const [currentRoute, setCurrentRouter] = useState("/");
 
-  useEffect(() => {
-    setCurrentRouter(props.location.pathname);
-  }, [currentRoute, props.location]);
+  const location = useLocation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isDarkColorMode, lang } = useSelector((state: RootState) => state);
 
   useEffect(() => {
-    if (props.isDarkColorMode && props.lang === "eng") {
+    setCurrentRouter(location.pathname);
+  }, [currentRoute, location]);
+
+  useEffect(() => {
+    if (isDarkColorMode && lang === "eng") {
       setColorModeText(DarkModeText);
-    } else if (!props.isDarkColorMode && props.lang === "eng") {
+    } else if (!isDarkColorMode && lang === "eng") {
       setColorModeText(lightModeText);
-    } else if (props.isDarkColorMode && props.lang === "ka") {
+    } else if (isDarkColorMode && lang === "ka") {
       setColorModeText(DarkModeTextKA);
-    } else if (!props.isDarkColorMode && props.lang === "ka") {
+    } else if (!isDarkColorMode && lang === "ka") {
       setColorModeText(lightModeTextKA);
     }
-  }, [props.isDarkColorMode, props.lang]);
+  }, [isDarkColorMode, lang]);
 
   const toggleColorMode = () => {
-    props.dispatch(setIsDarkColorModeAction(!props.isDarkColorMode));
+    dispatch(setIsDarkColorModeAction(!isDarkColorMode));
   };
 
-  const handleLangChange = (event) => {
-    props.dispatch(setLanguageAction(event.target.value));
+  const handleLangChange = (event: ChangeEvent<HTMLInputElement>) => {
+    dispatch(setLanguageAction(event.target.value));
   };
 
-  const handleRoute = (path) => {
-    props.history.push(path);
+  const handleRoute = (path: string) => {
+    navigate(path);
   };
 
   return (
@@ -76,7 +80,7 @@ const DrawerContent = (props) => {
         <ListItem>
           <ListItemIcon>
             <Switch
-              checked={props.isDarkColorMode}
+              checked={isDarkColorMode}
               onChange={toggleColorMode}
               color="default"
             />
@@ -86,7 +90,7 @@ const DrawerContent = (props) => {
         <ListItem className={classes.langDiv}>
           <span>
             <Radio
-              checked={props.lang === "eng"}
+              checked={lang === "eng"}
               onChange={handleLangChange}
               value="eng"
               name="radio-button-demo"
@@ -96,7 +100,7 @@ const DrawerContent = (props) => {
           </span>
           <span>
             <Radio
-              checked={props.lang === "ka"}
+              checked={lang === "ka"}
               onChange={handleLangChange}
               value="ka"
               name="radio-button-demo"
@@ -110,12 +114,12 @@ const DrawerContent = (props) => {
       <List>
         {[
           {
-            text: props.lang === "eng" ? "New List" : "ಹೊಸ ಪಟ್ಟಿ",
+            text: lang === "eng" ? "New List" : "ಹೊಸ ಪಟ್ಟಿ",
             icon: <LibraryAdd />,
             path: "/feature",
           },
           {
-            text: props.lang === "eng" ? "Saved Lists" : "ಉಳಿಸಿದ ಪಟ್ಟಿಗಳು",
+            text: lang === "eng" ? "Saved Lists" : "ಉಳಿಸಿದ ಪಟ್ಟಿಗಳು",
             icon: <LibraryBooks />,
             path: "/feature/savedLists",
           },
@@ -136,7 +140,7 @@ const DrawerContent = (props) => {
       <List>
         {[
           {
-            text: props.lang === "eng" ? "About Us" : "ನಮ್ಮ ಬಗ್ಗೆ",
+            text: lang === "eng" ? "About Us" : "ನಮ್ಮ ಬಗ್ಗೆ",
             icon: <InfoIcon />,
             path: "/feature/about",
           },
@@ -156,4 +160,4 @@ const DrawerContent = (props) => {
   );
 };
 
-export default connect(mapLanguageAndIsDarkMode)(withRouter(DrawerContent));
+export default DrawerContent;

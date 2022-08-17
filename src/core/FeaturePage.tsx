@@ -1,22 +1,23 @@
 import React from "react";
 import AppBar from "@material-ui/core/AppBar";
 import Drawer from "@material-ui/core/Drawer";
-import Hidden from "@material-ui/core/Hidden";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import { createMuiTheme } from "@material-ui/core/styles";
-import { Switch, Route } from "react-router-dom";
-import { setMobileOpenAction } from "../redux/action";
+import Box from "@material-ui/core/Box";
+import { Routes, Route } from "react-router-dom";
 
+import { setMobileOpenAction } from "../redux/actionCreator";
 import Header from "./Header";
 import DrawerContent from "./DrawerContent";
 import NewList from "../new-list/NewList";
 import SavedLists from "../saved-lists/SavedLists";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import About from "../about/About";
+import { RootState } from "../redux/model.interface";
 
 const drawerWidth = 200;
 
@@ -54,26 +55,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapProps = (state) => {
-  return {
-    isDarkColorMode: state.isDarkColorMode,
-    mobileOpen: state.mobileOpen,
-  };
-};
-
-const FeaturePage = (props) => {
-  const { window } = props;
+const FeaturePage = () => {
   const classes = useStyles();
+
+  const dispatch = useDispatch();
+
+  const { isDarkColorMode, lang, mobileOpen } = useSelector(
+    (state: RootState) => state
+  );
+
   const container =
-    window !== undefined ? () => window().document.body : undefined;
+    window !== undefined ? () => window.document.body : undefined;
 
   const handleDrawerToggle = () => {
-    props.dispatch(setMobileOpenAction(!props.mobileOpen));
+    dispatch(setMobileOpenAction(!mobileOpen));
   };
 
   const colorTheme = createMuiTheme({
     palette: {
-      type: props.isDarkColorMode ? "dark" : "light",
+      type: isDarkColorMode ? "dark" : "light",
       primary: {
         main: "#5c6e91",
       },
@@ -83,8 +83,8 @@ const FeaturePage = (props) => {
       contrastThreshold: 3,
       tonalOffset: 0.2,
       background: {
-        default: props.isDarkColorMode ? "#393e46" : "#eeeded",
-        paper: props.isDarkColorMode ? "#424242" : "#fff",
+        default: isDarkColorMode ? "#393e46" : "#eeeded",
+        paper: isDarkColorMode ? "#424242" : "#fff",
       },
     },
     typography: {
@@ -112,12 +112,12 @@ const FeaturePage = (props) => {
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Hidden mdUp implementation="css">
+        <Box sx={{ display: { md: "none", sm: "block" } }}>
           <Drawer
             container={container}
             variant="temporary"
             anchor={colorTheme.direction === "rtl" ? "right" : "left"}
-            open={props.mobileOpen}
+            open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
               paper: classes.drawerPaper,
@@ -128,8 +128,8 @@ const FeaturePage = (props) => {
           >
             <DrawerContent />
           </Drawer>
-        </Hidden>
-        <Hidden smDown implementation="css">
+        </Box>
+        <Box sx={{ display: { md: "block", sm: "none" } }}>
           <Drawer
             classes={{
               paper: classes.drawerPaper,
@@ -139,17 +139,17 @@ const FeaturePage = (props) => {
           >
             <DrawerContent />
           </Drawer>
-        </Hidden>
+        </Box>
       </nav>
       <main className={classes.content}>
-        <Switch>
-          <Route exact path="/feature/" component={() => <NewList />} />
-          <Route path="/feature/savedLists/" component={() => <SavedLists />} />
-          <Route path="/feature/about" component={() => <About />} />
-        </Switch>
+        <Routes>
+          <Route path="/feature/" element={<NewList />} />
+          <Route path="/feature/savedLists/" element={<SavedLists />} />
+          <Route path="/feature/about" element={<About />} />
+        </Routes>
       </main>
     </>
   );
 };
 
-export default connect(mapProps)(FeaturePage);
+export default FeaturePage;

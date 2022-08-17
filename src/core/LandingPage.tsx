@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import AppBar from "@material-ui/core/AppBar";
 import IconButton from "@material-ui/core/IconButton";
 import Divider from "@material-ui/core/Divider";
@@ -7,9 +7,14 @@ import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
 import EmojiObjectsOutlinedIcon from "@material-ui/icons/EmojiObjectsOutlined";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import { connect } from "react-redux";
-import { setLanguageAction, setIsDarkColorModeAction } from "../redux/action";
+import { connect, useDispatch, useSelector } from "react-redux";
+
+import {
+  setLanguageAction,
+  setIsDarkColorModeAction,
+} from "../redux/actionCreator";
 import googleIcon from "../assets/image/google-icon.png";
+import { RootState } from "../redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -71,19 +76,16 @@ const useStyles = makeStyles((theme) => ({
   button: {},
 }));
 
-const mapProps = (state) => {
-  return {
-    lang: state.lang,
-    isDarkColorMode: state.isDarkColorMode,
-    mobileOpen: state.mobileOpen,
-  };
-};
-
-const LandingPage = (props) => {
+const LandingPage = () => {
   const classes = useStyles();
 
-  const handleRoute = (path) => {
-    props.history.push(path);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { isDarkColorMode, lang } = useSelector((state: RootState) => state);
+
+  const handleRoute = (path: string) => {
+    navigate(path);
   };
 
   return (
@@ -94,9 +96,7 @@ const LandingPage = (props) => {
           edge="end"
           className={classes.button}
           onClick={() =>
-            props.dispatch(
-              setLanguageAction(props.lang === "eng" ? "ka" : "eng")
-            )
+            dispatch(setLanguageAction(lang === "eng" ? "ka" : "eng"))
           }
         >
           E|ಕ
@@ -105,11 +105,9 @@ const LandingPage = (props) => {
           aria-label=""
           edge="end"
           className={classes.button}
-          onClick={() =>
-            props.dispatch(setIsDarkColorModeAction(!props.isDarkColorMode))
-          }
+          onClick={() => dispatch(setIsDarkColorModeAction(!isDarkColorMode))}
         >
-          {props.isDarkColorMode ? (
+          {isDarkColorMode ? (
             <EmojiObjectsOutlinedIcon />
           ) : (
             <EmojiObjectsIcon />
@@ -152,4 +150,4 @@ const LandingPage = (props) => {
   );
 };
 
-export default connect(mapProps)(withRouter(LandingPage));
+export default LandingPage;

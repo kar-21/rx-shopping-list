@@ -1,3 +1,4 @@
+import { ActionType } from "typesafe-actions";
 import * as GroceryList from "../assets/grocery-list.json";
 import {
   SET_IS_LOGGED_IN,
@@ -11,20 +12,24 @@ import {
   RESET_ALL_LISTS,
   UPDATE_SIZE_VALUE_OF_MY_LIST,
   UPDATE_VALUE_OF_MY_LIST,
-} from "./actionCreator";
+} from "./actionType";
+import { RootState } from "./model.interface";
+import * as actionCreators from './actionCreator';
 
-const initialState = {
+const initialState: RootState = {
   isLoggedIn: false,
   lang: "eng",
   isDarkColorMode: false,
   mobileOpen: false,
   groceryList: { ...GroceryList },
   myList: {},
-  jwt: null,
-  userId: null,
+  jwt: '',
+  userId: '',
 };
 
-const Reducer = (state = initialState, action) => {
+type Action = ActionType<typeof actionCreators>; 
+
+const Reducer = (state: RootState = initialState, action: Action) => {
   switch (action.type) {
     case SET_IS_LOGGED_IN:
       return { ...state, isLoggedIn: action.payload };

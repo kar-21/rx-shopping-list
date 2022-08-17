@@ -1,43 +1,39 @@
 import React from "react";
 import { useEffect } from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import axios from "axios";
+
+import { RootState } from "../redux/model.interface";
 
 const headerText = {
   eng: "Shopping List",
   ka: "ಖರೀದಿ ಪಟ್ಟಿ",
 };
 
-const mapLanguage = (state) => {
-  return {
-    lang: state.lang,
-    jwt: state.jwt,
-    userId: state.userId,
-  };
-};
+const Header = () => {
+  const { jwt, lang, userId } = useSelector((state: RootState) => state);
 
-const Header = (props) => {
   useEffect(() => {
-    if (props.userId) {
-      const bearerString = `Bearer ${props.jwt}`;
+    if (userId) {
+      const bearerString = `Bearer ${jwt}`;
       axios
-        .get(`http://localhost:3500/users/${props.userId}`, {
+        .get(`http://localhost:3500/users/${userId}`, {
           headers: { authorization: bearerString },
         })
         .then((data) => {
-          console.log(data.data );
+          console.log(data.data);
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [props.userId, props.jwt]);
+  }, [userId, jwt]);
 
   return (
     <>
-      <div>{headerText[props.lang]}</div>
+      <div>{headerText[lang]}</div>
     </>
   );
 };
 
-export default connect(mapLanguage)(Header);
+export default Header;

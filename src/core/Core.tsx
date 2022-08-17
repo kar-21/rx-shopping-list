@@ -1,16 +1,17 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+
 import FeaturePage from "./FeaturePage";
 import LandingPage from "./LandingPage";
 import Login from "./Login";
 
-export const Core = (props) => {
+export const Core = () => {
   return (
-    <Switch>
-      <Route exact path="/" component={() => <LandingPage />} />
-      <Route path="/feature" component={() => <FeaturePage />} />
-      <Route exact path="/login" component={() => <Login />} />
-      <Route path="/login/:token" render={() => <Login />} />
-    </Switch>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/feature/*" element={<FeaturePage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/login/:token" element={<Login />} />
+    </Routes>
   );
 };

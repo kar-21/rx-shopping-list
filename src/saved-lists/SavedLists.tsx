@@ -1,7 +1,7 @@
 import React from "react";
 import ListCard from "./ListCard";
 
-const SavedLists = (props) => {
+const SavedLists = () => {
   return (
     <>
       <h1>Saved Lists</h1>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, createRef } from "react";
+import React, { useState, useEffect, createRef, ChangeEvent } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -16,13 +16,6 @@ import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
 import { Grocery, GroceryList } from "../redux/model.interface";
 
 const engKaLookup = engKaLookupJson;
-
-const mapLanguage = (state) => {
-  return {
-    lang: state.lang,
-    myList: state.myList,
-  };
-};
 
 interface SaveFileDialogType {
   fileName: string;
@@ -57,15 +50,15 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
     setSuffix(suffix);
   }, [props.opened]);
 
-  const handleInputValueChange = (event) => {
+  const handleInputValueChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFileName(event.target.value);
   };
 
-  const handleLangChange = (event) => {
+  const handleLangChange = (event: ChangeEvent<HTMLInputElement>) => {
     setFileLanguage(event.target.value);
   };
 
-  const handleDialogClose = (value, fileName) => {
+  const handleDialogClose = (value: boolean, fileName: string) => {
     if (fileName !== null) {
       let fileContent = "";
       Object.values(props.myList).forEach((item) => {
@@ -96,7 +89,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
       <Dialog
         ref={reference}
         open={props.opened}
-        onClose={() => handleDialogClose(false, null)}
+        onClose={() => handleDialogClose(false, '')}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -112,7 +105,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
             key={fileName}
             id="standard-adornment-weight"
             value={fileName}
-            onChange={(e) => handleInputValueChange(e)}
+            onChange={handleInputValueChange}
             endAdornment={
               <InputAdornment position="end">{suffix}</InputAdornment>
             }
@@ -148,7 +141,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
           <Button
             variant="contained"
             size="small"
-            onClick={() => handleDialogClose(false, null)}
+            onClick={() => handleDialogClose(false, '')}
           >
             cancel
           </Button>
@@ -166,4 +159,4 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
     </>
   );
 };
-export default connect(mapLanguage)(SaveFileDialog);
+export default SaveFileDialog;

@@ -6,7 +6,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import { createMuiTheme } from "@material-ui/core/styles";
+import { createTheme } from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import { Routes, Route } from "react-router-dom";
 
@@ -15,7 +15,7 @@ import Header from "./Header";
 import DrawerContent from "./DrawerContent";
 import NewList from "../new-list/NewList";
 import SavedLists from "../saved-lists/SavedLists";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import About from "../about/About";
 import { RootState } from "../redux/model.interface";
 
@@ -61,7 +61,7 @@ const FeaturePage = () => {
   const dispatch = useDispatch();
 
   const { isDarkColorMode, mobileOpen } = useSelector(
-    (state: RootState) => state
+    (state: RootState) => state.reducer
   );
 
   const container =
@@ -71,7 +71,7 @@ const FeaturePage = () => {
     dispatch(setMobileOpenAction(!mobileOpen));
   };
 
-  const colorTheme = createMuiTheme({
+  const colorTheme = createTheme({
     palette: {
       type: isDarkColorMode ? "dark" : "light",
       primary: {

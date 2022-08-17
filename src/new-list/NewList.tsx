@@ -2,7 +2,7 @@ import React from "react";
 import TransferList from "../shared/TransferList";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
-import { GroceryList, Language, RootState } from "../redux/model.interface";
+import { Language, RootState } from "../redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({
   Heading: {
@@ -20,7 +20,7 @@ const NewList = () => {
   const classes = useStyles();
 
   const { language, myList, groceryList } = useSelector(
-    (state: RootState) => state
+    (state: RootState) => state.reducer
   );
 
   return (

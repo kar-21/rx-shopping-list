@@ -3,8 +3,8 @@ import "./App.scss";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter } from "react-router-dom";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import { connect } from "react-redux";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import { useDispatch, useSelector } from "react-redux";
 import { Core } from "./core/Core";
 import { useEffect } from "react";
 import Cookies from "universal-cookie";
@@ -14,7 +14,7 @@ import {
   setJwtTokenAction,
   setUserIDAction,
 } from "./redux/actionCreator";
-import { DecodedTokenType } from "./redux/model.interface";
+import { DecodedTokenType, RootState } from "./redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,28 +22,26 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mapProps = (state) => {
-  return {
-    isDarkColorMode: state.isDarkColorMode,
-  };
-};
+const App = () => {
+  const dispatch = useDispatch();
 
-const App = (props) => {
+const { isDarkColorMode } = useSelector((state: RootState) => state.reducer);
+
   useEffect(() => {
     const cookie = new Cookies();
     const token = cookie.get("token");
     if (token) {
       const decodedToken: DecodedTokenType = jwt_decode(token);
-      props.dispatch(setUserIDAction(decodedToken?.userId));
-      props.dispatch(setIsLoggedInAction(true));
-      props.dispatch(setJwtTokenAction(token));
+      dispatch(setUserIDAction(decodedToken?.userId));
+      dispatch(setIsLoggedInAction(true));
+      dispatch(setJwtTokenAction(token));
     }
-  }, [props]);
+  }, [dispatch]);
   const classes = useStyles();
 
-  const colortheme = createMuiTheme({
+  const colorTheme = createTheme({
     palette: {
-      type: props.isDarkColorMode ? "dark" : "light",
+      type: isDarkColorMode ? "dark" : "light",
       primary: {
         main: "#5c6e91",
       },
@@ -53,8 +51,8 @@ const App = (props) => {
       contrastThreshold: 3,
       tonalOffset: 0.2,
       background: {
-        default: props.isDarkColorMode ? "#393e46" : "#eeeded",
-        paper: props.isDarkColorMode ? "#424242" : "#fff",
+        default: isDarkColorMode ? "#393e46" : "#eeeded",
+        paper: isDarkColorMode ? "#424242" : "#fff",
       },
     },
     typography: {
@@ -63,7 +61,7 @@ const App = (props) => {
   });
 
   return (
-    <ThemeProvider theme={colortheme}>
+    <ThemeProvider theme={colorTheme}>
       <div className={classes.root}>
         <CssBaseline />
         <BrowserRouter>
@@ -74,4 +72,4 @@ const App = (props) => {
   );
 };
 
-export default connect(mapProps)(App);
+export default App;

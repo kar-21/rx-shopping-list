@@ -11,7 +11,7 @@ const headerText = {
 };
 
 const Header = () => {
-  const { jwt, language, userId } = useSelector((state: RootState) => state);
+  const { jwt, language, userId } = useSelector((state: RootState) => state.reducer);
 
   useEffect(() => {
     if (userId) {

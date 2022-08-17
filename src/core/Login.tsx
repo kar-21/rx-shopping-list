@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import {
   setIsLoggedInAction,
@@ -53,7 +53,7 @@ const Login = () => {
           });
       }
     }
-  }, []);
+  }, [dispatch, navigate, searchParams]);
 
   return <></>;
 };

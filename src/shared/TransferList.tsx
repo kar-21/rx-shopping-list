@@ -23,7 +23,7 @@ import ZoomOutIcon from "@material-ui/icons/ZoomOut";
 import ZoomInIcon from "@material-ui/icons/ZoomIn";
 import GetAppIcon from "@material-ui/icons/GetApp";
 import SaveFlieDialog from "./SaveFlieDialog";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import store from "../redux/store";
 import {
   addToMyListAction,
@@ -32,14 +32,13 @@ import {
   updateSizeValueInMyListAction,
   resetMyListAction,
 } from "../redux/actionCreator";
-import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
+import engKaLookupJson from "../assets/eng-ka-lookup.json";
 import {
   EnglishKannadaLookupType,
   FilterType,
   Grocery,
   GroceryList,
   Language,
-  LanguageKeyValue,
   Measurement,
   RootState,
 } from "../redux/model.interface";
@@ -186,7 +185,7 @@ const TransferList = (props: TransferListType) => {
   const leftCheckedKeys = intersection(checked, props.myList);
   const rightCheckedKeys = intersection(checked, props.groceryList);
 
-  const { language } = useSelector((state: RootState) => state);
+  const { language } = useSelector((state: RootState) => state.reducer);
 
   useEffect(() => {
     const valueArray: Grocery[] = Object.values(props.myList);
@@ -254,7 +253,10 @@ const TransferList = (props: TransferListType) => {
     item: string
   ) => {
     store.dispatch(
-      updateValueInMyListAction({ item: item, value: event.target.value as string })
+      updateValueInMyListAction({
+        item: item,
+        value: event.target.value as string,
+      })
     );
   };
 

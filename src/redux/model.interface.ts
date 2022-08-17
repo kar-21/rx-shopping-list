@@ -1,4 +1,4 @@
-export interface RootState {
+export interface ReducerState {
   isLoggedIn: boolean;
   language: Language;
   isDarkColorMode: boolean;
@@ -9,22 +9,16 @@ export interface RootState {
   userId: string;
 }
 
+export interface RootState {
+  reducer: ReducerState;
+}
+
 export interface DecodedTokenType {
   userId: string;
 }
 export enum Language {
   english = "english",
   kannada = "kannada",
-}
-
-export interface Grocery {
-  name: LanguageKeyValue;
-  [FilterType.category]: Category;
-  [FilterType.subCategory]: SubCategory;
-  [FilterType.measurement]: Measurement;
-  value: string;
-  sizeValue?: Quantity;
-  size?: Quantity[];
 }
 
 export enum Measurement {
@@ -68,6 +62,16 @@ export enum FilterType {
   measurement = "measurement",
   quantity = "quantity",
   name = "name",
+}
+
+export interface Grocery {
+  name: LanguageKeyValue;
+  [FilterType.category]: Category;
+  [FilterType.subCategory]: SubCategory;
+  [FilterType.measurement]: Measurement;
+  value: string;
+  sizeValue?: Quantity;
+  size?: Quantity[];
 }
 
 export type LanguageKeyValue = {

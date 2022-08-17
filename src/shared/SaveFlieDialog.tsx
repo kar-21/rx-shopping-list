@@ -11,14 +11,9 @@ import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import ListItem from "@material-ui/core/ListItem";
 import Radio from "@material-ui/core/Radio";
-import { connect, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
-import {
-  Grocery,
-  GroceryList,
-  Language,
-  RootState,
-} from "../redux/model.interface";
+import { Language, RootState } from "../redux/model.interface";
 
 const engKaLookup = engKaLookupJson;
 
@@ -35,7 +30,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
   const [fileName, setFileName] = useState(props.fileName);
   const [suffix, setSuffix] = useState("");
 
-  const { myList } = useSelector((state: RootState) => state);
+  const { myList } = useSelector((state: RootState) => state.reducer);
 
   useEffect(() => {
     const date = new Date(Date.now());

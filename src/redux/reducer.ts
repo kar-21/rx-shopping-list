@@ -1,7 +1,7 @@
 import { ActionType } from "typesafe-actions";
 
-import { GroceryList } from "./model.interface";
-import * as GroceryListJson from "../assets/grocery-list.json";
+import { GroceryList, ReducerState, Language } from "./model.interface";
+import GroceryListJson from "../assets/grocery-list.json";
 import {
   SET_IS_LOGGED_IN,
   SET_JWT,
@@ -15,10 +15,9 @@ import {
   UPDATE_SIZE_VALUE_OF_MY_LIST,
   UPDATE_VALUE_OF_MY_LIST,
 } from "./actionType";
-import { Language, RootState } from "./model.interface";
 import * as actionCreators from "./actionCreator";
 
-const initialState: RootState = {
+const initialState: ReducerState = {
   isLoggedIn: false,
   language: Language.english,
   isDarkColorMode: false,
@@ -31,7 +30,7 @@ const initialState: RootState = {
 
 type Action = ActionType<typeof actionCreators>;
 
-const Reducer = (state: RootState = initialState, action: Action) => {
+const Reducer = (state: ReducerState = initialState, action: Action) => {
   switch (action.type) {
     case SET_IS_LOGGED_IN:
       return { ...state, isLoggedIn: action.payload };

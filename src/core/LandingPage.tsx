@@ -7,7 +7,7 @@ import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
 import EmojiObjectsOutlinedIcon from "@material-ui/icons/EmojiObjectsOutlined";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import {
   setLanguageAction,
@@ -83,7 +83,7 @@ const LandingPage = () => {
   const dispatch = useDispatch();
 
   const { isDarkColorMode, language } = useSelector(
-    (state: RootState) => state
+    (state: RootState) => state.reducer
   );
 
   const handleRoute = (path: string) => {

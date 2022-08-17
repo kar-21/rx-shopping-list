@@ -42,7 +42,7 @@ const DrawerContent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isDarkColorMode, language } = useSelector((state: RootState) => state);
+  const { isDarkColorMode, language } = useSelector((state: RootState) => state.reducer);
 
   useEffect(() => {
     setCurrentRouter(location.pathname);

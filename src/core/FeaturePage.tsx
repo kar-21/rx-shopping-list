@@ -60,7 +60,7 @@ const FeaturePage = () => {
 
   const dispatch = useDispatch();
 
-  const { isDarkColorMode, lang, mobileOpen } = useSelector(
+  const { isDarkColorMode, mobileOpen } = useSelector(
     (state: RootState) => state
   );
 

@@ -17,7 +17,7 @@ import {
   setLanguageAction,
   setIsDarkColorModeAction,
 } from "../redux/actionCreator";
-import { RootState } from "../redux/model.interface";
+import { Language, RootState } from "../redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
@@ -42,29 +42,29 @@ const DrawerContent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isDarkColorMode, lang } = useSelector((state: RootState) => state);
+  const { isDarkColorMode, language } = useSelector((state: RootState) => state);
 
   useEffect(() => {
     setCurrentRouter(location.pathname);
   }, [currentRoute, location]);
 
   useEffect(() => {
-    if (isDarkColorMode && lang === "eng") {
+    if (isDarkColorMode && language === Language.english) {
       setColorModeText(DarkModeText);
-    } else if (!isDarkColorMode && lang === "eng") {
+    } else if (!isDarkColorMode && language === Language.english) {
       setColorModeText(lightModeText);
-    } else if (isDarkColorMode && lang === "ka") {
+    } else if (isDarkColorMode && language === Language.kannada) {
       setColorModeText(DarkModeTextKA);
-    } else if (!isDarkColorMode && lang === "ka") {
+    } else if (!isDarkColorMode && language === Language.kannada) {
       setColorModeText(lightModeTextKA);
     }
-  }, [isDarkColorMode, lang]);
+  }, [isDarkColorMode, language]);
 
   const toggleColorMode = () => {
     dispatch(setIsDarkColorModeAction(!isDarkColorMode));
   };
 
-  const handleLangChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleLanguageChange = (event: ChangeEvent<HTMLInputElement>) => {
     dispatch(setLanguageAction(event.target.value));
   };
 
@@ -90,8 +90,8 @@ const DrawerContent = () => {
         <ListItem className={classes.langDiv}>
           <span>
             <Radio
-              checked={lang === "eng"}
-              onChange={handleLangChange}
+              checked={language === Language.english}
+              onChange={handleLanguageChange}
               value="eng"
               name="radio-button-demo"
               inputProps={{ "aria-label": "English" }}
@@ -100,8 +100,8 @@ const DrawerContent = () => {
           </span>
           <span>
             <Radio
-              checked={lang === "ka"}
-              onChange={handleLangChange}
+              checked={language === Language.kannada}
+              onChange={handleLanguageChange}
               value="ka"
               name="radio-button-demo"
               inputProps={{ "aria-label": "ಕನ್ನಡ" }}
@@ -114,12 +114,12 @@ const DrawerContent = () => {
       <List>
         {[
           {
-            text: lang === "eng" ? "New List" : "ಹೊಸ ಪಟ್ಟಿ",
+            text: language === Language.english ? "New List" : "ಹೊಸ ಪಟ್ಟಿ",
             icon: <LibraryAdd />,
             path: "/feature",
           },
           {
-            text: lang === "eng" ? "Saved Lists" : "ಉಳಿಸಿದ ಪಟ್ಟಿಗಳು",
+            text: language === Language.english ? "Saved Lists" : "ಉಳಿಸಿದ ಪಟ್ಟಿಗಳು",
             icon: <LibraryBooks />,
             path: "/feature/savedLists",
           },
@@ -140,7 +140,7 @@ const DrawerContent = () => {
       <List>
         {[
           {
-            text: lang === "eng" ? "About Us" : "ನಮ್ಮ ಬಗ್ಗೆ",
+            text: language === Language.english ? "About Us" : "ನಮ್ಮ ಬಗ್ಗೆ",
             icon: <InfoIcon />,
             path: "/feature/about",
           },

@@ -1,102 +1,102 @@
 {
   "measurement": {
     "kg": {
-      "eng": "Kg",
-      "ka": "ಕೇಜಿ"
+      "english": "Kg",
+      "kannada": "ಕೇಜಿ"
     },
     "liter": {
-      "eng": "L",
-      "ka": "ಲೀಟರ್"
+      "english": "L",
+      "kannada": "ಲೀಟರ್"
     },
     "quantity": {
-      "eng": "Qty",
-      "ka": "ಪ್ರಮಾಣ"
+      "english": "Qty",
+      "kannada": "ಪ್ರಮಾಣ"
     }
   },
   "quantity": {
     "small": {
-      "eng": "Small",
-      "ka": "ಸಣ್ಣ"
+      "english": "Small",
+      "kannada": "ಸಣ್ಣ"
     },
     "medium": {
-      "eng": "Medium",
-      "ka": "ಮಧ್ಯಮ"
+      "english": "Medium",
+      "kannada": "ಮಧ್ಯಮ"
     },
     "large": {
-      "eng": "Large",
-      "ka": "ದೊಡ್ಡದು"
+      "english": "Large",
+      "kannada": "ದೊಡ್ಡದು"
     },
     "extraLarge": {
-      "eng": "Extra Large",
-      "ka": "ಹೆಚ್ಚುವರಿ ದೊಡ್ಡದು"
+      "english": "Extra Large",
+      "kannada": "ಹೆಚ್ಚುವರಿ ದೊಡ್ಡದು"
     }
   },
   "category": {
     "cerealGrain": {
-      "eng": "Cereal Grain",
-      "ka": "ಏಕದಳ ಧಾನ್ಯ"
+      "english": "Cereal Grain",
+      "kannada": "ಏಕದಳ ಧಾನ್ಯ"
     },
     "pulses": {
-      "eng": "Pulses",
-      "ka": "ದ್ವಿದಳ ಧಾನ್ಯ"
+      "english": "Pulses",
+      "kannada": "ದ್ವಿದಳ ಧಾನ್ಯ"
     },
     "oil": {
-      "eng": "Oil",
-      "ka": "ಎಣ್ಣೆ"
+      "english": "Oil",
+      "kannada": "ಎಣ್ಣೆ"
     },
     "snacks": {
-      "eng": "Snacks",
-      "ka": "ತಿಂಡಿಗಳು"
+      "english": "Snacks",
+      "kannada": "ತಿಂಡಿಗಳು"
     },
     "sweet": {
-      "eng": "Sweet",
-      "ka": "ಸಿಹಿ"
+      "english": "Sweet",
+      "kannada": "ಸಿಹಿ"
     },
     "noodles": {
-      "eng": "Noodles",
-      "ka": "ನೂಡಲ್ಸ್"
+      "english": "Noodles",
+      "kannada": "ನೂಡಲ್ಸ್"
     },
     "salt": {
-      "eng": "Salt",
-      "ka": "ಉಪ್ಪು"
+      "english": "Salt",
+      "kannada": "ಉಪ್ಪು"
     }
   },
   "subCategory": {
     "rice": {
-      "eng": "Rice",
-      "ka": "ಅಕ್ಕಿ"
+      "english": "Rice",
+      "kannada": "ಅಕ್ಕಿ"
     },
     "wheat": {
-      "eng": "Wheat",
-      "ka": "ಗೋಧಿ"
+      "english": "Wheat",
+      "kannada": "ಗೋಧಿ"
     },
     "sunflowerOil": {
-      "eng": "Sunflower Oil",
-      "ka": "ಸೂರ್ಯಕಾಂತಿ ಎಣ್ಣೆ"
+      "english": "Sunflower Oil",
+      "kannada": "ಸೂರ್ಯಕಾಂತಿ ಎಣ್ಣೆ"
     },
     "biscuit": {
-      "eng": "Biscuit",
-      "ka": "ಬಿಸ್ಕತ್ತು"
+      "english": "Biscuit",
+      "kannada": "ಬಿಸ್ಕತ್ತು"
     },
     "dhal": {
-      "eng": "Dhal",
-      "ka": "ಬೇಳೆ"
+      "english": "Dhal",
+      "kannada": "ಬೇಳೆ"
     },
     "gram": {
-      "eng": "Gram",
-      "ka": "ಬೀಜ"
+      "english": "Gram",
+      "kannada": "ಬೀಜ"
     },
     "sweet": {
-      "eng": "Sweet",
-      "ka": "ಸಿಹಿ"
+      "english": "Sweet",
+      "kannada": "ಸಿಹಿ"
     },
     "noodles": {
-      "eng": "Noodles",
-      "ka": "ನೂಡಲ್ಸ್"
+      "english": "Noodles",
+      "kannada": "ನೂಡಲ್ಸ್"
     },
     "salt": {
-      "eng": "Salt",
-      "ka": "ಉಪ್ಪು"
+      "english": "Salt",
+      "kannada": "ಉಪ್ಪು"
     }
   }
 }

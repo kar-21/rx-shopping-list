@@ -11,25 +11,31 @@ import Input from "@material-ui/core/Input";
 import InputAdornment from "@material-ui/core/InputAdornment";
 import ListItem from "@material-ui/core/ListItem";
 import Radio from "@material-ui/core/Radio";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
-import { Grocery, GroceryList } from "../redux/model.interface";
+import {
+  Grocery,
+  GroceryList,
+  Language,
+  RootState,
+} from "../redux/model.interface";
 
 const engKaLookup = engKaLookupJson;
 
 interface SaveFileDialogType {
   fileName: string;
   opened: boolean;
-  myList: GroceryList;
   resetMyList: () => void;
   setIsDialogOpened: (value: boolean) => void;
 }
 
 const SaveFileDialog = (props: SaveFileDialogType) => {
   const reference = createRef();
-  const [fileLanguage, setFileLanguage] = useState("eng");
+  const [fileLanguage, setFileLanguage] = useState(Language.english);
   const [fileName, setFileName] = useState(props.fileName);
   const [suffix, setSuffix] = useState("");
+
+  const { myList } = useSelector((state: RootState) => state);
 
   useEffect(() => {
     const date = new Date(Date.now());
@@ -55,13 +61,13 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
   };
 
   const handleLangChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFileLanguage(event.target.value);
+    setFileLanguage(event.target.value as Language);
   };
 
   const handleDialogClose = (value: boolean, fileName: string) => {
     if (fileName !== null) {
       let fileContent = "";
-      Object.values(props.myList).forEach((item) => {
+      Object.values(myList).forEach((item) => {
         let row = `${item.name[fileLanguage]}`;
         for (let i = row.length; i < 30; i++) {
           row += " ";
@@ -89,7 +95,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
       <Dialog
         ref={reference}
         open={props.opened}
-        onClose={() => handleDialogClose(false, '')}
+        onClose={() => handleDialogClose(false, "")}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -116,7 +122,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
             <ListItem>
               <span>
                 <Radio
-                  checked={fileLanguage === "eng"}
+                  checked={fileLanguage === Language.english}
                   onChange={handleLangChange}
                   value="eng"
                   name="radio-button-demo"
@@ -126,7 +132,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
               </span>
               <span>
                 <Radio
-                  checked={fileLanguage === "ka"}
+                  checked={fileLanguage === Language.kannada}
                   onChange={handleLangChange}
                   value="ka"
                   name="radio-button-demo"
@@ -141,7 +147,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
           <Button
             variant="contained"
             size="small"
-            onClick={() => handleDialogClose(false, '')}
+            onClick={() => handleDialogClose(false, "")}
           >
             cancel
           </Button>

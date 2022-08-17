@@ -33,7 +33,16 @@ import {
   resetMyListAction,
 } from "../redux/actionCreator";
 import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
-import { Grocery, GroceryList, RootState } from "../redux/model.interface";
+import {
+  EnglishKannadaLookupType,
+  FilterType,
+  Grocery,
+  GroceryList,
+  Language,
+  LanguageKeyValue,
+  Measurement,
+  RootState,
+} from "../redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -144,21 +153,21 @@ function union(a: GroceryList, b: GroceryList) {
 }
 
 const listText = {
-  eng: "Available Grocery List",
-  ka: "ಲಭ್ಯವಿರುವ ದಿನಸಿ ಪಟ್ಟಿ",
+  [Language.english]: "Available Grocery List",
+  [Language.kannada]: "ಲಭ್ಯವಿರುವ ದಿನಸಿ ಪಟ್ಟಿ",
 };
 
 const myListText = {
-  eng: "My List",
-  ka: "ನನ್ನ ಪಟ್ಟಿ",
+  [Language.english]: "My List",
+  [Language.kannada]: "ನನ್ನ ಪಟ್ಟಿ",
 };
 
-const engKaLookup = engKaLookupJson;
+const engKaLookup: EnglishKannadaLookupType = engKaLookupJson;
 
 interface TransferListType {
   initialName: string;
-  myList: GroceryList;
   groceryList: GroceryList;
+  myList: GroceryList;
 }
 
 const TransferList = (props: TransferListType) => {
@@ -170,21 +179,21 @@ const TransferList = (props: TransferListType) => {
   const [isMyListExpand, setIsMyList] = useState(false);
   const [isFormInvalid, setIsFormInvalid] = useState(true);
   const [shoppingListFilterValue, setShoppingListFilterValue] =
-    useState<string>("");
+    useState<FilterType>();
   const [shoppingListSearchValue, setShoppingListSearchValue] = useState("");
   const [myListSearchValue, setMyListSearchValue] = useState("");
 
   const leftCheckedKeys = intersection(checked, props.myList);
   const rightCheckedKeys = intersection(checked, props.groceryList);
 
-  const { lang } = useSelector((state: RootState) => state);
+  const { language } = useSelector((state: RootState) => state);
 
   useEffect(() => {
     const valueArray: Grocery[] = Object.values(props.myList);
     let returnValue = false;
     if (valueArray.length) {
       valueArray.forEach((value) => {
-        if (value.measurement === "quantity" && !value.value) {
+        if (value.measurement === Measurement.quantity && !value.value) {
           returnValue = true;
         } else if (!+value.value) {
           returnValue = true;
@@ -241,26 +250,29 @@ const TransferList = (props: TransferListType) => {
   };
 
   const handleInputValueAdd = (
-    event: ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<{ name?: string | undefined; value: unknown }>,
     item: string
   ) => {
     store.dispatch(
-      updateValueInMyListAction({ item: item, value: event.target.value })
+      updateValueInMyListAction({ item: item, value: event.target.value as string })
     );
   };
 
   const handleSelectValueChange = (
-    event: ChangeEvent<HTMLInputElement>,
+    event: ChangeEvent<{ name?: string | undefined; value: unknown }>,
     item: string
   ) => {
     store.dispatch(
-      updateSizeValueInMyListAction({ item: item, value: event.target.value })
+      updateSizeValueInMyListAction({
+        item: item,
+        value: event.target.value as string,
+      })
     );
   };
 
   const handleShoppingListZoom = (isExpanded: boolean) => {
     setIsShoppingList(isExpanded);
-    setShoppingListFilterValue("");
+    setShoppingListFilterValue(undefined);
     setIsMyList(false);
   };
 
@@ -286,31 +298,31 @@ const TransferList = (props: TransferListType) => {
   const searchAndFilter = (
     itemObject: Grocery,
     searchValue: string,
-    filterValue: string
+    filterValue: FilterType | undefined
   ) => {
     if (searchValue.length < 2) {
       return true;
     } else if (
       searchValue &&
       !filterValue &&
-      (itemObject.name.eng.toLowerCase().includes(searchValue) ||
-        itemObject.name.ka.toLowerCase().includes(searchValue) ||
-        engKaLookup.category[itemObject.category].eng
+      (itemObject.name[Language.english].toLowerCase().includes(searchValue) ||
+        itemObject.name[Language.kannada].toLowerCase().includes(searchValue) ||
+        engKaLookup.category[itemObject.category].english
           .toLowerCase()
           .includes(searchValue) ||
-        engKaLookup.category[itemObject.category].ka
+        engKaLookup.category[itemObject.category].kannada
           .toLowerCase()
           .includes(searchValue) ||
-        engKaLookup.subCategory[itemObject.subCategory].eng
+        engKaLookup.subCategory[itemObject.subCategory].english
           .toLowerCase()
           .includes(searchValue) ||
-        engKaLookup.subCategory[itemObject.subCategory].ka
+        engKaLookup.subCategory[itemObject.subCategory].kannada
           .toLowerCase()
           .includes(searchValue) ||
-        engKaLookup.measurement[itemObject.measurement].eng
+        engKaLookup.measurement[itemObject.measurement].english
           .toLowerCase()
           .includes(searchValue) ||
-        engKaLookup.measurement[itemObject.measurement].ka
+        engKaLookup.measurement[itemObject.measurement].kannada
           .toLowerCase()
           .includes(searchValue))
     ) {
@@ -318,21 +330,25 @@ const TransferList = (props: TransferListType) => {
     } else if (
       searchValue &&
       filterValue &&
-      filterValue !== "name" &&
-      (engKaLookup[filterValue][itemObject[filterValue]].eng
-        .toLowerCase()
-        .includes(searchValue) ||
-        engKaLookup[filterValue][itemObject[filterValue]].ka
-          .toLowerCase()
-          .includes(searchValue))
+      filterValue !== FilterType.name &&
+      filterValue !== FilterType.quantity
     ) {
-      return true;
+      const typeValue = itemObject[filterValue];
+      const languageKeyValuePair = Object.entries(
+        engKaLookup[filterValue]
+      ).find(([key]) => key === typeValue);
+      if (languageKeyValuePair) {
+        return (
+          languageKeyValuePair[1].english.toLowerCase().includes(searchValue) ||
+          languageKeyValuePair[1].kannada.toLowerCase().includes(searchValue)
+        );
+      }
     } else if (
       searchValue &&
       filterValue &&
-      filterValue === "name" &&
-      (itemObject.name.eng.toLowerCase().includes(searchValue) ||
-        itemObject.name.ka.toLowerCase().includes(searchValue))
+      filterValue === FilterType.name &&
+      (itemObject.name[Language.english].toLowerCase().includes(searchValue) ||
+        itemObject.name[Language.kannada].toLowerCase().includes(searchValue))
     ) {
       return true;
     }
@@ -361,7 +377,7 @@ const TransferList = (props: TransferListType) => {
           }
           title={title}
           subheader={`${numberOfChecked(items)}/${Object.keys(items).length} ${
-            lang === "eng" ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
+            language === Language.english ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
           }`}
         />
         {isShoppingListExpand ? (
@@ -384,7 +400,7 @@ const TransferList = (props: TransferListType) => {
                       name?: string | undefined;
                       value: unknown;
                     }>
-                  ) => setShoppingListFilterValue(e.target.value as string)}
+                  ) => setShoppingListFilterValue(e.target.value as FilterType)}
                   displayEmpty
                   className={classes.selectEmpty}
                   inputProps={{ "aria-label": "Without label" }}
@@ -472,10 +488,10 @@ const TransferList = (props: TransferListType) => {
                 </ListItemIcon>
                 <ListItemText
                   id={labelId}
-                  primary={value.name[lang]}
-                  secondary={`${engKaLookup.category[value.category][lang]} > ${
-                    engKaLookup.subCategory[value.subCategory][lang]
-                  }`}
+                  primary={value.name[language]}
+                  secondary={`${
+                    engKaLookup.category[value.category][language]
+                  } > ${engKaLookup.subCategory[value.subCategory][language]}`}
                 />
               </ListItem>
             );
@@ -505,9 +521,9 @@ const TransferList = (props: TransferListType) => {
               inputProps={{ "aria-label": "all items selected" }}
             />
           }
-          title={myListText[lang]}
+          title={myListText[language]}
           subheader={`${numberOfChecked(items)}/${Object.keys(items).length} ${
-            lang === "eng" ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
+            language === Language.english ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
           }`}
         />
         {isMyListExpand ? (
@@ -558,7 +574,7 @@ const TransferList = (props: TransferListType) => {
           .filter(
             ([key, value]) =>
               !isMyListExpand ||
-              searchAndFilter(value, myListSearchValue.toLowerCase(), "")
+              searchAndFilter(value, myListSearchValue.toLowerCase(), undefined)
           )
           .map(([key, value]) => {
             const labelId = `transfer-list-all-item-${key}-label`;
@@ -574,9 +590,9 @@ const TransferList = (props: TransferListType) => {
                     onClick={handleToggle(key)}
                   />
                 </ListItemIcon>
-                <ListItemText id={labelId} primary={value.name[lang]} />
+                <ListItemText id={labelId} primary={value.name[language]} />
                 <ListItemText className={classes.inputField}>
-                  {value.measurement === "quantity" ? (
+                  {value.measurement === Measurement.quantity ? (
                     <FormControl
                       className={clsx(
                         classes.margin,
@@ -586,14 +602,19 @@ const TransferList = (props: TransferListType) => {
                     >
                       <Select
                         value={value.sizeValue}
-                        onChange={(e) => handleSelectValueChange(e, key)}
+                        onChange={(
+                          e: ChangeEvent<{
+                            name?: string | undefined;
+                            value: unknown;
+                          }>
+                        ) => handleSelectValueChange(e, key)}
                         displayEmpty
                         className={classes.selectEmpty}
                         inputProps={{ "aria-label": "Without label" }}
                       >
                         {value.size?.map((text) => (
                           <MenuItem key={text} value={text}>
-                            {engKaLookup.quantity[text][lang]}
+                            {engKaLookup[Measurement.quantity][text][language]}
                           </MenuItem>
                         ))}
                       </Select>
@@ -613,10 +634,15 @@ const TransferList = (props: TransferListType) => {
                       key={`${key}-input`}
                       id="standard-adornment-weight"
                       value={value.value}
-                      onChange={(e) => handleInputValueAdd(e, key)}
+                      onChange={(
+                        e: ChangeEvent<{
+                          name?: string | undefined;
+                          value: unknown;
+                        }>
+                      ) => handleInputValueAdd(e, key)}
                       endAdornment={
                         <InputAdornment position="end">
-                          {engKaLookup.measurement[value.measurement][lang]}
+                          {engKaLookup.measurement[value.measurement][language]}
                         </InputAdornment>
                       }
                       aria-describedby="standard-weight-helper-text"
@@ -651,7 +677,7 @@ const TransferList = (props: TransferListType) => {
             isMyListExpand ? classes.hideGrid : ""
           )}
         >
-          {customList(listText[lang], props.groceryList)}
+          {customList(listText[language], props.groceryList)}
         </Grid>
         <Grid
           item

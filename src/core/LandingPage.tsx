@@ -14,7 +14,7 @@ import {
   setIsDarkColorModeAction,
 } from "../redux/actionCreator";
 import googleIcon from "../assets/image/google-icon.png";
-import { RootState } from "../redux/model.interface";
+import { Language, RootState } from "../redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -82,7 +82,9 @@ const LandingPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { isDarkColorMode, lang } = useSelector((state: RootState) => state);
+  const { isDarkColorMode, language } = useSelector(
+    (state: RootState) => state
+  );
 
   const handleRoute = (path: string) => {
     navigate(path);
@@ -96,7 +98,13 @@ const LandingPage = () => {
           edge="end"
           className={classes.button}
           onClick={() =>
-            dispatch(setLanguageAction(lang === "eng" ? "ka" : "eng"))
+            dispatch(
+              setLanguageAction(
+                language === Language.english
+                  ? Language.kannada
+                  : Language.english
+              )
+            )
           }
         >
           E|ಕ

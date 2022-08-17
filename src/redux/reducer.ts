@@ -1,5 +1,7 @@
 import { ActionType } from "typesafe-actions";
-import * as GroceryList from "../assets/grocery-list.json";
+
+import { GroceryList } from "./model.interface";
+import * as GroceryListJson from "../assets/grocery-list.json";
 import {
   SET_IS_LOGGED_IN,
   SET_JWT,
@@ -13,21 +15,21 @@ import {
   UPDATE_SIZE_VALUE_OF_MY_LIST,
   UPDATE_VALUE_OF_MY_LIST,
 } from "./actionType";
-import { RootState } from "./model.interface";
-import * as actionCreators from './actionCreator';
+import { Language, RootState } from "./model.interface";
+import * as actionCreators from "./actionCreator";
 
 const initialState: RootState = {
   isLoggedIn: false,
-  lang: "eng",
+  language: Language.english,
   isDarkColorMode: false,
   mobileOpen: false,
-  groceryList: { ...GroceryList },
+  groceryList: { ...GroceryListJson } as unknown as GroceryList,
   myList: {},
-  jwt: '',
-  userId: '',
+  jwt: "",
+  userId: "",
 };
 
-type Action = ActionType<typeof actionCreators>; 
+type Action = ActionType<typeof actionCreators>;
 
 const Reducer = (state: RootState = initialState, action: Action) => {
   switch (action.type) {
@@ -41,7 +43,7 @@ const Reducer = (state: RootState = initialState, action: Action) => {
       return { ...state, userId: action.payload };
 
     case SET_LANG:
-      return { ...state, lang: action.payload };
+      return { ...state, language: action.payload };
 
     case SET_IS_DARK_MODE:
       return { ...state, isDarkColorMode: action.payload };
@@ -101,7 +103,7 @@ const Reducer = (state: RootState = initialState, action: Action) => {
       return {
         ...state,
         myList: {},
-        groceryList: { ...GroceryList },
+        groceryList: { ...GroceryListJson },
       };
 
     default:

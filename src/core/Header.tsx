@@ -3,15 +3,15 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import axios from "axios";
 
-import { RootState } from "../redux/model.interface";
+import { Language, RootState } from "../redux/model.interface";
 
 const headerText = {
-  eng: "Shopping List",
-  ka: "ಖರೀದಿ ಪಟ್ಟಿ",
+  [Language.english]: "Shopping List",
+  [Language.kannada]: "ಖರೀದಿ ಪಟ್ಟಿ",
 };
 
 const Header = () => {
-  const { jwt, lang, userId } = useSelector((state: RootState) => state);
+  const { jwt, language, userId } = useSelector((state: RootState) => state);
 
   useEffect(() => {
     if (userId) {
@@ -31,7 +31,7 @@ const Header = () => {
 
   return (
     <>
-      <div>{headerText[lang]}</div>
+      <div>{headerText[language]}</div>
     </>
   );
 };

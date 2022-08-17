@@ -2,7 +2,7 @@ import React from "react";
 import TransferList from "../shared/TransferList";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
-import { RootState } from "../redux/model.interface";
+import { GroceryList, Language, RootState } from "../redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({
   Heading: {
@@ -12,19 +12,25 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const newListText = {
-  eng: "New List",
-  ka: "ಹೊಸ ಪಟ್ಟಿ",
+  [Language.english]: "New List",
+  [Language.kannada]: "ಹೊಸ ಪಟ್ಟಿ",
 };
 
 const NewList = () => {
   const classes = useStyles();
 
-  const { lang } = useSelector((state: RootState) => state);
+  const { language, myList, groceryList } = useSelector(
+    (state: RootState) => state
+  );
 
   return (
     <>
-      <h1 className={classes.Heading}>{newListText[lang]}</h1>
-      <TransferList initialState={{}} initialName={""} />
+      <h1 className={classes.Heading}>{newListText[language]}</h1>
+      <TransferList
+        myList={myList}
+        initialName={""}
+        groceryList={groceryList}
+      />
     </>
   );
 };

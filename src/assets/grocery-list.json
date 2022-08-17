@@ -1,8 +1,8 @@
 {
   "basmatiRice": {
     "name": {
-      "eng": "Basmati Rice",
-      "ka": "ಬಾಸ್ಮತಿ ಅಕ್ಕಿ"
+      "english": "Basmati Rice",
+      "kannada": "ಬಾಸ್ಮತಿ ಅಕ್ಕಿ"
     },
     "category": "cerealGrain",
     "subCategory": "rice",
@@ -11,8 +11,8 @@
   },
   "basaveshwaraRice": {
     "name": {
-      "eng": "Basaveshwara Rice",
-      "ka": "ಬಸವೇಶ್ವರ ಅಕ್ಕಿ"
+      "english": "Basaveshwara Rice",
+      "kannada": "ಬಸವೇಶ್ವರ ಅಕ್ಕಿ"
     },
     "category": "cerealGrain",
     "subCategory": "rice",
@@ -21,8 +21,8 @@
   },
   "wheat": {
     "name": {
-      "eng": "Wheat",
-      "ka": "ಗೋಧಿ"
+      "english": "Wheat",
+      "kannada": "ಗೋಧಿ"
     },
     "category": "cerealGrain",
     "subCategory": "wheat",
@@ -31,8 +31,8 @@
   },
   "brokenWheat": {
     "name": {
-      "eng": "Broken Wheat",
-      "ka": "ಗೋಧಿ ನುಚ್ಚು"
+      "english": "Broken Wheat",
+      "kannada": "ಗೋಧಿ ನುಚ್ಚು"
     },
     "category": "cerealGrain",
     "subCategory": "wheat",
@@ -41,8 +41,8 @@
   },
   "rajamudiRice": {
     "name": {
-      "eng": "Rajamudi Rice",
-      "ka": "ರಾಜಮುಡಿ ಅಕ್ಕಿ"
+      "english": "Rajamudi Rice",
+      "kannada": "ರಾಜಮುಡಿ ಅಕ್ಕಿ"
     },
     "category": "cerealGrain",
     "subCategory": "rice",
@@ -51,8 +51,8 @@
   },
   "bengalGramDhal": {
     "name": {
-      "eng": "Bengal Gram Dhal",
-      "ka": "ಕಡಲೆ ಬೇಳೆ"
+      "english": "Bengal Gram Dhal",
+      "kannada": "ಕಡಲೆ ಬೇಳೆ"
     },
     "category": "pulses",
     "subCategory": "dhal",
@@ -61,8 +61,8 @@
   },
   "blackGramDhal": {
     "name": {
-      "eng": "Black Gram Dhal",
-      "ka": "ಉದ್ದಿನ ಬೇಳೆ"
+      "english": "Black Gram Dhal",
+      "kannada": "ಉದ್ದಿನ ಬೇಳೆ"
     },
     "category": "pulses",
     "subCategory": "dhal",
@@ -71,8 +71,8 @@
   },
   "greenGramDhal": {
     "name": {
-      "eng": "Green Gram Dhal",
-      "ka": "ಹೆಸರು ಬೇಳೆ"
+      "english": "Green Gram Dhal",
+      "kannada": "ಹೆಸರು ಬೇಳೆ"
     },
     "category": "pulses",
     "subCategory": "dhal",
@@ -81,8 +81,8 @@
   },
   "redGramDhal": {
     "name": {
-      "eng": "Red Gram Dhal",
-      "ka": "ತೊಗರಿ ಬೇಳೆ"
+      "english": "Red Gram Dhal",
+      "kannada": "ತೊಗರಿ ಬೇಳೆ"
     },
     "category": "pulses",
     "subCategory": "dhal",
@@ -91,8 +91,8 @@
   },
   "flattenedRice": {
     "name": {
-      "eng": "Flattened Rice",
-      "ka": "ಅವಲಕ್ಕಿ"
+      "english": "Flattened Rice",
+      "kannada": "ಅವಲಕ್ಕಿ"
     },
     "category": "cerealGrain",
     "subCategory": "rice",
@@ -101,8 +101,8 @@
   },
   "bengalGram": {
     "name": {
-      "eng": "Bengal Gram",
-      "ka": "ಹುರಿಗಡಲೆ"
+      "english": "Bengal Gram",
+      "kannada": "ಹುರಿಗಡಲೆ"
     },
     "category": "pulses",
     "subCategory": "gram",
@@ -111,8 +111,8 @@
   },
   "peanut": {
     "name": {
-      "eng": "Peanut",
-      "ka": "ಕಡಲೆಕಾಯಿ ಬೀಜ"
+      "english": "Peanut",
+      "kannada": "ಕಡಲೆಕಾಯಿ ಬೀಜ"
     },
     "category": "pulses",
     "subCategory": "gram",
@@ -121,8 +121,8 @@
   },
   "sugar": {
     "name": {
-      "eng": "Sugar",
-      "ka": "ಸಕ್ಕರೆ"
+      "english": "Sugar",
+      "kannada": "ಸಕ್ಕರೆ"
     },
     "category": "sweet",
     "subCategory": "sweet",
@@ -131,8 +131,8 @@
   },
   "semolinaSpaghetti": {
     "name": {
-      "eng": "Semolina Spaghetti",
-      "ka": "ಶಾವಿಗೆ"
+      "english": "Semolina Spaghetti",
+      "kannada": "ಶಾವಿಗೆ"
     },
     "category": "noodles",
     "subCategory": "noodles",
@@ -141,8 +141,8 @@
   },
   "salt": {
     "name": {
-      "eng": "Salt",
-      "ka": "ಉಪ್ಪು"
+      "english": "Salt",
+      "kannada": "ಉಪ್ಪು"
     },
     "category": "salt",
     "subCategory": "salt",
@@ -151,8 +151,8 @@
   },
   "semolina": {
     "name": {
-      "eng": "Semolina",
-      "ka": "ರವೆ"
+      "english": "Semolina",
+      "kannada": "ರವೆ"
     },
     "category": "cerealGrain",
     "subCategory": "rice",
@@ -161,8 +161,8 @@
   },
   "freedomSunflowerOil": {
     "name": {
-      "eng": "Freedom Sunflower Oil",
-      "ka": "ಫ್ರಿಡಂ ಸೂರ್ಯಕಾಂತಿ ಎಣ್ಣೆ"
+      "english": "Freedom Sunflower Oil",
+      "kannada": "ಫ್ರಿಡಂ ಸೂರ್ಯಕಾಂತಿ ಎಣ್ಣೆ"
     },
     "category": "oil",
     "subCategory": "sunflowerOil",
@@ -171,8 +171,8 @@
   },
   "oreoBiscuit": {
     "name": {
-      "eng": "Oreo Biscuit",
-      "ka": "ಓರಿಯೊ ಬಿಸ್ಕತ್ತು"
+      "english": "Oreo Biscuit",
+      "kannada": "ಓರಿಯೊ ಬಿಸ್ಕತ್ತು"
     },
     "category": "snacks",
     "subCategory": "biscuit",

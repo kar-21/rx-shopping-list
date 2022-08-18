@@ -1,10 +1,11 @@
 import React from "react";
 import "./App.scss";
+import { useDispatch, useSelector } from "react-redux";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter } from "react-router-dom";
 import { createTheme, ThemeProvider } from "@material-ui/core/styles";
-import { useDispatch, useSelector } from "react-redux";
+
 import { Core } from "./core/Core";
 import { useEffect } from "react";
 import Cookies from "universal-cookie";

@@ -1,7 +1,8 @@
 import React from "react";
-import TransferList from "../shared/TransferList";
-import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
+import { makeStyles } from "@material-ui/core/styles";
+
+import TransferList from "../shared/TransferList";
 import { Language, RootState } from "../redux/model.interface";
 
 const useStyles = makeStyles((theme) => ({

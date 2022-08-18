@@ -1,23 +1,21 @@
 import React from "react";
-import AppBar from "@material-ui/core/AppBar";
-import Drawer from "@material-ui/core/Drawer";
-import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import { createTheme } from "@material-ui/core/styles";
-import Box from "@material-ui/core/Box";
-import { Routes, Route } from "react-router-dom";
-
-import { setMobileOpenAction } from "../redux/actionCreator";
-import Header from "./Header";
-import DrawerContent from "./DrawerContent";
-import NewList from "../new-list/NewList";
-import SavedLists from "../saved-lists/SavedLists";
 import { useDispatch, useSelector } from "react-redux";
-import About from "../about/About";
+import {
+  AppBar,
+  Box,
+  Drawer,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
+import MenuIcon from "@material-ui/icons/Menu";
+import { makeStyles, createTheme } from "@material-ui/core/styles";
+import { Outlet } from "react-router-dom";
+
+import DrawerContent from "./DrawerContent";
+import { setMobileOpenAction } from "../redux/actionCreator";
 import { RootState } from "../redux/model.interface";
+import Header from "./Header";
 
 const drawerWidth = 200;
 
@@ -142,11 +140,7 @@ const FeaturePage = () => {
         </Box>
       </nav>
       <main className={classes.content}>
-        <Routes>
-          <Route path="/feature/" element={<NewList />} />
-          <Route path="/feature/savedLists/" element={<SavedLists />} />
-          <Route path="/feature/about" element={<About />} />
-        </Routes>
+        <Outlet />
       </main>
     </>
   );

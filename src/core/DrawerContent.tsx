@@ -1,16 +1,18 @@
 import React, { useState, useEffect, ChangeEvent } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Switch,
+  Divider,
+  Radio,
+} from "@material-ui/core";
 import LibraryAdd from "@material-ui/icons/LibraryAdd";
 import LibraryBooks from "@material-ui/icons/LibraryBooks";
 import InfoIcon from "@material-ui/icons/Info";
-import Switch from "@material-ui/core/Switch";
-import Divider from "@material-ui/core/Divider";
-import Radio from "@material-ui/core/Radio";
-import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 
 import {
@@ -42,7 +44,9 @@ const DrawerContent = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { isDarkColorMode, language } = useSelector((state: RootState) => state.reducer);
+  const { isDarkColorMode, language } = useSelector(
+    (state: RootState) => state.reducer
+  );
 
   useEffect(() => {
     setCurrentRouter(location.pathname);
@@ -92,7 +96,7 @@ const DrawerContent = () => {
             <Radio
               checked={language === Language.english}
               onChange={handleLanguageChange}
-              value="eng"
+              value={Language.english}
               name="radio-button-demo"
               inputProps={{ "aria-label": "English" }}
             />
@@ -102,7 +106,7 @@ const DrawerContent = () => {
             <Radio
               checked={language === Language.kannada}
               onChange={handleLanguageChange}
-              value="ka"
+              value={Language.kannada}
               name="radio-button-demo"
               inputProps={{ "aria-label": "ಕನ್ನಡ" }}
             />
@@ -119,7 +123,8 @@ const DrawerContent = () => {
             path: "/feature",
           },
           {
-            text: language === Language.english ? "Saved Lists" : "ಉಳಿಸಿದ ಪಟ್ಟಿಗಳು",
+            text:
+              language === Language.english ? "Saved Lists" : "ಉಳಿಸಿದ ಪಟ್ಟಿಗಳು",
             icon: <LibraryBooks />,
             path: "/feature/savedLists",
           },

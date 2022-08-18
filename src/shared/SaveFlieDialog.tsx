@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createRef, ChangeEvent } from "react";
+import { useSelector } from "react-redux";
 import {
   Dialog,
   DialogTitle,
@@ -6,12 +7,12 @@ import {
   DialogActions,
   Button,
   DialogContentText,
+  ListItem,
+  Input,
+  InputAdornment,
+  Radio,
 } from "@material-ui/core";
-import Input from "@material-ui/core/Input";
-import InputAdornment from "@material-ui/core/InputAdornment";
-import ListItem from "@material-ui/core/ListItem";
-import Radio from "@material-ui/core/Radio";
-import { useSelector } from "react-redux";
+
 import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
 import { Language, RootState } from "../redux/model.interface";
 

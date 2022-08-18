@@ -1,5 +1,5 @@
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   AppBar,
   Box,
@@ -7,35 +7,35 @@ import {
   IconButton,
   Toolbar,
   Typography,
-} from "@material-ui/core";
-import MenuIcon from "@material-ui/icons/Menu";
-import { makeStyles, createTheme } from "@material-ui/core/styles";
-import { Outlet } from "react-router-dom";
+} from '@material-ui/core';
+import MenuIcon from '@material-ui/icons/Menu';
+import { makeStyles, createTheme } from '@material-ui/core/styles';
+import { Outlet } from 'react-router-dom';
 
-import DrawerContent from "./DrawerContent";
-import { setMobileOpenAction } from "../redux/actionCreator";
-import { RootState } from "../redux/model.interface";
-import Header from "./Header";
+import DrawerContent from './DrawerContent';
+import { setMobileOpenAction } from '../redux/actionCreator';
+import { RootState } from '../redux/model.interface';
+import Header from './Header';
 
 const drawerWidth = 200;
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up('md')]: {
       width: drawerWidth,
       flexShrink: 0,
     },
   },
   appBar: {
-    [theme.breakpoints.up("md")]: {
+    [theme.breakpoints.up('md')]: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
     },
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("md")]: {
-      display: "none",
+    [theme.breakpoints.up('md')]: {
+      display: 'none',
     },
   },
   // necessary for content to be below app bar
@@ -46,9 +46,9 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     padding: theme.spacing(1),
-    marginTop: "64px",
-    [theme.breakpoints.down("sm")]: {
-      marginTop: "56px",
+    marginTop: '64px',
+    [theme.breakpoints.down('sm')]: {
+      marginTop: '56px',
     },
   },
 }));
@@ -59,7 +59,7 @@ const FeaturePage = () => {
   const dispatch = useDispatch();
 
   const { isDarkColorMode, mobileOpen } = useSelector(
-    (state: RootState) => state.reducer
+    (state: RootState) => state.reducer,
   );
 
   const container =
@@ -71,22 +71,22 @@ const FeaturePage = () => {
 
   const colorTheme = createTheme({
     palette: {
-      type: isDarkColorMode ? "dark" : "light",
+      type: isDarkColorMode ? 'dark' : 'light',
       primary: {
-        main: "#5c6e91",
+        main: '#5c6e91',
       },
       secondary: {
-        main: "#dd9866",
+        main: '#dd9866',
       },
       contrastThreshold: 3,
       tonalOffset: 0.2,
       background: {
-        default: isDarkColorMode ? "#393e46" : "#eeeded",
-        paper: isDarkColorMode ? "#424242" : "#fff",
+        default: isDarkColorMode ? '#393e46' : '#eeeded',
+        paper: isDarkColorMode ? '#424242' : '#fff',
       },
     },
     typography: {
-      fontFamily: ["Verdana", "Arial", "Helvetica", "sans-serif"].join(","),
+      fontFamily: ['Verdana', 'Arial', 'Helvetica', 'sans-serif'].join(','),
     },
   });
 
@@ -110,11 +110,11 @@ const FeaturePage = () => {
       </AppBar>
       <nav className={classes.drawer} aria-label="mailbox folders">
         {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
-        <Box sx={{ display: { md: "none", sm: "block" } }}>
+        <Box sx={{ display: { md: 'none', sm: 'block' } }}>
           <Drawer
             container={container}
             variant="temporary"
-            anchor={colorTheme.direction === "rtl" ? "right" : "left"}
+            anchor={colorTheme.direction === 'rtl' ? 'right' : 'left'}
             open={mobileOpen}
             onClose={handleDrawerToggle}
             classes={{
@@ -127,7 +127,7 @@ const FeaturePage = () => {
             <DrawerContent />
           </Drawer>
         </Box>
-        <Box sx={{ display: { md: "block", sm: "none" } }}>
+        <Box sx={{ display: { md: 'block', sm: 'none' } }}>
           <Drawer
             classes={{
               paper: classes.drawerPaper,

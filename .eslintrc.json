@@ -1,0 +1,56 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "root": true,
+  "extends": [
+    "airbnb",
+    "plugin:@typescript-eslint/recommended",
+    "eslint:recommended",
+    "plugin:import/errors",
+    "plugin:react/recommended",
+    "plugin:jsx-a11y/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": ["./tsconfig.json", "./tsconfig.eslint.json"]
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "import",
+    "jsx-a11y",
+    "react-hooks",
+    "prettier"
+  ],
+  "rules": {
+    "react/function-component-definition": [
+      2,
+      { "namedComponents": "arrow-function" }
+    ],
+    "no-undef": "off",
+    // "arrow-body-style": ["error", "as-needed"],
+    "react/jsx-filename-extension": [
+      1,
+      { "extensions": [".js", ".jsx", "tsx", "ts"] }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
+  },
+  "ignorePatterns": ["*.css", "*.svg"]
+}

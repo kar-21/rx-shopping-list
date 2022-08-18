@@ -1,17 +1,19 @@
-import React from "react";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import React from 'react';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
-import { Language, RootState } from "../redux/model.interface";
+import { Language, RootState } from '../redux/model.interface';
 
 const headerText = {
-  [Language.english]: "Shopping List",
-  [Language.kannada]: "ಖರೀದಿ ಪಟ್ಟಿ",
+  [Language.english]: 'Shopping List',
+  [Language.kannada]: 'ಖರೀದಿ ಪಟ್ಟಿ',
 };
 
 const Header = () => {
-  const { jwt, language, userId } = useSelector((state: RootState) => state.reducer);
+  const { jwt, language, userId } = useSelector(
+    (state: RootState) => state.reducer,
+  );
 
   useEffect(() => {
     if (userId) {

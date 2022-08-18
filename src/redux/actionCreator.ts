@@ -1,4 +1,4 @@
-import { createAction } from "typesafe-actions";
+import { createAction } from 'typesafe-actions';
 
 import {
   SET_JWT,
@@ -12,8 +12,8 @@ import {
   SET_IS_LOGGED_IN,
   UPDATE_SIZE_VALUE_OF_MY_LIST,
   UPDATE_VALUE_OF_MY_LIST,
-} from "./actionType";
-import { UpdateGroceryListPayload } from "./model.interface";
+} from './actionType';
+import { UpdateGroceryListPayload } from './model.interface';
 
 export const setIsLoggedInAction = createAction(SET_IS_LOGGED_IN)<boolean>();
 
@@ -34,11 +34,11 @@ export const removeFromMyListAction =
   createAction(REMOVE_FROM_MY_LIST)<string[]>();
 
 export const updateValueInMyListAction = createAction(
-  UPDATE_VALUE_OF_MY_LIST
+  UPDATE_VALUE_OF_MY_LIST,
 )<UpdateGroceryListPayload>();
 
 export const updateSizeValueInMyListAction = createAction(
-  UPDATE_SIZE_VALUE_OF_MY_LIST
+  UPDATE_SIZE_VALUE_OF_MY_LIST,
 )<UpdateGroceryListPayload>();
 
 export const resetMyListAction = createAction(RESET_ALL_LISTS)();

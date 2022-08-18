@@ -17,51 +17,51 @@ export interface DecodedTokenType {
   userId: string;
 }
 export enum Language {
-  english = "english",
-  kannada = "kannada",
+  english = 'english',
+  kannada = 'kannada',
 }
 
 export enum Measurement {
-  kg = "kg",
-  liter = "liter",
-  quantity = "quantity",
+  kg = 'kg',
+  liter = 'liter',
+  quantity = 'quantity',
 }
 
 export enum Quantity {
-  small = "small",
-  medium = "medium",
-  large = "large",
-  extraLarge = "extraLarge",
+  small = 'small',
+  medium = 'medium',
+  large = 'large',
+  extraLarge = 'extraLarge',
 }
 
 export enum Category {
-  cerealGrain = "cerealGrain",
-  pulses = "pulses",
-  oil = "oil",
-  snacks = "snacks",
-  sweet = "sweet",
-  noodles = "noodles",
-  salt = "salt",
+  cerealGrain = 'cerealGrain',
+  pulses = 'pulses',
+  oil = 'oil',
+  snacks = 'snacks',
+  sweet = 'sweet',
+  noodles = 'noodles',
+  salt = 'salt',
 }
 
 export enum SubCategory {
-  rice = "rice",
-  wheat = "wheat",
-  dhal = "dhal",
-  gram = "gram",
-  sunflowerOil = "sunflowerOil",
-  biscuit = "biscuit",
-  sweet = "sweet",
-  noodles = "noodles",
-  salt = "salt",
+  rice = 'rice',
+  wheat = 'wheat',
+  dhal = 'dhal',
+  gram = 'gram',
+  sunflowerOil = 'sunflowerOil',
+  biscuit = 'biscuit',
+  sweet = 'sweet',
+  noodles = 'noodles',
+  salt = 'salt',
 }
 
 export enum FilterType {
-  category = "category",
-  subCategory = "subCategory",
-  measurement = "measurement",
-  quantity = "quantity",
-  name = "name",
+  category = 'category',
+  subCategory = 'subCategory',
+  measurement = 'measurement',
+  quantity = 'quantity',
+  name = 'name',
 }
 
 export interface Grocery {

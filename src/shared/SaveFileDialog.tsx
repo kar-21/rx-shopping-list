@@ -1,5 +1,5 @@
-import React, { useState, useEffect, createRef, ChangeEvent } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect, createRef, ChangeEvent } from 'react';
+import { useSelector } from 'react-redux';
 import {
   Dialog,
   DialogTitle,
@@ -11,10 +11,10 @@ import {
   Input,
   InputAdornment,
   Radio,
-} from "@material-ui/core";
+} from '@material-ui/core';
 
-import * as engKaLookupJson from "../assets/eng-ka-lookup.json";
-import { Language, RootState } from "../redux/model.interface";
+import * as engKaLookupJson from '../assets/eng-ka-lookup.json';
+import { Language, RootState } from '../redux/model.interface';
 
 const engKaLookup = engKaLookupJson;
 
@@ -29,26 +29,26 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
   const reference = createRef();
   const [fileLanguage, setFileLanguage] = useState(Language.english);
   const [fileName, setFileName] = useState(props.fileName);
-  const [suffix, setSuffix] = useState("");
+  const [suffix, setSuffix] = useState('');
 
   const { myList } = useSelector((state: RootState) => state.reducer);
 
   useEffect(() => {
     const date = new Date(Date.now());
-    let suffix = "";
-    suffix += date.getDate() + "-";
+    let suffix = '';
+    suffix += date.getDate() + '-';
     suffix +=
-      date.getMonth() < 9 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1;
-    suffix += "-" + date.getFullYear() + "_";
-    suffix += date.getHours() < 10 ? "0" + date.getHours() : date.getHours();
+      date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+    suffix += '-' + date.getFullYear() + '_';
+    suffix += date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
     suffix +=
       date.getMinutes() < 10
-        ? ":0" + date.getMinutes()
-        : ":" + date.getMinutes();
+        ? ':0' + date.getMinutes()
+        : ':' + date.getMinutes();
     suffix +=
       date.getSeconds() < 10
-        ? ":0" + date.getSeconds()
-        : ":" + date.getSeconds();
+        ? ':0' + date.getSeconds()
+        : ':' + date.getSeconds();
     setSuffix(suffix);
   }, [props.opened]);
 
@@ -62,22 +62,22 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
 
   const handleDialogClose = (value: boolean, fileName: string) => {
     if (fileName !== null) {
-      let fileContent = "";
+      let fileContent = '';
       Object.values(myList).forEach((item) => {
         let row = `${item.name[fileLanguage]}`;
         for (let i = row.length; i < 30; i++) {
-          row += " ";
+          row += ' ';
         }
         row += `${item.value} ${
           engKaLookup.measurement[item.measurement][fileLanguage]
         }`;
-        if (item.measurement === "quantity" && item.sizeValue) {
+        if (item.measurement === 'quantity' && item.sizeValue) {
           row += ` ${engKaLookup.quantity[item.sizeValue][fileLanguage]}`;
         }
-        fileContent += row + "\r\n";
+        fileContent += row + '\r\n';
       });
-      const element = document.createElement("a");
-      const blob = new Blob([fileContent], { type: "text/plain" });
+      const element = document.createElement('a');
+      const blob = new Blob([fileContent], { type: 'text/plain' });
       element.href = URL.createObjectURL(blob);
       element.download = `${fileName}_${[fileLanguage]}.txt`;
       element.click();
@@ -91,7 +91,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
       <Dialog
         ref={reference}
         open={props.opened}
-        onClose={() => handleDialogClose(false, "")}
+        onClose={() => handleDialogClose(false, '')}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -103,7 +103,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
             Please enter the file name.
           </DialogContentText>
           <Input
-            error={fileName === ""}
+            error={fileName === ''}
             key={fileName}
             id="standard-adornment-weight"
             value={fileName}
@@ -122,7 +122,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
                   onChange={handleLangChange}
                   value="eng"
                   name="radio-button-demo"
-                  inputProps={{ "aria-label": "English" }}
+                  inputProps={{ 'aria-label': 'English' }}
                 />
                 English
               </span>
@@ -132,7 +132,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
                   onChange={handleLangChange}
                   value="ka"
                   name="radio-button-demo"
-                  inputProps={{ "aria-label": "ಕನ್ನಡ" }}
+                  inputProps={{ 'aria-label': 'ಕನ್ನಡ' }}
                 />
                 ಕನ್ನಡ
               </span>
@@ -143,7 +143,7 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
           <Button
             variant="contained"
             size="small"
-            onClick={() => handleDialogClose(false, "")}
+            onClick={() => handleDialogClose(false, '')}
           >
             cancel
           </Button>
@@ -151,8 +151,8 @@ const SaveFileDialog = (props: SaveFileDialogType) => {
             variant="contained"
             color="secondary"
             size="small"
-            disabled={fileName === ""}
-            onClick={() => handleDialogClose(true, fileName + "_" + suffix)}
+            disabled={fileName === ''}
+            onClick={() => handleDialogClose(true, fileName + '_' + suffix)}
           >
             Save
           </Button>

@@ -1,6 +1,6 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
-import clsx from "clsx";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import clsx from 'clsx';
+import { useSelector } from 'react-redux';
 import {
   FormControl,
   Input,
@@ -18,24 +18,24 @@ import {
   Divider,
   Select,
   MenuItem,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import AddIcon from "@material-ui/icons/Add";
-import DeleteIcon from "@material-ui/icons/Delete";
-import ZoomOutIcon from "@material-ui/icons/ZoomOut";
-import ZoomInIcon from "@material-ui/icons/ZoomIn";
-import GetAppIcon from "@material-ui/icons/GetApp";
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import AddIcon from '@material-ui/icons/Add';
+import DeleteIcon from '@material-ui/icons/Delete';
+import ZoomOutIcon from '@material-ui/icons/ZoomOut';
+import ZoomInIcon from '@material-ui/icons/ZoomIn';
+import GetAppIcon from '@material-ui/icons/GetApp';
 
-import SaveFlieDialog from "./SaveFlieDialog";
-import store from "../redux/store";
+import SaveFileDialog from './SaveFileDialog';
+import store from '../redux/store';
 import {
   addToMyListAction,
   removeFromMyListAction,
   updateValueInMyListAction,
   updateSizeValueInMyListAction,
   resetMyListAction,
-} from "../redux/actionCreator";
-import engKaLookupJson from "../assets/eng-ka-lookup.json";
+} from '../redux/actionCreator';
+import engKaLookupJson from '../assets/eng-ka-lookup.json';
 import {
   EnglishKannadaLookupType,
   FilterType,
@@ -44,43 +44,43 @@ import {
   Language,
   Measurement,
   RootState,
-} from "../redux/model.interface";
+} from '../redux/model.interface';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: "auto",
-    width: "100%",
-    [theme.breakpoints.down("xs")]: {
-      display: "flex",
-      flexDirection: "column",
+    margin: 'auto',
+    width: '100%',
+    [theme.breakpoints.down('xs')]: {
+      display: 'flex',
+      flexDirection: 'column',
     },
   },
   list: {
     backgroundColor: theme.palette.background.paper,
-    overflow: "auto",
-    height: "calc(100vh - 220px)",
-    [theme.breakpoints.down("sm")]: {
-      height: "calc(100vh - 218px)",
+    overflow: 'auto',
+    height: 'calc(100vh - 220px)',
+    [theme.breakpoints.down('sm')]: {
+      height: 'calc(100vh - 218px)',
     },
-    [theme.breakpoints.down("xs")]: {
-      height: "calc(50vh - 173px)",
+    [theme.breakpoints.down('xs')]: {
+      height: 'calc(50vh - 173px)',
     },
   },
   expandedShoppingListGrid: {
-    width: "95%",
+    width: '95%',
   },
   expandedMyListGrid: {
-    width: "95%",
+    width: '95%',
   },
   expandedShoppingListContainer: {
-    height: "calc(100vh - 280px)",
-    overflow: "auto",
+    height: 'calc(100vh - 280px)',
+    overflow: 'auto',
   },
   expandedMyListContainer: {
-    height: "calc(100vh - 280px)",
+    height: 'calc(100vh - 280px)',
   },
   expandButton: {
-    marginRight: "25px",
+    marginRight: '25px',
   },
   button: {
     margin: theme.spacing(0.5, 0),
@@ -92,44 +92,44 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   textField: {
-    width: "10ch",
+    width: '10ch',
   },
   selectField: {
-    width: "10ch",
+    width: '10ch',
   },
   inputField: {
-    display: "flex",
-    justifyContent: "flex-end",
+    display: 'flex',
+    justifyContent: 'flex-end',
   },
   leftSideList: {
-    minWidth: "55%",
+    minWidth: '55%',
   },
   rightSideList: {
-    width: "35%",
+    width: '35%',
   },
   buttonContainer: {
-    [theme.breakpoints.down("xs")]: {
-      display: "flex",
-      flexDirection: "row",
-      justifyContent: "space-evenly",
+    [theme.breakpoints.down('xs')]: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-evenly',
     },
   },
   cardHeader: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
   hideGrid: {
-    display: "none",
+    display: 'none',
   },
   rowButtonContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   buttonGridContainer: {
-    minWidth: "30%",
+    minWidth: '30%',
   },
   formControl: {},
   selectEmpty: {},
@@ -137,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
 
 function not(a: GroceryList, b: GroceryList) {
   const keys = Object.keys(a).filter(
-    (value) => Object.keys(b).indexOf(value) === -1
+    (value) => Object.keys(b).indexOf(value) === -1,
   );
   let object = {};
   keys.forEach((value) => {
@@ -155,13 +155,13 @@ function union(a: GroceryList, b: GroceryList) {
 }
 
 const listText = {
-  [Language.english]: "Available Grocery List",
-  [Language.kannada]: "ಲಭ್ಯವಿರುವ ದಿನಸಿ ಪಟ್ಟಿ",
+  [Language.english]: 'Available Grocery List',
+  [Language.kannada]: 'ಲಭ್ಯವಿರುವ ದಿನಸಿ ಪಟ್ಟಿ',
 };
 
 const myListText = {
-  [Language.english]: "My List",
-  [Language.kannada]: "ನನ್ನ ಪಟ್ಟಿ",
+  [Language.english]: 'My List',
+  [Language.kannada]: 'ನನ್ನ ಪಟ್ಟಿ',
 };
 
 const engKaLookup: EnglishKannadaLookupType = engKaLookupJson;
@@ -182,8 +182,8 @@ const TransferList = (props: TransferListType) => {
   const [isFormInvalid, setIsFormInvalid] = useState(true);
   const [shoppingListFilterValue, setShoppingListFilterValue] =
     useState<FilterType>();
-  const [shoppingListSearchValue, setShoppingListSearchValue] = useState("");
-  const [myListSearchValue, setMyListSearchValue] = useState("");
+  const [shoppingListSearchValue, setShoppingListSearchValue] = useState('');
+  const [myListSearchValue, setMyListSearchValue] = useState('');
 
   const leftCheckedKeys = intersection(checked, props.myList);
   const rightCheckedKeys = intersection(checked, props.groceryList);
@@ -253,25 +253,25 @@ const TransferList = (props: TransferListType) => {
 
   const handleInputValueAdd = (
     event: ChangeEvent<{ name?: string | undefined; value: unknown }>,
-    item: string
+    item: string,
   ) => {
     store.dispatch(
       updateValueInMyListAction({
         item: item,
         value: event.target.value as string,
-      })
+      }),
     );
   };
 
   const handleSelectValueChange = (
     event: ChangeEvent<{ name?: string | undefined; value: unknown }>,
-    item: string
+    item: string,
   ) => {
     store.dispatch(
       updateSizeValueInMyListAction({
         item: item,
         value: event.target.value as string,
-      })
+      }),
     );
   };
 
@@ -283,7 +283,7 @@ const TransferList = (props: TransferListType) => {
 
   const handleMyListZoom = (isExpanded: boolean) => {
     setIsShoppingList(false);
-    setMyListSearchValue("");
+    setMyListSearchValue('');
     setIsMyList(isExpanded);
   };
 
@@ -303,7 +303,7 @@ const TransferList = (props: TransferListType) => {
   const searchAndFilter = (
     itemObject: Grocery,
     searchValue: string,
-    filterValue: FilterType | undefined
+    filterValue: FilterType | undefined,
   ) => {
     if (searchValue.length < 2) {
       return true;
@@ -340,7 +340,7 @@ const TransferList = (props: TransferListType) => {
     ) {
       const typeValue = itemObject[filterValue];
       const languageKeyValuePair = Object.entries(
-        engKaLookup[filterValue]
+        engKaLookup[filterValue],
       ).find(([key]) => key === typeValue);
       if (languageKeyValuePair) {
         return (
@@ -377,12 +377,12 @@ const TransferList = (props: TransferListType) => {
                 numberOfChecked(items) !== 0
               }
               disabled={Object.keys(items).length === 0}
-              inputProps={{ "aria-label": "all items selected" }}
+              inputProps={{ 'aria-label': 'all items selected' }}
             />
           }
           title={title}
           subheader={`${numberOfChecked(items)}/${Object.keys(items).length} ${
-            language === Language.english ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
+            language === Language.english ? 'selected' : 'ಆರಿಸಲಾಗಿದೆ'
           }`}
         />
         {isShoppingListExpand ? (
@@ -404,25 +404,25 @@ const TransferList = (props: TransferListType) => {
                     e: ChangeEvent<{
                       name?: string | undefined;
                       value: unknown;
-                    }>
+                    }>,
                   ) => setShoppingListFilterValue(e.target.value as FilterType)}
                   displayEmpty
                   className={classes.selectEmpty}
-                  inputProps={{ "aria-label": "Without label" }}
+                  inputProps={{ 'aria-label': 'Without label' }}
                 >
-                  <MenuItem key={"none"} value="">
+                  <MenuItem key={'none'} value="">
                     None
                   </MenuItem>
-                  <MenuItem key={"name"} value="name">
+                  <MenuItem key={'name'} value="name">
                     Name
                   </MenuItem>
-                  <MenuItem key={"category"} value="category">
-                    Catogory
+                  <MenuItem key={'category'} value="category">
+                    Category
                   </MenuItem>
-                  <MenuItem key={"subCategory"} value="subCategory">
-                    Sub-Catogory
+                  <MenuItem key={'subCategory'} value="subCategory">
+                    Sub-Category
                   </MenuItem>
-                  <MenuItem key={"measurement"} value="measurement">
+                  <MenuItem key={'measurement'} value="measurement">
                     Measurement
                   </MenuItem>
                 </Select>
@@ -470,8 +470,8 @@ const TransferList = (props: TransferListType) => {
               searchAndFilter(
                 value[1],
                 shoppingListSearchValue.toLowerCase(),
-                shoppingListFilterValue
-              )
+                shoppingListFilterValue,
+              ),
           )
           .map(([key, value]) => {
             const labelId = `transfer-list-all-item-${key}-label`;
@@ -488,7 +488,7 @@ const TransferList = (props: TransferListType) => {
                     checked={checked.hasOwnProperty(key)}
                     tabIndex={-1}
                     disableRipple
-                    inputProps={{ "aria-labelledby": labelId }}
+                    inputProps={{ 'aria-labelledby': labelId }}
                   />
                 </ListItemIcon>
                 <ListItemText
@@ -523,12 +523,12 @@ const TransferList = (props: TransferListType) => {
                 numberOfChecked(items) !== 0
               }
               disabled={Object.keys(items).length === 0}
-              inputProps={{ "aria-label": "all items selected" }}
+              inputProps={{ 'aria-label': 'all items selected' }}
             />
           }
           title={myListText[language]}
           subheader={`${numberOfChecked(items)}/${Object.keys(items).length} ${
-            language === Language.english ? "selected" : "ಆರಿಸಲಾಗಿದೆ"
+            language === Language.english ? 'selected' : 'ಆರಿಸಲಾಗಿದೆ'
           }`}
         />
         {isMyListExpand ? (
@@ -579,7 +579,11 @@ const TransferList = (props: TransferListType) => {
           .filter(
             ([key, value]) =>
               !isMyListExpand ||
-              searchAndFilter(value, myListSearchValue.toLowerCase(), undefined)
+              searchAndFilter(
+                value,
+                myListSearchValue.toLowerCase(),
+                undefined,
+              ),
           )
           .map(([key, value]) => {
             const labelId = `transfer-list-all-item-${key}-label`;
@@ -591,7 +595,7 @@ const TransferList = (props: TransferListType) => {
                     checked={checked.hasOwnProperty(key)}
                     tabIndex={-1}
                     disableRipple
-                    inputProps={{ "aria-labelledby": labelId }}
+                    inputProps={{ 'aria-labelledby': labelId }}
                     onClick={handleToggle(key)}
                   />
                 </ListItemIcon>
@@ -602,7 +606,7 @@ const TransferList = (props: TransferListType) => {
                       className={clsx(
                         classes.margin,
                         classes.withoutLabel,
-                        classes.selectField
+                        classes.selectField,
                       )}
                     >
                       <Select
@@ -611,11 +615,11 @@ const TransferList = (props: TransferListType) => {
                           e: ChangeEvent<{
                             name?: string | undefined;
                             value: unknown;
-                          }>
+                          }>,
                         ) => handleSelectValueChange(e, key)}
                         displayEmpty
                         className={classes.selectEmpty}
-                        inputProps={{ "aria-label": "Without label" }}
+                        inputProps={{ 'aria-label': 'Without label' }}
                       >
                         {value.size?.map((text) => (
                           <MenuItem key={text} value={text}>
@@ -631,7 +635,7 @@ const TransferList = (props: TransferListType) => {
                     className={clsx(
                       classes.margin,
                       classes.withoutLabel,
-                      classes.textField
+                      classes.textField,
                     )}
                   >
                     <Input
@@ -643,7 +647,7 @@ const TransferList = (props: TransferListType) => {
                         e: ChangeEvent<{
                           name?: string | undefined;
                           value: unknown;
-                        }>
+                        }>,
                       ) => handleInputValueAdd(e, key)}
                       endAdornment={
                         <InputAdornment position="end">
@@ -652,7 +656,7 @@ const TransferList = (props: TransferListType) => {
                       }
                       aria-describedby="standard-weight-helper-text"
                       inputProps={{
-                        "aria-label": "weight",
+                        'aria-label': 'weight',
                       }}
                     />
                   </FormControl>
@@ -679,7 +683,7 @@ const TransferList = (props: TransferListType) => {
             isShoppingListExpand
               ? classes.expandedShoppingListGrid
               : classes.rightSideList,
-            isMyListExpand ? classes.hideGrid : ""
+            isMyListExpand ? classes.hideGrid : '',
           )}
         >
           {customList(listText[language], props.groceryList)}
@@ -689,7 +693,7 @@ const TransferList = (props: TransferListType) => {
           className={
             isMyListExpand || isShoppingListExpand
               ? classes.buttonGridContainer
-              : ""
+              : ''
           }
         >
           <Grid
@@ -700,7 +704,7 @@ const TransferList = (props: TransferListType) => {
               classes.buttonContainer,
               isMyListExpand || isShoppingListExpand
                 ? classes.rowButtonContainer
-                : ""
+                : '',
             )}
           >
             <Button
@@ -741,14 +745,14 @@ const TransferList = (props: TransferListType) => {
         <Grid
           className={clsx(
             isMyListExpand ? classes.expandedMyListGrid : classes.leftSideList,
-            isShoppingListExpand ? classes.hideGrid : ""
+            isShoppingListExpand ? classes.hideGrid : '',
           )}
           item
         >
           {myListGrid(props.myList)}
         </Grid>
       </Grid>
-      <SaveFlieDialog
+      <SaveFileDialog
         opened={isDialogOpened}
         setIsDialogOpened={(value) => setIsDialogOpened(value)}
         resetMyList={() => resetMyList()}

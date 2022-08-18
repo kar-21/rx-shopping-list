@@ -1,6 +1,6 @@
-import React, { useState, useEffect, ChangeEvent } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, ChangeEvent } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   List,
   ListItem,
@@ -9,43 +9,43 @@ import {
   Switch,
   Divider,
   Radio,
-} from "@material-ui/core";
-import LibraryAdd from "@material-ui/icons/LibraryAdd";
-import LibraryBooks from "@material-ui/icons/LibraryBooks";
-import InfoIcon from "@material-ui/icons/Info";
-import { makeStyles } from "@material-ui/core/styles";
+} from '@material-ui/core';
+import LibraryAdd from '@material-ui/icons/LibraryAdd';
+import LibraryBooks from '@material-ui/icons/LibraryBooks';
+import InfoIcon from '@material-ui/icons/Info';
+import { makeStyles } from '@material-ui/core/styles';
 
 import {
   setLanguageAction,
   setIsDarkColorModeAction,
-} from "../redux/actionCreator";
-import { Language, RootState } from "../redux/model.interface";
+} from '../redux/actionCreator';
+import { Language, RootState } from '../redux/model.interface';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
   langDiv: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "baseline",
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'baseline',
   },
 }));
 
-const lightModeText = "Light Mode";
-const lightModeTextKA = "ಬೆಳಕಿನ ಹಿನ್ನೆಲೆ";
-const DarkModeText = "Dark Mode";
-const DarkModeTextKA = "ಕತ್ತಲೆ ಹಿನ್ನೆಲೆ";
+const lightModeText = 'Light Mode';
+const lightModeTextKA = 'ಬೆಳಕಿನ ಹಿನ್ನೆಲೆ';
+const DarkModeText = 'Dark Mode';
+const DarkModeTextKA = 'ಕತ್ತಲೆ ಹಿನ್ನೆಲೆ';
 
 const DrawerContent = () => {
   const classes = useStyles();
   const [colorModeText, setColorModeText] = useState(lightModeText);
-  const [currentRoute, setCurrentRouter] = useState("/");
+  const [currentRoute, setCurrentRouter] = useState('/');
 
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { isDarkColorMode, language } = useSelector(
-    (state: RootState) => state.reducer
+    (state: RootState) => state.reducer,
   );
 
   useEffect(() => {
@@ -98,7 +98,7 @@ const DrawerContent = () => {
               onChange={handleLanguageChange}
               value={Language.english}
               name="radio-button-demo"
-              inputProps={{ "aria-label": "English" }}
+              inputProps={{ 'aria-label': 'English' }}
             />
             English
           </span>
@@ -108,7 +108,7 @@ const DrawerContent = () => {
               onChange={handleLanguageChange}
               value={Language.kannada}
               name="radio-button-demo"
-              inputProps={{ "aria-label": "ಕನ್ನಡ" }}
+              inputProps={{ 'aria-label': 'ಕನ್ನಡ' }}
             />
             ಕನ್ನಡ
           </span>
@@ -118,15 +118,15 @@ const DrawerContent = () => {
       <List>
         {[
           {
-            text: language === Language.english ? "New List" : "ಹೊಸ ಪಟ್ಟಿ",
+            text: language === Language.english ? 'New List' : 'ಹೊಸ ಪಟ್ಟಿ',
             icon: <LibraryAdd />,
-            path: "/feature",
+            path: '/feature',
           },
           {
             text:
-              language === Language.english ? "Saved Lists" : "ಉಳಿಸಿದ ಪಟ್ಟಿಗಳು",
+              language === Language.english ? 'Saved Lists' : 'ಉಳಿಸಿದ ಪಟ್ಟಿಗಳು',
             icon: <LibraryBooks />,
-            path: "/feature/savedLists",
+            path: '/feature/savedLists',
           },
         ].map((list) => (
           <ListItem
@@ -145,9 +145,9 @@ const DrawerContent = () => {
       <List>
         {[
           {
-            text: language === Language.english ? "About Us" : "ನಮ್ಮ ಬಗ್ಗೆ",
+            text: language === Language.english ? 'About Us' : 'ನಮ್ಮ ಬಗ್ಗೆ',
             icon: <InfoIcon />,
-            path: "/feature/about",
+            path: '/feature/about',
           },
         ].map((list) => (
           <ListItem

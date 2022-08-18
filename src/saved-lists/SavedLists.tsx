@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import ListCard from "./ListCard";
+import ListCard from './ListCard';
 
 const SavedLists = () => {
   return (

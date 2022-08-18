@@ -1,7 +1,7 @@
-import { ActionType } from "typesafe-actions";
+import { ActionType } from 'typesafe-actions';
 
-import { GroceryList, ReducerState, Language } from "./model.interface";
-import GroceryListJson from "../assets/grocery-list.json";
+import { GroceryList, ReducerState, Language } from './model.interface';
+import GroceryListJson from '../assets/grocery-list.json';
 import {
   SET_IS_LOGGED_IN,
   SET_JWT,
@@ -14,8 +14,8 @@ import {
   RESET_ALL_LISTS,
   UPDATE_SIZE_VALUE_OF_MY_LIST,
   UPDATE_VALUE_OF_MY_LIST,
-} from "./actionType";
-import * as actionCreators from "./actionCreator";
+} from './actionType';
+import * as actionCreators from './actionCreator';
 
 const initialState: ReducerState = {
   isLoggedIn: false,
@@ -24,8 +24,8 @@ const initialState: ReducerState = {
   mobileOpen: false,
   groceryList: { ...GroceryListJson } as unknown as GroceryList,
   myList: {},
-  jwt: "",
-  userId: "",
+  jwt: '',
+  userId: '',
 };
 
 type Action = ActionType<typeof actionCreators>;

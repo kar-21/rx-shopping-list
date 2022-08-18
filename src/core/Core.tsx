@@ -1,12 +1,12 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-import About from "../about/About";
-import NewList from "../new-list/NewList";
-import SavedLists from "../saved-lists/SavedLists";
-import FeaturePage from "./FeaturePage";
-import LandingPage from "./LandingPage";
-import Login from "./Login";
+import About from '../about/About';
+import NewList from '../new-list/NewList';
+import SavedLists from '../saved-lists/SavedLists';
+import FeaturePage from './FeaturePage';
+import LandingPage from './LandingPage';
+import Login from './Login';
 
 export const Core = () => {
   return (

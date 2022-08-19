@@ -1,20 +1,7 @@
-import { ActionType } from 'typesafe-actions';
+import { ActionType, getType } from 'typesafe-actions';
 
 import { GroceryList, ReducerState, Language } from './model.interface';
 import GroceryListJson from '../assets/grocery-list.json';
-import {
-  SET_IS_LOGGED_IN,
-  SET_JWT,
-  SET_USER_ID,
-  SET_LANG,
-  SET_IS_DARK_MODE,
-  SET_MOBILE_OPEN,
-  ADD_TO_MY_LIST,
-  REMOVE_FROM_MY_LIST,
-  RESET_ALL_LISTS,
-  UPDATE_SIZE_VALUE_OF_MY_LIST,
-  UPDATE_VALUE_OF_MY_LIST,
-} from './actionType';
 import * as actionCreators from './actionCreator';
 
 const initialState: ReducerState = {
@@ -30,51 +17,55 @@ const initialState: ReducerState = {
 
 type Action = ActionType<typeof actionCreators>;
 
-const Reducer = (state: ReducerState = initialState, action: Action) => {
+const Reducer = (action: Action, state: ReducerState = initialState) => {
   switch (action.type) {
-    case SET_IS_LOGGED_IN:
+    case getType(actionCreators.setIsLoggedInAction):
       return { ...state, isLoggedIn: action.payload };
 
-    case SET_JWT:
+    case getType(actionCreators.setJwtTokenAction):
       return { ...state, jwt: action.payload };
 
-    case SET_USER_ID:
+    case getType(actionCreators.setUserIDAction):
       return { ...state, userId: action.payload };
 
-    case SET_LANG:
+    case getType(actionCreators.setLanguageAction):
       return { ...state, language: action.payload };
 
-    case SET_IS_DARK_MODE:
+    case getType(actionCreators.setIsDarkColorModeAction):
       return { ...state, isDarkColorMode: action.payload };
 
-    case SET_MOBILE_OPEN:
+    case getType(actionCreators.setMobileOpenAction):
       return { ...state, mobileOpen: action.payload };
 
-    case ADD_TO_MY_LIST:
+    case getType(actionCreators.addToMyListAction):
+      // eslint-disable-next-line no-case-declarations
+      let modifiedState = state;
       action.payload.forEach((item) => {
-        if (state.groceryList.hasOwnProperty(item)) {
-          state = {
+        if (state.groceryList[item]) {
+          modifiedState = {
             ...state,
             myList: { ...state.myList, [item]: state.groceryList[item] },
           };
-          delete state.groceryList[item];
+          delete modifiedState.groceryList[item];
         }
       });
-      return state;
+      return modifiedState;
 
-    case REMOVE_FROM_MY_LIST:
+    case getType(actionCreators.removeFromMyListAction):
+      // eslint-disable-next-line no-case-declarations
+      let removedState = state;
       action.payload.forEach((item) => {
-        if (state.myList.hasOwnProperty(item)) {
-          state = {
+        if (state.myList[item]) {
+          removedState = {
             ...state,
             groceryList: { ...state.groceryList, [item]: state.myList[item] },
           };
-          delete state.myList[item];
+          delete removedState.myList[item];
         }
       });
-      return state;
+      return removedState;
 
-    case UPDATE_VALUE_OF_MY_LIST:
+    case getType(actionCreators.updateValueInMyListAction):
       return {
         ...state,
         myList: {
@@ -86,7 +77,7 @@ const Reducer = (state: ReducerState = initialState, action: Action) => {
         },
       };
 
-    case UPDATE_SIZE_VALUE_OF_MY_LIST:
+    case getType(actionCreators.updateSizeValueInMyListAction):
       return {
         ...state,
         myList: {
@@ -98,7 +89,7 @@ const Reducer = (state: ReducerState = initialState, action: Action) => {
         },
       };
 
-    case RESET_ALL_LISTS:
+    case getType(actionCreators.resetMyListAction):
       return {
         ...state,
         myList: {},

@@ -17,8 +17,11 @@ const initialState: ReducerState = {
 
 type Action = ActionType<typeof actionCreators>;
 
-// eslint-disable-next-line default-param-last
-const Reducer = (state: ReducerState = initialState, action: Action,) => {
+const Reducer = (
+  // eslint-disable-next-line default-param-last
+  state: ReducerState = initialState,
+  action: Action,
+): ReducerState => {
   switch (action.type) {
     case getType(actionCreators.setIsLoggedInAction):
       return { ...state, isLoggedIn: action.payload };
@@ -87,14 +90,14 @@ const Reducer = (state: ReducerState = initialState, action: Action,) => {
             ...state.myList[action.payload.item],
             sizeValue: action.payload.value,
           },
-        },
+        } as GroceryList,
       };
 
     case getType(actionCreators.resetMyListAction):
       return {
         ...state,
         myList: {},
-        groceryList: { ...GroceryListJson },
+        groceryList: { ...GroceryListJson } as GroceryList,
       };
 
     default:

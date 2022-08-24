@@ -8,7 +8,7 @@ import FeaturePage from './FeaturePage';
 import LandingPage from './LandingPage';
 import Login from './Login';
 
-const Core = () => (
+const Core = (): JSX.Element => (
   <Routes>
     <Route index element={<LandingPage />} />
     <Route path="feature" element={<FeaturePage />}>

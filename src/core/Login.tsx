@@ -12,7 +12,7 @@ import {
 } from '../redux/actionCreator';
 import { DecodedTokenType } from '../redux/model.interface';
 
-const Login = () => {
+const Login = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [searchParams] = useSearchParams();
@@ -35,7 +35,6 @@ const Login = () => {
       });
     } else {
       const cookieToken = cookie.get('token');
-      console.log(cookieToken);
       if (token) {
         const decodedToken: DecodedTokenType = jwtDecode(cookieToken);
         dispatch(setUserIDAction(decodedToken.userId));

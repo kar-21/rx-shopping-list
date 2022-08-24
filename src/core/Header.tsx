@@ -9,7 +9,7 @@ const headerText = {
   [Language.kannada]: 'ಖರೀದಿ ಪಟ್ಟಿ',
 };
 
-const Header = () => {
+const Header = (): JSX.Element => {
   const { jwt, language, userId } = useSelector(
     (state: RootState) => state.reducer,
   );

@@ -73,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
   button: {},
 }));
 
-const LandingPage = () => {
+const LandingPage = (): JSX.Element => {
   const classes = useStyles();
 
   const navigate = useNavigate();

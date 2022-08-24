@@ -2,7 +2,11 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { BrowserRouter } from 'react-router-dom';
-import { createTheme, ThemeProvider , makeStyles} from '@material-ui/core/styles';
+import {
+  createTheme,
+  ThemeProvider,
+  makeStyles,
+} from '@material-ui/core/styles';
 
 import './App.scss';
 import jwtDecode from 'jwt-decode';
@@ -21,7 +25,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const App = () => {
+const App = (): JSX.Element => {
   const dispatch = useDispatch();
 
   const { isDarkColorMode } = useSelector((state: RootState) => state.reducer);

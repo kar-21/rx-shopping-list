@@ -13,7 +13,7 @@ import {
   UPDATE_SIZE_VALUE_OF_MY_LIST,
   UPDATE_VALUE_OF_MY_LIST,
 } from './actionType';
-import { UpdateGroceryListPayload } from './model.interface';
+import { UpdateGroceryListPayload, Language } from './model.interface';
 
 export const setIsLoggedInAction = createAction(SET_IS_LOGGED_IN)<boolean>();
 
@@ -21,7 +21,7 @@ export const setJwtTokenAction = createAction(SET_JWT)<string>();
 
 export const setUserIDAction = createAction(SET_USER_ID)<string>();
 
-export const setLanguageAction = createAction(SET_LANG)<string>();
+export const setLanguageAction = createAction(SET_LANG)<Language>();
 
 export const setIsDarkColorModeAction =
   createAction(SET_IS_DARK_MODE)<boolean>();

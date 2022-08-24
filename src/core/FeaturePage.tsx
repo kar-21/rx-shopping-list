@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FeaturePage = () => {
+const FeaturePage = ():JSX.Element => {
   const classes = useStyles();
 
   const dispatch = useDispatch();

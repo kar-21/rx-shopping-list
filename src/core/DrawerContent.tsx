@@ -35,7 +35,7 @@ const lightModeTextKA = 'ಬೆಳಕಿನ ಹಿನ್ನೆಲೆ';
 const DarkModeText = 'Dark Mode';
 const DarkModeTextKA = 'ಕತ್ತಲೆ ಹಿನ್ನೆಲೆ';
 
-const DrawerContent = () => {
+const DrawerContent = (): JSX.Element => {
   const classes = useStyles();
   const [colorModeText, setColorModeText] = useState(lightModeText);
   const [currentRoute, setCurrentRouter] = useState('/');
@@ -69,7 +69,7 @@ const DrawerContent = () => {
   };
 
   const handleLanguageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    dispatch(setLanguageAction(event.target.value));
+    dispatch(setLanguageAction(event.target.value as Language));
   };
 
   const handleRoute = (path: string) => {

@@ -17,7 +17,7 @@ const newListText = {
   [Language.kannada]: 'ಹೊಸ ಪಟ್ಟಿ',
 };
 
-const NewList = () => {
+const NewList = (): JSX.Element => {
   const classes = useStyles();
 
   const { language, myList, groceryList } = useSelector(

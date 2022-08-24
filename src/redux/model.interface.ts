@@ -100,5 +100,5 @@ export interface GroceryList {
 
 export interface UpdateGroceryListPayload {
   item: string;
-  value: string;
+  value: Quantity | string;
 }

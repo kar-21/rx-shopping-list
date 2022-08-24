@@ -176,7 +176,7 @@ const TransferList = ({
   initialName,
   myList,
   groceryList,
-}: TransferListType) => {
+}: TransferListType): JSX.Element => {
   const classes = useStyles();
   const [checked, setChecked] = useState<GroceryList>({});
   const [myListName, setMyListName] = useState(initialName);

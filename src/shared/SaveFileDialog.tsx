@@ -31,7 +31,7 @@ const SaveFileDialog = ({
   opened,
   resetMyList,
   setIsDialogOpened,
-}: SaveFileDialogType) => {
+}: SaveFileDialogType): JSX.Element => {
   const reference = createRef();
   const [fileLanguage, setFileLanguage] = useState(Language.english);
   const [fileName, setFileName] = useState(fileNameProp);

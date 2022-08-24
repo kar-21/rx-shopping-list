@@ -1,15 +1,13 @@
-import React from 'react';
-import './App.scss';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core/styles';
 import { BrowserRouter } from 'react-router-dom';
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme, ThemeProvider , makeStyles} from '@material-ui/core/styles';
 
-import { Core } from './core/Core';
-import { useEffect } from 'react';
+import './App.scss';
+import jwtDecode from 'jwt-decode';
 import Cookies from 'universal-cookie';
-import jwt_decode from 'jwt-decode';
+import Core from './core/Core';
 import {
   setIsLoggedInAction,
   setJwtTokenAction,
@@ -17,7 +15,7 @@ import {
 } from './redux/actionCreator';
 import { DecodedTokenType, RootState } from './redux/model.interface';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     display: 'flex',
   },
@@ -32,7 +30,7 @@ const App = () => {
     const cookie = new Cookies();
     const token = cookie.get('token');
     if (token) {
-      const decodedToken: DecodedTokenType = jwt_decode(token);
+      const decodedToken: DecodedTokenType = jwtDecode(token);
       dispatch(setUserIDAction(decodedToken?.userId));
       dispatch(setIsLoggedInAction(true));
       dispatch(setJwtTokenAction(token));

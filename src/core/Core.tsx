@@ -8,17 +8,17 @@ import FeaturePage from './FeaturePage';
 import LandingPage from './LandingPage';
 import Login from './Login';
 
-export const Core = () => {
-  return (
-    <Routes>
-      <Route index element={<LandingPage />} />
-      <Route path="feature" element={<FeaturePage />}>
-        <Route index element={<NewList />} />
-        <Route path="savedLists" element={<SavedLists />} />
-        <Route path="about" element={<About />} />
-      </Route>
-      <Route path="login" element={<Login />} />
-      <Route path="login/:token" element={<Login />} />
-    </Routes>
-  );
-};
+const Core = () => (
+  <Routes>
+    <Route index element={<LandingPage />} />
+    <Route path="feature" element={<FeaturePage />}>
+      <Route index element={<NewList />} />
+      <Route path="savedLists" element={<SavedLists />} />
+      <Route path="about" element={<About />} />
+    </Route>
+    <Route path="login" element={<Login />} />
+    <Route path="login/:token" element={<Login />} />
+  </Routes>
+);
+
+export default Core;

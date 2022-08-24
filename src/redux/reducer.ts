@@ -17,7 +17,8 @@ const initialState: ReducerState = {
 
 type Action = ActionType<typeof actionCreators>;
 
-const Reducer = (action: Action, state: ReducerState = initialState) => {
+// eslint-disable-next-line default-param-last
+const Reducer = (state: ReducerState = initialState, action: Action,) => {
   switch (action.type) {
     case getType(actionCreators.setIsLoggedInAction):
       return { ...state, isLoggedIn: action.payload };

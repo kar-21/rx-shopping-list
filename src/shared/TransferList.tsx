@@ -172,10 +172,14 @@ interface TransferListType {
   myList: GroceryList;
 }
 
-const TransferList = (props: TransferListType) => {
+const TransferList = ({
+  initialName,
+  myList,
+  groceryList,
+}: TransferListType) => {
   const classes = useStyles();
   const [checked, setChecked] = useState<GroceryList>({});
-  const [myListName, setMyListName] = useState(props.initialName);
+  const [myListName, setMyListName] = useState(initialName);
   const [isDialogOpened, setIsDialogOpened] = useState(false);
   const [isShoppingListExpand, setIsShoppingList] = useState(false);
   const [isMyListExpand, setIsMyList] = useState(false);
@@ -185,13 +189,13 @@ const TransferList = (props: TransferListType) => {
   const [shoppingListSearchValue, setShoppingListSearchValue] = useState('');
   const [myListSearchValue, setMyListSearchValue] = useState('');
 
-  const leftCheckedKeys = intersection(checked, props.myList);
-  const rightCheckedKeys = intersection(checked, props.groceryList);
+  const leftCheckedKeys = intersection(checked, myList);
+  const rightCheckedKeys = intersection(checked, groceryList);
 
   const { language } = useSelector((state: RootState) => state.reducer);
 
   useEffect(() => {
-    const valueArray: Grocery[] = Object.values(props.myList);
+    const valueArray: Grocery[] = Object.values(myList);
     let returnValue = false;
     if (valueArray.length) {
       valueArray.forEach((value) => {
@@ -205,15 +209,15 @@ const TransferList = (props: TransferListType) => {
       returnValue = true;
     }
     setIsFormInvalid(returnValue);
-  }, [props.myList]);
+  }, [myList]);
 
   const handleToggle = (value: string) => () => {
     const currentIndex = Object.keys(checked).indexOf(value);
     let newChecked: GroceryList = { ...checked };
     if (currentIndex === -1) {
-      newChecked = props.myList.hasOwnProperty(value)
-        ? { ...newChecked, [value]: { ...props.myList[value] } }
-        : { ...newChecked, [value]: { ...props.groceryList[value] } };
+      newChecked = myList[value]
+        ? { ...newChecked, [value]: { ...myList[value] } }
+        : { ...newChecked, [value]: { ...groceryList[value] } };
     } else {
       delete newChecked[value];
     }
@@ -238,7 +242,7 @@ const TransferList = (props: TransferListType) => {
     });
     store.dispatch(removeFromMyListAction(Object.keys(leftChecked)));
     setChecked(not(checked, leftChecked));
-    handleMyListZoom(false);
+    // handleMyListZoom(false);
   };
 
   const handleCheckedLeft = () => {
@@ -248,7 +252,7 @@ const TransferList = (props: TransferListType) => {
     });
     store.dispatch(addToMyListAction(Object.keys(rightChecked)));
     setChecked(not(checked, rightChecked));
-    handleShoppingListZoom(false);
+    // handleShoppingListZoom(false);
   };
 
   const handleInputValueAdd = (
@@ -257,7 +261,7 @@ const TransferList = (props: TransferListType) => {
   ) => {
     store.dispatch(
       updateValueInMyListAction({
-        item: item,
+        item,
         value: event.target.value as string,
       }),
     );
@@ -269,7 +273,7 @@ const TransferList = (props: TransferListType) => {
   ) => {
     store.dispatch(
       updateSizeValueInMyListAction({
-        item: item,
+        item,
         value: event.target.value as string,
       }),
     );
@@ -294,7 +298,7 @@ const TransferList = (props: TransferListType) => {
   const resetMyList = () => {
     store.dispatch(resetMyListAction());
     setChecked({});
-    setMyListName(props.initialName);
+    setMyListName(initialName);
     setIsDialogOpened(false);
     setIsShoppingList(false);
     setIsMyList(false);
@@ -307,7 +311,8 @@ const TransferList = (props: TransferListType) => {
   ) => {
     if (searchValue.length < 2) {
       return true;
-    } else if (
+    }
+    if (
       searchValue &&
       !filterValue &&
       (itemObject.name[Language.english].toLowerCase().includes(searchValue) ||
@@ -332,7 +337,8 @@ const TransferList = (props: TransferListType) => {
           .includes(searchValue))
     ) {
       return true;
-    } else if (
+    }
+    if (
       searchValue &&
       filterValue &&
       filterValue !== FilterType.name &&
@@ -348,7 +354,8 @@ const TransferList = (props: TransferListType) => {
           languageKeyValuePair[1].kannada.toLowerCase().includes(searchValue)
         );
       }
-    } else if (
+    }
+    if (
       searchValue &&
       filterValue &&
       filterValue === FilterType.name &&
@@ -410,19 +417,19 @@ const TransferList = (props: TransferListType) => {
                   className={classes.selectEmpty}
                   inputProps={{ 'aria-label': 'Without label' }}
                 >
-                  <MenuItem key={'none'} value="">
+                  <MenuItem key="none" value="">
                     None
                   </MenuItem>
-                  <MenuItem key={'name'} value="name">
+                  <MenuItem key="name" value="name">
                     Name
                   </MenuItem>
-                  <MenuItem key={'category'} value="category">
+                  <MenuItem key="category" value="category">
                     Category
                   </MenuItem>
-                  <MenuItem key={'subCategory'} value="subCategory">
+                  <MenuItem key="subCategory" value="subCategory">
                     Sub-Category
                   </MenuItem>
-                  <MenuItem key={'measurement'} value="measurement">
+                  <MenuItem key="measurement" value="measurement">
                     Measurement
                   </MenuItem>
                 </Select>
@@ -485,7 +492,7 @@ const TransferList = (props: TransferListType) => {
               >
                 <ListItemIcon>
                   <Checkbox
-                    checked={checked.hasOwnProperty(key)}
+                    checked={!!checked[key]}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ 'aria-labelledby': labelId }}
@@ -577,7 +584,7 @@ const TransferList = (props: TransferListType) => {
       >
         {Object.entries(items)
           .filter(
-            ([key, value]) =>
+            ([, value]) =>
               !isMyListExpand ||
               searchAndFilter(
                 value,
@@ -592,7 +599,7 @@ const TransferList = (props: TransferListType) => {
               <ListItem key={key} role="listitem">
                 <ListItemIcon>
                   <Checkbox
-                    checked={checked.hasOwnProperty(key)}
+                    checked={!!checked[key]}
                     tabIndex={-1}
                     disableRipple
                     inputProps={{ 'aria-labelledby': labelId }}
@@ -628,9 +635,7 @@ const TransferList = (props: TransferListType) => {
                         ))}
                       </Select>
                     </FormControl>
-                  ) : (
-                    <></>
-                  )}
+                  ) : null}
                   <FormControl
                     className={clsx(
                       classes.margin,
@@ -686,7 +691,7 @@ const TransferList = (props: TransferListType) => {
             isMyListExpand ? classes.hideGrid : '',
           )}
         >
-          {customList(listText[language], props.groceryList)}
+          {customList(listText[language], groceryList)}
         </Grid>
         <Grid
           item
@@ -749,14 +754,14 @@ const TransferList = (props: TransferListType) => {
           )}
           item
         >
-          {myListGrid(props.myList)}
+          {myListGrid(myList)}
         </Grid>
       </Grid>
       <SaveFileDialog
         opened={isDialogOpened}
         setIsDialogOpened={(value) => setIsDialogOpened(value)}
         resetMyList={() => resetMyList()}
-        fileName={myListName}
+        fileNameProp={myListName}
       />
     </>
   );

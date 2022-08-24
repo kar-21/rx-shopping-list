@@ -16,6 +16,7 @@ export interface RootState {
 export interface DecodedTokenType {
   userId: string;
 }
+
 export enum Language {
   english = 'english',
   kannada = 'kannada',

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import Cookies from 'universal-cookie';
-import jwt_decode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import {
@@ -21,7 +21,7 @@ const Login = () => {
     const cookie = new Cookies();
     const token = searchParams.get('token');
     if (token) {
-      const decodedToken: DecodedTokenType = jwt_decode(token);
+      const decodedToken: DecodedTokenType = jwtDecode(token);
       dispatch(setUserIDAction(decodedToken.userId));
       cookie.set('token', token, {
         path: '/',
@@ -34,13 +34,13 @@ const Login = () => {
         navigate('/feature');
       });
     } else {
-      const token = cookie.get('token');
-      console.log(token);
+      const cookieToken = cookie.get('token');
+      console.log(cookieToken);
       if (token) {
-        const decodedToken: DecodedTokenType = jwt_decode(token);
+        const decodedToken: DecodedTokenType = jwtDecode(cookieToken);
         dispatch(setUserIDAction(decodedToken.userId));
         dispatch(setIsLoggedInAction(true));
-        dispatch(setJwtTokenAction(token));
+        dispatch(setJwtTokenAction(cookieToken));
         navigate('/feature');
       } else {
         axios
@@ -55,6 +55,7 @@ const Login = () => {
     }
   }, [dispatch, navigate, searchParams]);
 
+  // eslint-disable-next-line react/jsx-no-useless-fragment
   return <></>;
 };
 

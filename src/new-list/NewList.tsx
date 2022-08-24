@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import TransferList from '../shared/TransferList';
 import { Language, RootState } from '../redux/model.interface';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   Heading: {
     margin: '0.4rem',
     fontSize: '1.4rem',
@@ -27,11 +27,7 @@ const NewList = () => {
   return (
     <>
       <h1 className={classes.Heading}>{newListText[language]}</h1>
-      <TransferList
-        myList={myList}
-        initialName={''}
-        groceryList={groceryList}
-      />
+      <TransferList myList={myList} initialName="" groceryList={groceryList} />
     </>
   );
 };

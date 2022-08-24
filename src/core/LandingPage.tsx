@@ -132,7 +132,7 @@ const LandingPage = () => {
               className={classes.loginButton}
               onClick={() => handleRoute('/login')}
               aria-label="move selected right"
-              disabled={true}
+              disabled
               endIcon={<img className={classes.img} src={googleIcon} alt="G" />}
             >
               Login

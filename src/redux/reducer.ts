@@ -41,33 +41,12 @@ const Reducer = (
     case getType(actionCreators.setMobileOpenAction):
       return { ...state, mobileOpen: action.payload };
 
-    case getType(actionCreators.addToMyListAction):
-      // eslint-disable-next-line no-case-declarations
-      let modifiedState = state;
-      action.payload.forEach((item) => {
-        if (state.groceryList[item]) {
-          modifiedState = {
-            ...state,
-            myList: { ...state.myList, [item]: state.groceryList[item] },
-          };
-          delete modifiedState.groceryList[item];
-        }
-      });
-      return modifiedState;
-
-    case getType(actionCreators.removeFromMyListAction):
-      // eslint-disable-next-line no-case-declarations
-      let removedState = state;
-      action.payload.forEach((item) => {
-        if (state.myList[item]) {
-          removedState = {
-            ...state,
-            groceryList: { ...state.groceryList, [item]: state.myList[item] },
-          };
-          delete removedState.myList[item];
-        }
-      });
-      return removedState;
+    case getType(actionCreators.updateMyListAndGroceryList):
+      return {
+        ...state,
+        myList: { ...action.payload.myList },
+        groceryList: { ...action.payload.groceryList },
+      };
 
     case getType(actionCreators.updateValueInMyListAction):
       return {

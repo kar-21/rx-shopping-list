@@ -29,8 +29,6 @@ import GetAppIcon from '@material-ui/icons/GetApp';
 import SaveFileDialog from './SaveFileDialog';
 import store from '../redux/store';
 import {
-  addToMyListAction,
-  removeFromMyListAction,
   updateValueInMyListAction,
   updateSizeValueInMyListAction,
   resetMyListAction,
@@ -45,6 +43,7 @@ import {
   Measurement,
   RootState,
 } from '../redux/model.interface';
+import { addToMyListAction, removeFromMyListAction } from '../redux/action';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -678,7 +677,7 @@ const TransferList = ({
       <Grid
         container
         spacing={2}
-        justify="center"
+        justifyContent="center"
         alignItems="center"
         className={classes.root}
       >

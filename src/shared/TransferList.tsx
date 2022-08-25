@@ -3,8 +3,6 @@ import clsx from 'clsx';
 import { useSelector } from 'react-redux';
 import {
   FormControl,
-  Input,
-  InputAdornment,
   TextField,
   Grid,
   List,
@@ -44,6 +42,8 @@ import {
   RootState,
 } from '../redux/model.interface';
 import { addToMyListAction, removeFromMyListAction } from '../redux/action';
+import MyList from './MyList';
+import { intersection, not, union } from '../services/grocery.helper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -133,25 +133,6 @@ const useStyles = makeStyles((theme) => ({
   formControl: {},
   selectEmpty: {},
 }));
-
-function not(a: GroceryList, b: GroceryList) {
-  const keys = Object.keys(a).filter(
-    (value) => Object.keys(b).indexOf(value) === -1,
-  );
-  let object = {};
-  keys.forEach((value) => {
-    object = { ...object, [value]: a[value] };
-  });
-  return object;
-}
-
-function intersection(a: GroceryList, b: GroceryList) {
-  return Object.keys(a).filter({}.hasOwnProperty.bind(b));
-}
-
-function union(a: GroceryList, b: GroceryList) {
-  return { ...a, ...not(b, a) };
-}
 
 const listText = {
   [Language.english]: 'Available Grocery List',
@@ -512,166 +493,6 @@ const TransferList = ({
     </Card>
   );
 
-  const myListGrid = (items: GroceryList) => (
-    <Card>
-      <div className={classes.cardHeader}>
-        <CardHeader
-          className={classes.cardHeader}
-          avatar={
-            <Checkbox
-              onClick={handleToggleAll(items)}
-              checked={
-                numberOfChecked(items) === Object.keys(items).length &&
-                Object.keys(items).length !== 0
-              }
-              indeterminate={
-                numberOfChecked(items) !== Object.keys(items).length &&
-                numberOfChecked(items) !== 0
-              }
-              disabled={Object.keys(items).length === 0}
-              inputProps={{ 'aria-label': 'all items selected' }}
-            />
-          }
-          title={myListText[language]}
-          subheader={`${numberOfChecked(items)}/${Object.keys(items).length} ${
-            language === Language.english ? 'selected' : 'ಆರಿಸಲಾಗಿದೆ'
-          }`}
-        />
-        {isMyListExpand ? (
-          <>
-            <TextField
-              key="Mylist-fliter-input"
-              id="outlined-required"
-              label="Filter"
-              value={myListSearchValue}
-              onChange={(e) => setMyListSearchValue(e.target.value)}
-              variant="outlined"
-              autoFocus
-            />
-            <Button
-              variant="contained"
-              color="secondary"
-              size="small"
-              className={classes.expandButton}
-              onClick={() => handleMyListZoom(false)}
-              aria-label="move selected left"
-            >
-              <ZoomOutIcon />
-            </Button>
-          </>
-        ) : (
-          <Button
-            variant="contained"
-            color="secondary"
-            size="small"
-            className={classes.expandButton}
-            onClick={() => handleMyListZoom(true)}
-            aria-label="move selected left"
-          >
-            <ZoomInIcon />
-          </Button>
-        )}
-      </div>
-      <Divider />
-      <List
-        className={
-          isMyListExpand ? classes.expandedMyListContainer : classes.list
-        }
-        dense
-        component="div"
-        role="list"
-      >
-        {Object.entries(items)
-          .filter(
-            ([, value]) =>
-              !isMyListExpand ||
-              searchAndFilter(
-                value,
-                myListSearchValue.toLowerCase(),
-                undefined,
-              ),
-          )
-          .map(([key, value]) => {
-            const labelId = `transfer-list-all-item-${key}-label`;
-
-            return (
-              <ListItem key={key} role="listitem">
-                <ListItemIcon>
-                  <Checkbox
-                    checked={!!checked[key]}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
-                    onClick={handleToggle(key)}
-                  />
-                </ListItemIcon>
-                <ListItemText id={labelId} primary={value.name[language]} />
-                <ListItemText className={classes.inputField}>
-                  {value.measurement === Measurement.quantity ? (
-                    <FormControl
-                      className={clsx(
-                        classes.margin,
-                        classes.withoutLabel,
-                        classes.selectField,
-                      )}
-                    >
-                      <Select
-                        value={value.sizeValue}
-                        onChange={(
-                          e: ChangeEvent<{
-                            name?: string | undefined;
-                            value: unknown;
-                          }>,
-                        ) => handleSelectValueChange(e, key)}
-                        displayEmpty
-                        className={classes.selectEmpty}
-                        inputProps={{ 'aria-label': 'Without label' }}
-                      >
-                        {value.size?.map((text) => (
-                          <MenuItem key={text} value={text}>
-                            {engKaLookup[Measurement.quantity][text][language]}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  ) : null}
-                  <FormControl
-                    className={clsx(
-                      classes.margin,
-                      classes.withoutLabel,
-                      classes.textField,
-                    )}
-                  >
-                    <Input
-                      error={!+value.value}
-                      key={`${key}-input`}
-                      id="standard-adornment-weight"
-                      value={value.value}
-                      onChange={(
-                        e: ChangeEvent<{
-                          name?: string | undefined;
-                          value: unknown;
-                        }>,
-                      ) => handleInputValueAdd(e, key)}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          {engKaLookup.measurement[value.measurement][language]}
-                        </InputAdornment>
-                      }
-                      aria-describedby="standard-weight-helper-text"
-                      inputProps={{
-                        'aria-label': 'weight',
-                      }}
-                    />
-                  </FormControl>
-                </ListItemText>
-              </ListItem>
-            );
-          })}
-      </List>
-    </Card>
-  );
-
   return (
     <>
       <Grid
@@ -753,7 +574,20 @@ const TransferList = ({
           )}
           item
         >
-          {myListGrid(myList)}
+          <MyList
+            myListItems={myList}
+            checked={checked}
+            myListText={myListText}
+            isMyListExpand={isMyListExpand}
+            myListSearchValue={myListSearchValue}
+            setMyListSearchValue={setMyListSearchValue}
+            handleMyListZoom={handleMyListZoom}
+            searchAndFilter={searchAndFilter}
+            handleToggle={handleToggle}
+            handleInputValueAdd={handleInputValueAdd}
+            handleToggleAll={handleToggleAll}
+            handleSelectValueChange={handleSelectValueChange}
+          />
         </Grid>
       </Grid>
       <SaveFileDialog

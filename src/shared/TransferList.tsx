@@ -1,27 +1,10 @@
 import React, { useState, useEffect, ChangeEvent } from 'react';
 import clsx from 'clsx';
 import { useSelector } from 'react-redux';
-import {
-  FormControl,
-  TextField,
-  Grid,
-  List,
-  Card,
-  CardHeader,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
-  Checkbox,
-  Button,
-  Divider,
-  Select,
-  MenuItem,
-} from '@material-ui/core';
+import { Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
-import ZoomOutIcon from '@material-ui/icons/ZoomOut';
-import ZoomInIcon from '@material-ui/icons/ZoomIn';
 import GetAppIcon from '@material-ui/icons/GetApp';
 
 import SaveFileDialog from './SaveFileDialog';
@@ -31,9 +14,7 @@ import {
   updateSizeValueInMyListAction,
   resetMyListAction,
 } from '../redux/actionCreator';
-import engKaLookupJson from '../assets/eng-ka-lookup.json';
 import {
-  EnglishKannadaLookupType,
   FilterType,
   Grocery,
   GroceryList,
@@ -42,8 +23,9 @@ import {
   RootState,
 } from '../redux/model.interface';
 import { addToMyListAction, removeFromMyListAction } from '../redux/action';
-import MyList from './MyList';
 import { intersection, not, union } from '../services/grocery.helper';
+import GroceryListComponent from './GroceryList';
+import MyListComponent from './MyList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -144,8 +126,6 @@ const myListText = {
   [Language.kannada]: 'ನನ್ನ ಪಟ್ಟಿ',
 };
 
-const engKaLookup: EnglishKannadaLookupType = engKaLookupJson;
-
 interface TransferListType {
   initialName: string;
   groceryList: GroceryList;
@@ -222,7 +202,7 @@ const TransferList = ({
     });
     store.dispatch(removeFromMyListAction(Object.keys(leftChecked)));
     setChecked(not(checked, leftChecked));
-    // handleMyListZoom(false);
+    handleMyListZoom(false);
   };
 
   const handleCheckedLeft = () => {
@@ -232,7 +212,7 @@ const TransferList = ({
     });
     store.dispatch(addToMyListAction(Object.keys(rightChecked)));
     setChecked(not(checked, rightChecked));
-    // handleShoppingListZoom(false);
+    handleShoppingListZoom(false);
   };
 
   const handleInputValueAdd = (
@@ -284,215 +264,6 @@ const TransferList = ({
     setIsMyList(false);
   };
 
-  const searchAndFilter = (
-    itemObject: Grocery,
-    searchValue: string,
-    filterValue: FilterType | undefined,
-  ) => {
-    if (searchValue.length < 2) {
-      return true;
-    }
-    if (
-      searchValue &&
-      !filterValue &&
-      (itemObject.name[Language.english].toLowerCase().includes(searchValue) ||
-        itemObject.name[Language.kannada].toLowerCase().includes(searchValue) ||
-        engKaLookup.category[itemObject.category].english
-          .toLowerCase()
-          .includes(searchValue) ||
-        engKaLookup.category[itemObject.category].kannada
-          .toLowerCase()
-          .includes(searchValue) ||
-        engKaLookup.subCategory[itemObject.subCategory].english
-          .toLowerCase()
-          .includes(searchValue) ||
-        engKaLookup.subCategory[itemObject.subCategory].kannada
-          .toLowerCase()
-          .includes(searchValue) ||
-        engKaLookup.measurement[itemObject.measurement].english
-          .toLowerCase()
-          .includes(searchValue) ||
-        engKaLookup.measurement[itemObject.measurement].kannada
-          .toLowerCase()
-          .includes(searchValue))
-    ) {
-      return true;
-    }
-    if (
-      searchValue &&
-      filterValue &&
-      filterValue !== FilterType.name &&
-      filterValue !== FilterType.quantity
-    ) {
-      const typeValue = itemObject[filterValue];
-      const languageKeyValuePair = Object.entries(
-        engKaLookup[filterValue],
-      ).find(([key]) => key === typeValue);
-      if (languageKeyValuePair) {
-        return (
-          languageKeyValuePair[1].english.toLowerCase().includes(searchValue) ||
-          languageKeyValuePair[1].kannada.toLowerCase().includes(searchValue)
-        );
-      }
-    }
-    if (
-      searchValue &&
-      filterValue &&
-      filterValue === FilterType.name &&
-      (itemObject.name[Language.english].toLowerCase().includes(searchValue) ||
-        itemObject.name[Language.kannada].toLowerCase().includes(searchValue))
-    ) {
-      return true;
-    }
-    return false;
-  };
-
-  const customList = (title: string, items: GroceryList) => (
-    <Card>
-      <div className={classes.cardHeader}>
-        <CardHeader
-          className={classes.cardHeader}
-          avatar={
-            <Checkbox
-              onClick={handleToggleAll(items)}
-              checked={
-                numberOfChecked(items) === Object.keys(items).length &&
-                Object.keys(items).length !== 0
-              }
-              indeterminate={
-                numberOfChecked(items) !== Object.keys(items).length &&
-                numberOfChecked(items) !== 0
-              }
-              disabled={Object.keys(items).length === 0}
-              inputProps={{ 'aria-label': 'all items selected' }}
-            />
-          }
-          title={title}
-          subheader={`${numberOfChecked(items)}/${Object.keys(items).length} ${
-            language === Language.english ? 'selected' : 'ಆರಿಸಲಾಗಿದೆ'
-          }`}
-        />
-        {isShoppingListExpand ? (
-          <>
-            <div>
-              <TextField
-                key="shopping-fliter-input"
-                id="outlined-required"
-                label="Filter"
-                value={shoppingListSearchValue}
-                onChange={(e) => setShoppingListSearchValue(e.target.value)}
-                variant="outlined"
-                autoFocus
-              />
-              <FormControl variant="outlined" className={classes.formControl}>
-                <Select
-                  value={shoppingListFilterValue}
-                  onChange={(
-                    e: ChangeEvent<{
-                      name?: string | undefined;
-                      value: unknown;
-                    }>,
-                  ) => setShoppingListFilterValue(e.target.value as FilterType)}
-                  displayEmpty
-                  className={classes.selectEmpty}
-                  inputProps={{ 'aria-label': 'Without label' }}
-                >
-                  <MenuItem key="none" value="">
-                    None
-                  </MenuItem>
-                  <MenuItem key="name" value="name">
-                    Name
-                  </MenuItem>
-                  <MenuItem key="category" value="category">
-                    Category
-                  </MenuItem>
-                  <MenuItem key="subCategory" value="subCategory">
-                    Sub-Category
-                  </MenuItem>
-                  <MenuItem key="measurement" value="measurement">
-                    Measurement
-                  </MenuItem>
-                </Select>
-              </FormControl>
-            </div>
-            <Button
-              variant="contained"
-              color="secondary"
-              size="small"
-              className={classes.expandButton}
-              onClick={() => handleShoppingListZoom(false)}
-              aria-label="move selected left"
-            >
-              <ZoomOutIcon />
-            </Button>
-          </>
-        ) : (
-          <Button
-            variant="contained"
-            color="secondary"
-            size="small"
-            className={classes.expandButton}
-            onClick={() => handleShoppingListZoom(true)}
-            aria-label="move selected left"
-          >
-            <ZoomInIcon />
-          </Button>
-        )}
-      </div>
-      <Divider />
-      <List
-        className={
-          isShoppingListExpand
-            ? classes.expandedShoppingListContainer
-            : classes.list
-        }
-        dense
-        component="div"
-        role="list"
-      >
-        {Object.entries(items)
-          .filter(
-            (value) =>
-              !isShoppingListExpand ||
-              searchAndFilter(
-                value[1],
-                shoppingListSearchValue.toLowerCase(),
-                shoppingListFilterValue,
-              ),
-          )
-          .map(([key, value]) => {
-            const labelId = `transfer-list-all-item-${key}-label`;
-
-            return (
-              <ListItem
-                key={key}
-                role="listitem"
-                button
-                onClick={handleToggle(key)}
-              >
-                <ListItemIcon>
-                  <Checkbox
-                    checked={!!checked[key]}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  id={labelId}
-                  primary={value.name[language]}
-                  secondary={`${
-                    engKaLookup.category[value.category][language]
-                  } > ${engKaLookup.subCategory[value.subCategory][language]}`}
-                />
-              </ListItem>
-            );
-          })}
-        <ListItem />
-      </List>
-    </Card>
-  );
-
   return (
     <>
       <Grid
@@ -511,7 +282,19 @@ const TransferList = ({
             isMyListExpand ? classes.hideGrid : '',
           )}
         >
-          {customList(listText[language], groceryList)}
+          <GroceryListComponent
+            heading={listText[language]}
+            groceryListItems={groceryList}
+            checked={checked}
+            isShoppingListExpand={isShoppingListExpand}
+            shoppingListSearchValue={shoppingListSearchValue}
+            shoppingListFilterValue={shoppingListFilterValue}
+            setShoppingListSearchValue={setShoppingListSearchValue}
+            setShoppingListFilterValue={setShoppingListFilterValue}
+            handleShoppingListZoom={handleShoppingListZoom}
+            handleToggle={handleToggle}
+            handleToggleAll={handleToggleAll}
+          />
         </Grid>
         <Grid
           item
@@ -574,7 +357,7 @@ const TransferList = ({
           )}
           item
         >
-          <MyList
+          <MyListComponent
             myListItems={myList}
             checked={checked}
             myListText={myListText}
@@ -582,7 +365,6 @@ const TransferList = ({
             myListSearchValue={myListSearchValue}
             setMyListSearchValue={setMyListSearchValue}
             handleMyListZoom={handleMyListZoom}
-            searchAndFilter={searchAndFilter}
             handleToggle={handleToggle}
             handleInputValueAdd={handleInputValueAdd}
             handleToggleAll={handleToggleAll}

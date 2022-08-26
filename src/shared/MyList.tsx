@@ -24,15 +24,13 @@ import ZoomInIcon from '@material-ui/icons/ZoomIn';
 
 import {
   EnglishKannadaLookupType,
-  FilterType,
-  Grocery,
   GroceryList,
   Language,
   LanguageKeyValue,
   Measurement,
   RootState,
 } from '../redux/model.interface';
-import { intersection } from '../services/grocery.helper';
+import { intersection, searchAndFilter } from '../services/grocery.helper';
 import engKaLookupJson from '../assets/eng-ka-lookup.json';
 
 const engKaLookup: EnglishKannadaLookupType = engKaLookupJson;
@@ -134,11 +132,6 @@ interface MyListInterface {
   myListSearchValue: string;
   setMyListSearchValue: (value: string) => void;
   handleMyListZoom: (value: boolean) => void;
-  searchAndFilter: (
-    itemObject: Grocery,
-    searchValue: string,
-    filterValue: FilterType | undefined,
-  ) => void;
   handleToggle: (
     value: string,
   ) => MouseEventHandler<HTMLButtonElement> | undefined;
@@ -155,7 +148,7 @@ interface MyListInterface {
   ) => void;
 }
 
-const MyList = ({
+const MyListComponent = ({
   myListItems,
   checked,
   myListText,
@@ -163,12 +156,11 @@ const MyList = ({
   myListSearchValue,
   setMyListSearchValue,
   handleMyListZoom,
-  searchAndFilter,
   handleToggle,
   handleInputValueAdd,
   handleToggleAll,
   handleSelectValueChange,
-}: MyListInterface) => {
+}: MyListInterface): JSX.Element => {
   const classes = useStyles();
 
   const { language } = useSelector((state: RootState) => state.reducer);
@@ -339,4 +331,4 @@ const MyList = ({
   );
 };
 
-export default MyList;
+export default MyListComponent;

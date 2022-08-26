@@ -24,8 +24,8 @@ import {
 } from '../redux/model.interface';
 import { addToMyListAction, removeFromMyListAction } from '../redux/action';
 import { intersection, not, union } from '../services/grocery.helper';
-import GroceryListComponent from './GroceryList';
-import MyListComponent from './MyList';
+import GroceryListComponent from './GroceryListComponent';
+import MyListComponent from './MyListComponent';
 
 const useStyles = makeStyles((theme) => ({
   root: {

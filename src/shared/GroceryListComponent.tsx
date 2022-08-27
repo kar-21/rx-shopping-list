@@ -11,8 +11,6 @@ import {
   Divider,
   List,
   ListItem,
-  ListItemIcon,
-  ListItemText,
   makeStyles,
 } from '@material-ui/core';
 import { useSelector } from 'react-redux';
@@ -20,16 +18,13 @@ import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 
 import {
-  EnglishKannadaLookupType,
   FilterType,
   GroceryList,
   Language,
   RootState,
 } from '../redux/model.interface';
 import { intersection, searchAndFilter } from '../services/grocery.helper';
-import engKaLookupJson from '../assets/eng-ka-lookup.json';
-
-const engKaLookup: EnglishKannadaLookupType = engKaLookupJson;
+import ListItemComponent from './ListItemsComponent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -273,30 +268,15 @@ const GroceryListComponent = ({
                 shoppingListFilterValue,
               ),
           )
-          .map(([key, value]) => {
-            const labelId = `transfer-list-all-item-${key}-label`;
-
-            return (
-              <ListItem key={key} role="listitem">
-                <ListItemIcon>
-                  <Checkbox
-                    checked={!!checked[key]}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
-                    onClick={handleToggle(key)}
-                  />
-                </ListItemIcon>
-                <ListItemText
-                  id={labelId}
-                  primary={value.name[language]}
-                  secondary={`${
-                    engKaLookup.category[value.category][language]
-                  } > ${engKaLookup.subCategory[value.subCategory][language]}`}
-                />
-              </ListItem>
-            );
-          })}
+          .map(([key, value]) => (
+            <ListItemComponent
+              key={key}
+              listType="groceryList"
+              keyValue={[key, value]}
+              checked={checked}
+              handleToggle={handleToggle}
+            />
+          ))}
         <ListItem />
       </List>
     </Card>

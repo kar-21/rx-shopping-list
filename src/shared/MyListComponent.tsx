@@ -7,33 +7,20 @@ import {
   Button,
   Divider,
   List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  FormControl,
-  Select,
-  MenuItem,
-  Input,
-  InputAdornment,
   makeStyles,
 } from '@material-ui/core';
-import clsx from 'clsx';
 import { useSelector } from 'react-redux';
 import ZoomOutIcon from '@material-ui/icons/ZoomOut';
 import ZoomInIcon from '@material-ui/icons/ZoomIn';
 
 import {
-  EnglishKannadaLookupType,
   GroceryList,
   Language,
   LanguageKeyValue,
-  Measurement,
   RootState,
 } from '../redux/model.interface';
 import { intersection, searchAndFilter } from '../services/grocery.helper';
-import engKaLookupJson from '../assets/eng-ka-lookup.json';
-
-const engKaLookup: EnglishKannadaLookupType = engKaLookupJson;
+import ListItemComponent from './ListItemsComponent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -249,83 +236,17 @@ const MyListComponent = ({
                 undefined,
               ),
           )
-          .map(([key, value]) => {
-            const labelId = `transfer-list-all-item-${key}-label`;
-
-            return (
-              <ListItem key={key} role="listitem">
-                <ListItemIcon>
-                  <Checkbox
-                    checked={!!checked[key]}
-                    tabIndex={-1}
-                    disableRipple
-                    inputProps={{ 'aria-labelledby': labelId }}
-                    onClick={handleToggle(key)}
-                  />
-                </ListItemIcon>
-                <ListItemText id={labelId} primary={value.name[language]} />
-                <ListItemText className={classes.inputField}>
-                  {value.measurement === Measurement.quantity ? (
-                    <FormControl
-                      className={clsx(
-                        classes.margin,
-                        classes.withoutLabel,
-                        classes.selectField,
-                      )}
-                    >
-                      <Select
-                        value={value.sizeValue}
-                        onChange={(
-                          e: ChangeEvent<{
-                            name?: string | undefined;
-                            value: unknown;
-                          }>,
-                        ) => handleSelectValueChange(e, key)}
-                        displayEmpty
-                        className={classes.selectEmpty}
-                        inputProps={{ 'aria-label': 'Without label' }}
-                      >
-                        {value.size?.map((text) => (
-                          <MenuItem key={text} value={text}>
-                            {engKaLookup[Measurement.quantity][text][language]}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  ) : null}
-                  <FormControl
-                    className={clsx(
-                      classes.margin,
-                      classes.withoutLabel,
-                      classes.textField,
-                    )}
-                  >
-                    <Input
-                      error={!+value.value}
-                      key={`${key}-input`}
-                      id="standard-adornment-weight"
-                      value={value.value}
-                      onChange={(
-                        e: ChangeEvent<{
-                          name?: string | undefined;
-                          value: unknown;
-                        }>,
-                      ) => handleInputValueAdd(e, key)}
-                      endAdornment={
-                        <InputAdornment position="end">
-                          {engKaLookup.measurement[value.measurement][language]}
-                        </InputAdornment>
-                      }
-                      aria-describedby="standard-weight-helper-text"
-                      inputProps={{
-                        'aria-label': 'weight',
-                      }}
-                    />
-                  </FormControl>
-                </ListItemText>
-              </ListItem>
-            );
-          })}
+          .map(([key, value]) => (
+            <ListItemComponent
+              key={key}
+              listType="myList"
+              keyValue={[key, value]}
+              checked={checked}
+              handleToggle={handleToggle}
+              handleSelectValueChange={handleSelectValueChange}
+              handleInputValueAdd={handleInputValueAdd}
+            />
+          ))}
       </List>
     </Card>
   );

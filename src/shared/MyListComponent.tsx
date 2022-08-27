@@ -3,7 +3,6 @@ import {
   Card,
   CardHeader,
   Checkbox,
-  TextField,
   Button,
   Divider,
   List,
@@ -21,6 +20,7 @@ import {
 } from '../redux/model.interface';
 import { intersection, searchAndFilter } from '../services/grocery.helper';
 import ListItemComponent from './ListItemsComponent';
+import SearchFieldComponent from './SearchFieldComponent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -184,14 +184,9 @@ const MyListComponent = ({
         />
         {isMyListExpand ? (
           <>
-            <TextField
-              key="Mylist-fliter-input"
-              id="outlined-required"
-              label="Filter"
-              value={myListSearchValue}
-              onChange={(e) => setMyListSearchValue(e.target.value)}
-              variant="outlined"
-              autoFocus
+            <SearchFieldComponent
+              searchValue={myListSearchValue}
+              setSearchValue={setMyListSearchValue}
             />
             <Button
               variant="contained"

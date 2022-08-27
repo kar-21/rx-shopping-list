@@ -1,12 +1,8 @@
-import React, { ChangeEvent, MouseEventHandler } from 'react';
+import React, { MouseEventHandler } from 'react';
 import {
   Card,
   CardHeader,
   Checkbox,
-  TextField,
-  FormControl,
-  Select,
-  MenuItem,
   Button,
   Divider,
   List,
@@ -25,6 +21,8 @@ import {
 } from '../redux/model.interface';
 import { intersection, searchAndFilter } from '../services/grocery.helper';
 import ListItemComponent from './ListItemsComponent';
+import SearchFieldComponent from './SearchFieldComponent';
+import FilterFieldComponent from './FilterFieldComponent';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -183,45 +181,14 @@ const GroceryListComponent = ({
         {isShoppingListExpand ? (
           <>
             <div>
-              <TextField
-                key="shopping-fliter-input"
-                id="outlined-required"
-                label="Filter"
-                value={shoppingListSearchValue}
-                onChange={(e) => setShoppingListSearchValue(e.target.value)}
-                variant="outlined"
-                autoFocus
+              <SearchFieldComponent
+                searchValue={shoppingListSearchValue}
+                setSearchValue={setShoppingListSearchValue}
               />
-              <FormControl variant="outlined" className={classes.formControl}>
-                <Select
-                  value={shoppingListFilterValue}
-                  onChange={(
-                    e: ChangeEvent<{
-                      name?: string | undefined;
-                      value: unknown;
-                    }>,
-                  ) => setShoppingListFilterValue(e.target.value as FilterType)}
-                  displayEmpty
-                  className={classes.selectEmpty}
-                  inputProps={{ 'aria-label': 'Without label' }}
-                >
-                  <MenuItem key="none" value="">
-                    None
-                  </MenuItem>
-                  <MenuItem key="name" value="name">
-                    Name
-                  </MenuItem>
-                  <MenuItem key="category" value="category">
-                    Category
-                  </MenuItem>
-                  <MenuItem key="subCategory" value="subCategory">
-                    Sub-Category
-                  </MenuItem>
-                  <MenuItem key="measurement" value="measurement">
-                    Measurement
-                  </MenuItem>
-                </Select>
-              </FormControl>
+              <FilterFieldComponent
+                filterValue={shoppingListFilterValue}
+                setFilterValue={setShoppingListFilterValue}
+              />
             </div>
             <Button
               variant="contained"

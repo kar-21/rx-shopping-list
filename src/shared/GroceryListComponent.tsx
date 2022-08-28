@@ -25,14 +25,6 @@ import SearchFieldComponent from './SearchFieldComponent';
 import FilterFieldComponent from './FilterFieldComponent';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: 'auto',
-    width: '100%',
-    [theme.breakpoints.down('xs')]: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-  },
   list: {
     backgroundColor: theme.palette.background.paper,
     overflow: 'auto',
@@ -44,53 +36,12 @@ const useStyles = makeStyles((theme) => ({
       height: 'calc(50vh - 173px)',
     },
   },
-  expandedShoppingListGrid: {
-    width: '95%',
-  },
-  expandedMyListGrid: {
-    width: '95%',
-  },
   expandedShoppingListContainer: {
     height: 'calc(100vh - 280px)',
     overflow: 'auto',
   },
-  expandedMyListContainer: {
-    height: 'calc(100vh - 280px)',
-  },
   expandButton: {
     marginRight: '25px',
-  },
-  button: {
-    margin: theme.spacing(0.5, 0),
-  },
-  margin: {
-    margin: theme.spacing(1),
-  },
-  withoutLabel: {
-    marginTop: theme.spacing(1),
-  },
-  textField: {
-    width: '10ch',
-  },
-  selectField: {
-    width: '10ch',
-  },
-  inputField: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-  },
-  leftSideList: {
-    minWidth: '55%',
-  },
-  rightSideList: {
-    width: '35%',
-  },
-  buttonContainer: {
-    [theme.breakpoints.down('xs')]: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-    },
   },
   cardHeader: {
     display: 'flex',
@@ -98,19 +49,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  hideGrid: {
-    display: 'none',
-  },
-  rowButtonContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  buttonGridContainer: {
-    minWidth: '30%',
-  },
-  formControl: {},
-  selectEmpty: {},
 }));
 
 interface GroceryListInterface {

@@ -26,44 +26,6 @@ import engKaLookupJson from '../assets/eng-ka-lookup.json';
 const engKaLookup: EnglishKannadaLookupType = engKaLookupJson;
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: 'auto',
-    width: '100%',
-    [theme.breakpoints.down('xs')]: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-  },
-  list: {
-    backgroundColor: theme.palette.background.paper,
-    overflow: 'auto',
-    height: 'calc(100vh - 220px)',
-    [theme.breakpoints.down('sm')]: {
-      height: 'calc(100vh - 218px)',
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: 'calc(50vh - 173px)',
-    },
-  },
-  expandedShoppingListGrid: {
-    width: '95%',
-  },
-  expandedMyListGrid: {
-    width: '95%',
-  },
-  expandedShoppingListContainer: {
-    height: 'calc(100vh - 280px)',
-    overflow: 'auto',
-  },
-  expandedMyListContainer: {
-    height: 'calc(100vh - 280px)',
-  },
-  expandButton: {
-    marginRight: '25px',
-  },
-  button: {
-    margin: theme.spacing(0.5, 0),
-  },
   margin: {
     margin: theme.spacing(1),
   },
@@ -80,38 +42,6 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     justifyContent: 'flex-end',
   },
-  leftSideList: {
-    minWidth: '55%',
-  },
-  rightSideList: {
-    width: '35%',
-  },
-  buttonContainer: {
-    [theme.breakpoints.down('xs')]: {
-      display: 'flex',
-      flexDirection: 'row',
-      justifyContent: 'space-evenly',
-    },
-  },
-  cardHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  hideGrid: {
-    display: 'none',
-  },
-  rowButtonContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  buttonGridContainer: {
-    minWidth: '30%',
-  },
-  formControl: {},
-  selectEmpty: {},
 }));
 
 interface ListItemInterface {
@@ -181,7 +111,6 @@ const ListItemComponent = ({
                     handleSelectValueChange && handleSelectValueChange(e, key)
                   }
                   displayEmpty
-                  className={classes.selectEmpty}
                   inputProps={{ 'aria-label': 'Without label' }}
                 >
                   {value.size?.map((text) => (

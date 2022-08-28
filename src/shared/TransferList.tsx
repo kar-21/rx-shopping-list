@@ -36,51 +36,14 @@ const useStyles = makeStyles((theme) => ({
       flexDirection: 'column',
     },
   },
-  list: {
-    backgroundColor: theme.palette.background.paper,
-    overflow: 'auto',
-    height: 'calc(100vh - 220px)',
-    [theme.breakpoints.down('sm')]: {
-      height: 'calc(100vh - 218px)',
-    },
-    [theme.breakpoints.down('xs')]: {
-      height: 'calc(50vh - 173px)',
-    },
-  },
   expandedShoppingListGrid: {
     width: '95%',
   },
   expandedMyListGrid: {
     width: '95%',
   },
-  expandedShoppingListContainer: {
-    height: 'calc(100vh - 280px)',
-    overflow: 'auto',
-  },
-  expandedMyListContainer: {
-    height: 'calc(100vh - 280px)',
-  },
-  expandButton: {
-    marginRight: '25px',
-  },
   button: {
     margin: theme.spacing(0.5, 0),
-  },
-  margin: {
-    margin: theme.spacing(1),
-  },
-  withoutLabel: {
-    marginTop: theme.spacing(1),
-  },
-  textField: {
-    width: '10ch',
-  },
-  selectField: {
-    width: '10ch',
-  },
-  inputField: {
-    display: 'flex',
-    justifyContent: 'flex-end',
   },
   leftSideList: {
     minWidth: '55%',
@@ -95,12 +58,6 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: 'space-evenly',
     },
   },
-  cardHeader: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
   hideGrid: {
     display: 'none',
   },
@@ -112,8 +69,6 @@ const useStyles = makeStyles((theme) => ({
   buttonGridContainer: {
     minWidth: '30%',
   },
-  formControl: {},
-  selectEmpty: {},
 }));
 
 const listText = {

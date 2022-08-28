@@ -15,7 +15,6 @@ import {
   resetMyListAction,
 } from '../redux/actionCreator';
 import {
-  FilterType,
   Grocery,
   GroceryList,
   Language,
@@ -99,10 +98,6 @@ const TransferList = ({
   const [isShoppingListExpand, setIsShoppingList] = useState(false);
   const [isMyListExpand, setIsMyList] = useState(false);
   const [isFormInvalid, setIsFormInvalid] = useState(true);
-  const [shoppingListFilterValue, setShoppingListFilterValue] =
-    useState<FilterType>();
-  const [shoppingListSearchValue, setShoppingListSearchValue] = useState('');
-  const [myListSearchValue, setMyListSearchValue] = useState('');
 
   const leftCheckedKeys = intersection(checked, myList);
   const rightCheckedKeys = intersection(checked, groceryList);
@@ -196,13 +191,11 @@ const TransferList = ({
 
   const handleShoppingListZoom = (isExpanded: boolean) => {
     setIsShoppingList(isExpanded);
-    setShoppingListFilterValue(undefined);
     setIsMyList(false);
   };
 
   const handleMyListZoom = (isExpanded: boolean) => {
     setIsShoppingList(false);
-    setMyListSearchValue('');
     setIsMyList(isExpanded);
   };
 
@@ -242,10 +235,6 @@ const TransferList = ({
             groceryListItems={groceryList}
             checked={checked}
             isShoppingListExpand={isShoppingListExpand}
-            shoppingListSearchValue={shoppingListSearchValue}
-            shoppingListFilterValue={shoppingListFilterValue}
-            setShoppingListSearchValue={setShoppingListSearchValue}
-            setShoppingListFilterValue={setShoppingListFilterValue}
             handleShoppingListZoom={handleShoppingListZoom}
             handleToggle={handleToggle}
             handleToggleAll={handleToggleAll}
@@ -317,8 +306,6 @@ const TransferList = ({
             checked={checked}
             myListText={myListText}
             isMyListExpand={isMyListExpand}
-            myListSearchValue={myListSearchValue}
-            setMyListSearchValue={setMyListSearchValue}
             handleMyListZoom={handleMyListZoom}
             handleToggle={handleToggle}
             handleInputValueAdd={handleInputValueAdd}

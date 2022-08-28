@@ -1,4 +1,4 @@
-import React, { ChangeEvent, MouseEventHandler } from 'react';
+import React, { ChangeEvent, MouseEventHandler, useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -53,8 +53,6 @@ interface MyListInterface {
   checked: GroceryList;
   myListText: LanguageKeyValue;
   isMyListExpand: boolean;
-  myListSearchValue: string;
-  setMyListSearchValue: (value: string) => void;
   handleMyListZoom: (value: boolean) => void;
   handleToggle: (
     value: string,
@@ -77,8 +75,6 @@ const MyListComponent = ({
   checked,
   myListText,
   isMyListExpand,
-  myListSearchValue,
-  setMyListSearchValue,
   handleMyListZoom,
   handleToggle,
   handleInputValueAdd,
@@ -86,6 +82,8 @@ const MyListComponent = ({
   handleSelectValueChange,
 }: MyListInterface): JSX.Element => {
   const classes = useStyles();
+
+  const [myListSearchValue, setMyListSearchValue] = useState('');
 
   const { language } = useSelector((state: RootState) => state.reducer);
 
@@ -130,7 +128,10 @@ const MyListComponent = ({
               color="secondary"
               size="small"
               className={classes.expandButton}
-              onClick={() => handleMyListZoom(false)}
+              onClick={() => {
+                handleMyListZoom(false);
+                setMyListSearchValue('');
+              }}
               aria-label="move selected left"
             >
               <ZoomOutIcon />

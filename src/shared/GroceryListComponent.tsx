@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import {
   Card,
   CardHeader,
@@ -56,10 +56,6 @@ interface GroceryListInterface {
   groceryListItems: GroceryList;
   checked: GroceryList;
   isShoppingListExpand: boolean;
-  shoppingListSearchValue: string;
-  shoppingListFilterValue: FilterType | undefined;
-  setShoppingListSearchValue: (value: string) => void;
-  setShoppingListFilterValue: (value: FilterType) => void;
   handleShoppingListZoom: (value: boolean) => void;
   handleToggle: (
     value: string,
@@ -74,15 +70,15 @@ const GroceryListComponent = ({
   groceryListItems,
   checked,
   isShoppingListExpand,
-  shoppingListSearchValue,
-  shoppingListFilterValue,
-  setShoppingListSearchValue,
-  setShoppingListFilterValue,
   handleShoppingListZoom,
   handleToggle,
   handleToggleAll,
 }: GroceryListInterface) => {
   const classes = useStyles();
+
+  const [shoppingListSearchValue, setShoppingListSearchValue] = useState('');
+  const [shoppingListFilterValue, setShoppingListFilterValue] =
+    useState<FilterType>();
 
   const { language } = useSelector((state: RootState) => state.reducer);
 
@@ -133,7 +129,11 @@ const GroceryListComponent = ({
               color="secondary"
               size="small"
               className={classes.expandButton}
-              onClick={() => handleShoppingListZoom(false)}
+              onClick={() => {
+                handleShoppingListZoom(false);
+                setShoppingListFilterValue(undefined);
+                setShoppingListSearchValue('');
+              }}
               aria-label="move selected left"
             >
               <ZoomOutIcon />

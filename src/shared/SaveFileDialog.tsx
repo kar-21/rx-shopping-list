@@ -13,7 +13,7 @@ import {
   Radio,
 } from '@material-ui/core';
 
-import * as engKaLookupJson from '../assets/eng-ka-lookup.json';
+import engKaLookupJson from '../assets/eng-ka-lookup.json';
 import { Language, RootState } from '../redux/model.interface';
 
 const engKaLookup = engKaLookupJson;

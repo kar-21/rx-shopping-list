@@ -15,15 +15,11 @@ import clsx from 'clsx';
 import { useSelector } from 'react-redux';
 
 import {
-  EnglishKannadaLookupType,
   Grocery,
   GroceryList,
   Measurement,
   RootState,
 } from '../redux/model.interface';
-import engKaLookupJson from '../assets/eng-ka-lookup.json';
-
-const engKaLookup: EnglishKannadaLookupType = engKaLookupJson;
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -75,7 +71,7 @@ const ListItemComponent = ({
 
   const labelId = `transfer-list-all-item-${key}-label`;
 
-  const { language } = useSelector((state: RootState) => state.reducer);
+  const { language, engKaLookup } = useSelector((state: RootState) => state.reducer);
 
   return (
     <ListItem key={key} role="listitem">

@@ -1,7 +1,8 @@
 import { ActionType, getType } from 'typesafe-actions';
 
-import { GroceryList, ReducerState, Language } from './model.interface';
+import { GroceryList, ReducerState, Language, EnglishKannadaLookupType } from './model.interface';
 import GroceryListJson from '../assets/grocery-list.json';
+import engKaLookupJson from '../assets/eng-ka-lookup.json';
 import * as actionCreators from './actionCreator';
 
 const initialState: ReducerState = {
@@ -13,6 +14,7 @@ const initialState: ReducerState = {
   myList: {},
   jwt: '',
   userId: '',
+  engKaLookup: { ...engKaLookupJson } as unknown as EnglishKannadaLookupType,
 };
 
 type Action = ActionType<typeof actionCreators>;

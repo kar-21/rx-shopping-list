@@ -7,6 +7,7 @@ export interface ReducerState {
   myList: GroceryList;
   jwt: string;
   userId: string;
+  engKaLookup: EnglishKannadaLookupType;
 }
 
 export interface RootState {

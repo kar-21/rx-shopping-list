@@ -13,10 +13,8 @@ import {
   Radio,
 } from '@material-ui/core';
 
-import engKaLookupJson from '../assets/eng-ka-lookup.json';
 import { Language, RootState } from '../redux/model.interface';
 
-const engKaLookup = engKaLookupJson;
 
 interface SaveFileDialogType {
   fileNameProp: string;
@@ -37,7 +35,7 @@ const SaveFileDialog = ({
   const [fileName, setFileName] = useState(fileNameProp);
   const [suffix, setSuffix] = useState('');
 
-  const { myList } = useSelector((state: RootState) => state.reducer);
+  const { myList, engKaLookup } = useSelector((state: RootState) => state.reducer);
 
   useEffect(() => {
     const date = new Date(Date.now());

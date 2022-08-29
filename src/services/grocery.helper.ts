@@ -1,13 +1,11 @@
 import {
-  EnglishKannadaLookupType,
   FilterType,
   Grocery,
   GroceryList,
   Language,
+  LanguageKeyValue
 } from '../redux/model.interface';
-import engKaLookupJson from '../assets/eng-ka-lookup.json';
-
-const engKaLookup: EnglishKannadaLookupType = engKaLookupJson;
+import store from '../redux/store';
 
 export const not = (a: GroceryList, b: GroceryList): GroceryList => {
   const keys = Object.keys(a).filter(
@@ -33,6 +31,7 @@ export const searchAndFilter = (
   searchValue: string,
   filterValue: FilterType | undefined,
 ) => {
+  const { engKaLookup } = store.getState().reducer;
   if (searchValue.length < 2) {
     return true;
   }
@@ -74,8 +73,8 @@ export const searchAndFilter = (
     );
     if (languageKeyValuePair) {
       return (
-        languageKeyValuePair[1].english.toLowerCase().includes(searchValue) ||
-        languageKeyValuePair[1].kannada.toLowerCase().includes(searchValue)
+        (languageKeyValuePair[1] as LanguageKeyValue).english.toLowerCase().includes(searchValue) ||
+        (languageKeyValuePair[1] as LanguageKeyValue).kannada.toLowerCase().includes(searchValue)
       );
     }
   }
